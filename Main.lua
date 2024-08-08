@@ -1,4 +1,3 @@
-local Module = {}
 --//Services\\--
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local UserInputService = game:GetService("UserInputService");
@@ -129,4 +128,4 @@ function Module.DestroyAura(Radius: number)
     table.clear(Blacklist);
     Blacklist = nil;
 end;
-return Module
+
