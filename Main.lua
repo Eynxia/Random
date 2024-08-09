@@ -445,7 +445,7 @@ local Set = function()
 
 		elseif TextBox.Text == "uncircle" then
 			pcall(function()
-				Module.Delete()
+				Aura:Destroy()
 			end)
 		elseif TextBox.Text == "killall" then
 			for _,v in pairs(Players:GetPlayers()) do
