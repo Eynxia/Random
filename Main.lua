@@ -418,6 +418,9 @@ local Set = function()
 	VARIABLES["Type"] = nil
 	VARIABLES["Distance"] = nil
 	local TextBox = UI_ELEMENTS["UI_19"]
+	VARIABLES["Target"] = nil
+	VARIABLES["Type"] = nil
+	VARIABLES["Distance"] = nil
 	CONNECTIONS[1] = UI_ELEMENTS["UI_19"].FocusLost:Connect(function()
 		local Args = string.split(TextBox.Text:lower()," ")
 		if #TextBox.Text > 2 and Args[1] == "kill" then
@@ -481,9 +484,10 @@ end
 			FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
 			if 	VARIABLES["Type"] == "Kill" then
 				TakeAction("Kill",VARIABLES["Target"])
-				
+				TextBox.Text = ""
 			elseif VARIABLES["Type"] == "freeze" then
 				TakeAction("freeze",VARIABLES["Target"])
+				TextBox.Text = ""
 			end
 		end
 
