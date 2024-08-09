@@ -18,6 +18,10 @@ local Remotes: Folder = ReplicatedStorage.Remotes;
 local StampAsset: RemoteFunction = Remotes.StampAsset;
 local DeleteAsset: RemoteFunction = Remotes.DeleteAsset;
 
+local VARIABLES = {}
+VARIABLES["Players"] = {}
+
+local On = false
 local ActiveParts: Folder;
 local Plates: Model = Workspace.Plates;
 local LPlate: Part;
@@ -41,8 +45,15 @@ ActiveParts.ChildAdded:Connect(function(Block)
 		MSpikes[#MSpikes+1] = MSpike;
 		Block.AncestryChanged:Wait();
 		if (not Block.Parent) then
-			table.remove(MSpikes, table.find(MSpikes, MSpike));
+			table.remove(MSpikes, table.find(MSpikes, MSpike));	
 		end;
+		
+		elseif (Block.Name == "Weathervane") then
+			if On == true then
+				On = false
+				print("addedtagrq")
+				Block:AddTag(VARIABLES["Target"])
+			end
 	end;
 end);
 
@@ -160,7 +171,7 @@ local UI_9NormalSize = UDim2.new(0.401, 0,0.372, 0)
 local SecondAnimations = false
 
 local UI_ELEMENTS = {}
-local VARIABLES = {}
+
 
 local PATTERN_LINK = "rbxassetid://300134974"
 
@@ -384,11 +395,13 @@ local FindClosestName = function(name,blacklistedname,cmdtype)
 					VARIABLES["Target"] = MatchingNames[1]
 				end
 				if VARIABLES["Type"] == "freeze" then
+					
 					UI_ELEMENTS["UI_19"].Text = "freeze "..MatchingNames[1]
 					VARIABLES["Target"] = MatchingNames[1]
+					
 				end
-				if VARIABLES["Type"] == "fling" then
-					UI_ELEMENTS["UI_19"].Text = "fling "..MatchingNames[1]
+				if VARIABLES["Type"] == "unfreeze" then
+					UI_ELEMENTS["UI_19"].Text = "unfreeze "..MatchingNames[1]
 					VARIABLES["Target"] = MatchingNames[1]
 				end
 			end
@@ -401,15 +414,36 @@ end
 
 local TakeAction = function(cmdtype,target,distance)
 	if target and cmdtype then
+		
 		for _,v in pairs(Players:GetPlayers()) do
 			if v.Name == target then
 				if cmdtype == "Kill" then
 					print(target)
 					Module.Kill(v.Character.PrimaryPart)
 				elseif cmdtype == "freeze" then
+					On = true
 					Module.Freeze(v.Character.PrimaryPart)
 				elseif cmdtype == "fling" then
 					Module.Fling(v.Character.PrimaryPart)
+				elseif cmdtype == "unfreeze" then
+					
+					for _,v in pairs(ActiveParts:GetChildren()) do
+						if v.Name == "Weathervane" then
+							
+							for _,hai in pairs(v:GetTags()) do
+								
+								if hai == target then
+									local Sum = 0
+									repeat
+										Sum += 1
+										task.wait()
+										Module.Delete(v)
+									until Sum > 5
+									
+								end
+							end
+						end
+					end
 				end
 			end
 		end
@@ -417,11 +451,66 @@ local TakeAction = function(cmdtype,target,distance)
 end
 
 local Set = function()
-	VARIABLES["Players"] = {}
+
 	VARIABLES["Target"] = nil
 	VARIABLES["Type"] = nil
 	VARIABLES["Distance"] = nil
 	local TextBox = UI_ELEMENTS["UI_19"]
+
+	CONNECTIONS[6] = Player.Chatted:Connect(function(msg)
+		VARIABLES["Target"] = nil
+		VARIABLES["Type"] = nil
+		VARIABLES["Distance"] = nil
+		local FirstCharacter = string.sub(msg:lower(),1,1)
+		if FirstCharacter == ":" then
+			local PrefixRemoved = string.gsub(msg:lower(),":","")
+			local Args = string.split(PrefixRemoved:lower()," ")
+			if Args[1] == "kill" then
+				local Target = Args[2]
+				VARIABLES["Type"] = "Kill"
+				VARIABLES["Target"] = Target
+			elseif Args[1] == "freeze" then
+				local Target = Args[2]
+				VARIABLES["Type"] = "freeze"
+				VARIABLES["Target"] = Target
+			elseif Args[1] == "killall" then
+				for _,v in pairs(Players:GetPlayers()) do
+					local BasePart = v.Character.PrimaryPart
+					if BasePart then
+						if v.Name ~= Player.Name then
+							Module.Kill(BasePart)
+						end
+					end
+				end
+			elseif Args[1] == "freezeall" then
+				for _,v in pairs(Players:GetPlayers()) do
+					local BasePart = v.Character.PrimaryPart
+					if BasePart then
+						if v.Name ~= Player.Name then
+							Module.Freeze(BasePart)
+						end
+					end
+				end
+			elseif Args[1] == "unfreeze" then
+				local Target = Args[2]
+				VARIABLES["Target"] = Target
+				VARIABLES["Type"] = "unfreeze"
+			end
+			if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
+				FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
+				if 	VARIABLES["Type"] == "Kill" then
+					TakeAction("Kill",VARIABLES["Target"])
+					TextBox.Text = ""
+				elseif VARIABLES["Type"] == "freeze" then
+					TakeAction("freeze",VARIABLES["Target"])
+					TextBox.Text = ""
+				elseif VARIABLES["Type"] == "unfreeze" then
+					TakeAction("unfreeze",VARIABLES["Target"])
+					TextBox.Text = ""
+				end
+			end
+		end
+	end) 
 
 	CONNECTIONS[1] = UI_ELEMENTS["UI_19"].FocusLost:Connect(function()
 		VARIABLES["Target"] = nil
@@ -437,7 +526,10 @@ local Set = function()
 			local Target = Args[2]
 			VARIABLES["Target"] = Target
 			VARIABLES["Type"] = "freeze"
-
+		elseif #TextBox.Text > 2 and Args[1] == "unfreeze" then
+			local Target = Args[2]
+			VARIABLES["Target"] = Target
+			VARIABLES["Type"] = "unfreeze"
 		elseif #TextBox.Text > 2 and Args[1] == "fling" then
 			local Target = Args[2]
 			VARIABLES["Target"] = Target
@@ -450,6 +542,7 @@ local Set = function()
 
 				Module.DestroyAura(Target)
 			end
+			
 
 		elseif TextBox.Text == "uncircle" then
 			pcall(function()
@@ -512,6 +605,9 @@ local Set = function()
 				TextBox.Text = ""
 			elseif VARIABLES["Type"] == "freeze" then
 				TakeAction("freeze",VARIABLES["Target"])
+				TextBox.Text = ""
+			elseif VARIABLES["Type"] == "unfreeze" then
+				TakeAction("unfreeze",VARIABLES["Target"])
 				TextBox.Text = ""
 			end
 		end
