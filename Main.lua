@@ -400,6 +400,7 @@ local TakeAction = function(cmdtype,target,distance)
 		for _,v in pairs(Players:GetPlayers()) do
 			if v.Name:lower() == target then
 				if cmdtype == "Kill" then
+					print(target)
 					Module.Kill(v.Character.PrimaryPart)
 				elseif cmdtype == "freeze" then
 					Module.Freeze(v.Character.PrimaryPart)
