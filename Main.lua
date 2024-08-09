@@ -181,8 +181,9 @@ local Set_UI = function()
 	UI_ELEMENTS["UI_18"] = Instance.new("TextLabel")
 	UI_ELEMENTS["UI_19"] = Instance.new("TextBox")
 	UI_ELEMENTS["UI_20"] = Instance.new("UICorner")
-endUI_ELEMENTS["UI_21"] = Instance.new("UICorner")
+	UI_ELEMENTS["UI_21"] = Instance.new("UICorner")
 UI_ELEMENTS["UI_22"] = Instance.new("TextButton")
+end
 Set_UI()
 
 UI_ELEMENTS["UI_4"].ZIndexBehavior = Enum.ZIndexBehavior.Global
