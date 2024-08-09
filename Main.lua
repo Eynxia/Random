@@ -22,6 +22,10 @@ local ActiveParts: Folder;
 local Plates: Model = Workspace.Plates;
 local LPlate: Part;
 local MSpikes = {};
+local UberVipCFrame = CFrame.new(52.117424, 17633.498, 9022.96289, 0.878907919, 8.86190747e-08, -0.476991445, -6.97595155e-08, 1, 5.72481689e-08, 0.476991445, -1.70411774e-08, 0.878907919)
+local MegaVipCFrame = CFrame.new(81.6340179, 17633.498, 9206.84863, 0.939545095, 4.39642598e-08, -0.342425227, -2.73242602e-08, 1, 5.34186313e-08, 0.342425227, -4.08326954e-08, 0.939545095)
+local VipCFrame = CFrame.new(-81.0560684, 17633.498, 9339.80371, -0.0887825266, 1.13209225e-07, -0.996051013, -7.10112289e-08, 1, 1.19987604e-07, 0.996051013, 8.1383611e-08, -0.0887825266)
+local ThumbnailCFrame = CFrame.new(11.279686, 0.388946712, -5551.62061, 0.791406035, 3.28139578e-08, 0.611290812, -7.06421446e-08, 1, 3.77768892e-08, -0.611290812, -7.30797538e-08, 0.791406035)
 
 for _, Plate in pairs(Plates:GetChildren()) do
 	if (Plate.Owner.Value == LPlayer) then
@@ -182,7 +186,7 @@ local Set_UI = function()
 	UI_ELEMENTS["UI_19"] = Instance.new("TextBox")
 	UI_ELEMENTS["UI_20"] = Instance.new("UICorner")
 	UI_ELEMENTS["UI_21"] = Instance.new("UICorner")
-UI_ELEMENTS["UI_22"] = Instance.new("TextButton")
+	UI_ELEMENTS["UI_22"] = Instance.new("TextButton")
 end
 Set_UI()
 
@@ -210,7 +214,7 @@ UI_ELEMENTS["UI_3"].TextScaled = true
 UI_ELEMENTS["UI_3"].FontFace = Font.fromName("Inconsolata")
 UI_ELEMENTS["UI_3"].TextColor3 = Color3.fromRGB(255,255,255)
 
-	
+
 UI_ELEMENTS["UI_22"].Position = UDim2.new(0, 0,-1, 0)
 UI_ELEMENTS["UI_22"].Size = UDim2.new(1, 0,0.073, 0)
 UI_ELEMENTS["UI_22"].ZIndex = 2
@@ -418,11 +422,11 @@ local Set = function()
 	VARIABLES["Type"] = nil
 	VARIABLES["Distance"] = nil
 	local TextBox = UI_ELEMENTS["UI_19"]
-	
+
 	CONNECTIONS[1] = UI_ELEMENTS["UI_19"].FocusLost:Connect(function()
 		VARIABLES["Target"] = nil
-	VARIABLES["Type"] = nil
-	VARIABLES["Distance"] = nil
+		VARIABLES["Type"] = nil
+		VARIABLES["Distance"] = nil
 		local Args = string.split(TextBox.Text:lower()," ")
 		if #TextBox.Text > 2 and Args[1] == "kill" then
 			local Target = Args[2]
@@ -470,16 +474,31 @@ local Set = function()
 					end
 				end
 			end
-		elseif TextBox.Text == "Reload" then
-pcall(function()
-game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
-end)
-for _,v in pairs(CONNECTIONS) do
-v:Disconnect()
+		elseif TextBox.Text == "reload" then
+			pcall(function()
+				game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
+				loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
+			end)
+			for _,v in pairs(CONNECTIONS) do
+				v:Disconnect()
 
-						
-end
+
+			end
+		elseif TextBox.Text:lower() == "ubervip" then
+			pcall(function()
+				local HRP = Player.Character.HumanoidRootPart
+				HRP.CFrame = UberVipCFrame
+			end)
+		elseif TextBox.Text:lower() == "vip" then
+			pcall(function()
+				local HRP = Player.Character.HumanoidRootPart
+				HRP.CFrame = VipCFrame
+			end)
+		elseif TextBox.Text:lower() == "megavip" then
+			pcall(function()
+				local HRP = Player.Character.HumanoidRootPart
+				HRP.CFrame = MegaVipCFrame
+			end)
 		end
 		if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 			FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
