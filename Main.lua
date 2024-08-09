@@ -467,21 +467,21 @@ local Set = function()
 				end
 			end
 		elseif TextBox.Text == "Reload" then
-for _,v in pairs(CONNECTIONS) do
-v:Disconnect()
 pcall(function()
 game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
 end)
+for _,v in pairs(CONNECTIONS) do
+v:Disconnect()
+
 						
-
-
 end
 		end
 		if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 			FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
 			if 	VARIABLES["Type"] == "Kill" then
 				TakeAction("Kill",VARIABLES["Target"])
+				
 			elseif VARIABLES["Type"] == "freeze" then
 				TakeAction("freeze",VARIABLES["Target"])
 			end
