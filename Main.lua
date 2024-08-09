@@ -398,7 +398,7 @@ end
 local TakeAction = function(cmdtype,target,distance)
 	if target and cmdtype then
 		for _,v in pairs(Players:GetPlayers()) do
-			if v.Name:lower() == target then
+			if v.Name == target then
 				if cmdtype == "Kill" then
 					print(target)
 					Module.Kill(v.Character.PrimaryPart)
