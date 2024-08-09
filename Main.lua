@@ -466,8 +466,17 @@ local Set = function()
 					end
 				end
 			end
-		elseif TextBox.Text == "UnFreezeAll" then
+		elseif TextBox.Text == "Reload" then
+for _,v in pairs(CONNECTIONS) do
+v:Disconnect()
+pcall(function()
+game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
+end)
+						
 
+
+end
 		end
 		if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 			FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
@@ -479,19 +488,7 @@ local Set = function()
 		end
 
 	end)
-	CONNECTIONS[6] = UI_ELEMENTS["UI_22"].MouseButton1Click:Connect(function()
-for _,v in pairs(CONNECTIONS) do
-if v ~= CONNECTIONS[6] then
-pcall(function()
-game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
-CONNECTIONS[6]:Disconnect()
-end)
-						
 
-end
-end
-	end)
 end
 
 Set()
