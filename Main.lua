@@ -4,7 +4,7 @@ local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 
 --// Other
-
+local CONNECTIONS = {}
 --//Services\\--
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local UserInputService = game:GetService("UserInputService");
@@ -181,13 +181,14 @@ local Set_UI = function()
 	UI_ELEMENTS["UI_18"] = Instance.new("TextLabel")
 	UI_ELEMENTS["UI_19"] = Instance.new("TextBox")
 	UI_ELEMENTS["UI_20"] = Instance.new("UICorner")
-end
-
+endUI_ELEMENTS["UI_21"] = Instance.new("UICorner")
+UI_ELEMENTS["UI_22"] = Instance.new("TextButton")
 Set_UI()
 
 UI_ELEMENTS["UI_4"].ZIndexBehavior = Enum.ZIndexBehavior.Global
 UI_ELEMENTS["UI_4"].ResetOnSpawn = false
 UI_ELEMENTS["UI_4"].IgnoreGuiInset = true
+UI_ELEMENTS["UI_4"].Name = "GUI"
 
 UI_ELEMENTS["UI_1"].Size = UDim2.new(0.4, 0,0.073, 0)
 UI_ELEMENTS["UI_1"].Position = UDim2.new(-1, 0,0.203, 0)
@@ -207,6 +208,16 @@ UI_ELEMENTS["UI_3"].Text = "--// Unknown Script \\--"
 UI_ELEMENTS["UI_3"].TextScaled = true
 UI_ELEMENTS["UI_3"].FontFace = Font.fromName("Inconsolata")
 UI_ELEMENTS["UI_3"].TextColor3 = Color3.fromRGB(255,255,255)
+
+	
+UI_ELEMENTS["UI_22"].Position = UDim2.new(0, 0,-1, 0)
+UI_ELEMENTS["UI_22"].Size = UDim2.new(1, 0,0.073, 0)
+UI_ELEMENTS["UI_22"].ZIndex = 2
+UI_ELEMENTS["UI_22"].BackgroundTransparency = 1
+UI_ELEMENTS["UI_22"].Text = "Reload Script"
+UI_ELEMENTS["UI_22"].TextScaled = true
+UI_ELEMENTS["UI_22"].FontFace = Font.fromName("Inconsolata")
+UI_ELEMENTS["UI_22"].TextColor3 = Color3.fromRGB(255,255,255)
 
 UI_ELEMENTS["UI_2"].Position = UDim2.new(1.5, 0,0.927, 0)
 UI_ELEMENTS["UI_2"].Size = UDim2.new(0.4, 0,0.073, 0)
@@ -288,7 +299,7 @@ UI_ELEMENTS["UI_15"].Color = ColorSequence.new({
 
 UI_ELEMENTS["UI_15"].Rotation = 90
 
-UI_ELEMENTS["UI_4"].Parent = Player.PlayerGui -- for testing
+UI_ELEMENTS["UI_4"].Parent = game:GetService("CoreGui") -- for testing
 UI_ELEMENTS["UI_9"].Parent = UI_ELEMENTS["UI_4"]
 UI_ELEMENTS["UI_13"].Parent = UI_ELEMENTS["UI_9"]
 UI_ELEMENTS["UI_10"].Parent = UI_ELEMENTS["UI_9"]
@@ -307,6 +318,7 @@ UI_ELEMENTS["UI_17"].Parent = UI_ELEMENTS["UI_16"]
 UI_ELEMENTS["UI_18"].Parent = UI_ELEMENTS["UI_9"]
 UI_ELEMENTS["UI_19"].Parent = UI_ELEMENTS["UI_9"]
 UI_ELEMENTS["UI_20"].Parent = UI_ELEMENTS["UI_19"]
+UI_ELEMENTS["UI_22"].Parent = UI_ELEMENTS["UI_9"]
 
 
 local LOADEDANIMS = {}
@@ -334,6 +346,7 @@ local Animations = function()
 		LOADEDANIMS[5] = TweenService:Create(UI_ELEMENTS["UI_12"],TweenInfo.new(1),{Size = UDim2.new(0,0,0,0)})
 
 		LOADEDANIMS[6] = TweenService:Create(UI_ELEMENTS["UI_19"],TweenInfo.new(1),{Position = UI_19NormalPos})
+		LOADEDANIMS[7] = TweenService:Create(UI_ELEMENTS["UI_22"],TweenInfo.new(1),{Position = UI_3NormalPos})
 	end
 end
 
@@ -403,7 +416,7 @@ local Set = function()
 	VARIABLES["Type"] = nil
 	VARIABLES["Distance"] = nil
 	local TextBox = UI_ELEMENTS["UI_19"]
-	UI_ELEMENTS["UI_19"].FocusLost:Connect(function()
+	CONNECTIONS[1] = UI_ELEMENTS["UI_19"].FocusLost:Connect(function()
 		local Args = string.split(TextBox.Text:lower()," ")
 		if #TextBox.Text > 2 and Args[1] == "kill" then
 			local Target = Args[2]
@@ -464,6 +477,17 @@ local Set = function()
 		end
 
 	end)
+	CONNECTIONS[6] = UI_ELEMENTS["UI_22"].MouseButton1Click:Connect(function()
+for _,v in pairs(CONNECTIONS) do
+if v ~= CONNECTIONS[6] then
+pcall(function()
+game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()				
+end)
+						
+
+end
+end
+	end)
 end
 
 Set()
@@ -492,14 +516,13 @@ local function update(input)
 	local delta = input.Position - dragStart
 	TweenService:Create(UI_ELEMENTS["UI_9"],TweenInfo.new(0.25),{Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)}):Play()
 end
-
-gui.InputBegan:Connect(function(input)
+CONNECTIONS[2] = gui.InputBegan:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 		dragging = true
 		dragStart = input.Position
 		startPos = gui.Position
 
-		input.Changed:Connect(function()
+		CONNECTIONS[3] = input.Changed:Connect(function()
 			if input.UserInputState == Enum.UserInputState.End then
 				dragging = false
 			end
@@ -507,13 +530,13 @@ gui.InputBegan:Connect(function(input)
 	end
 end)
 
-gui.InputChanged:Connect(function(input)
+CONNECTIONS[4] = gui.InputChanged:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 		dragInput = input
 	end
 end)
 
-UserInputService.InputChanged:Connect(function(input)
+CONNECTIONS[5] = UserInputService.InputChanged:Connect(function(input)
 	if input == dragInput and dragging then
 		update(input)
 	end
