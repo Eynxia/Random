@@ -22,8 +22,8 @@ local ActiveParts: Folder;
 local Plates: Model = Workspace.Plates;
 local LPlate: Part;
 local MSpikes = {};
-local UberVipCFrame = CFrame.new(52.117424, 17633.498, 9022.96289, 0.878907919, 8.86190747e-08, -0.476991445, -6.97595155e-08, 1, 5.72481689e-08, 0.476991445, -1.70411774e-08, 0.878907919)
-local MegaVipCFrame = CFrame.new(81.6340179, 17633.498, 9206.84863, 0.939545095, 4.39642598e-08, -0.342425227, -2.73242602e-08, 1, 5.34186313e-08, 0.342425227, -4.08326954e-08, 0.939545095)
+local UberVipCFrame = CFrame.new(-52.117424, 17633.498, 9022.96289, 0.878907919, 8.86190747e-08, -0.476991445, -6.97595155e-08, 1, 5.72481689e-08, 0.476991445, -1.70411774e-08, 0.878907919)
+local MegaVipCFrame = CFrame.new(-81.6340179, 17633.498, 9206.84863, 0.939545095, 4.39642598e-08, -0.342425227, -2.73242602e-08, 1, 5.34186313e-08, 0.342425227, -4.08326954e-08, 0.939545095)
 local VipCFrame = CFrame.new(-81.0560684, 17633.498, 9339.80371, -0.0887825266, 1.13209225e-07, -0.996051013, -7.10112289e-08, 1, 1.19987604e-07, 0.996051013, 8.1383611e-08, -0.0887825266)
 local ThumbnailCFrame = CFrame.new(11.279686, 0.388946712, -5551.62061, 0.791406035, 3.28139578e-08, 0.611290812, -7.06421446e-08, 1, 3.77768892e-08, -0.611290812, -7.30797538e-08, 0.791406035)
 
@@ -498,6 +498,11 @@ local Set = function()
 			pcall(function()
 				local HRP = Player.Character.HumanoidRootPart
 				HRP.CFrame = MegaVipCFrame
+			end)
+		elseif TextBox.Text:lower() == "thumbnail" then
+			pcall(function()
+				local HRP = Player.Character.HumanoidRootPart
+				HRP.CFrame = ThumbnailCFrame
 			end)
 		end
 		if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
