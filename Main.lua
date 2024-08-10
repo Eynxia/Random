@@ -556,6 +556,7 @@ VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
 CONNECTIONS[8]:Disconnect()
 end)
 end)
+end)
 elseif Args[1] == "ungod" then
 		pcall(function()
 CONNECTIONS[8]:Disconnect()
@@ -703,6 +704,7 @@ CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
 pcall(function()
 VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
 CONNECTIONS[8]:Disconnect()
+end)
 end)
 end)
 elseif TextBox.Text:lower() == "ungod" then
