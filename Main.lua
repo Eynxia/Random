@@ -709,6 +709,7 @@ end
 end
 end
 end
+end
 end)
 
 			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
