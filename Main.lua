@@ -567,6 +567,7 @@ CONNECTIONS[7]:Disconnect()
 CONNECTIONS[7] = nil
 end)
 		end
+	end
 			if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 				FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
 				if 	VARIABLES["Type"] == "Kill" then
@@ -716,7 +717,6 @@ pcall(function()
 CONNECTIONS[7]:Disconnect()
 CONNECTIONS[7] = nil
 end)
-		        end
 		    end
 		end
 		if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
