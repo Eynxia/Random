@@ -374,6 +374,17 @@ for _,v in pairs(LOADEDANIMS) do
 	v:Play()
 end
 
+local GetPrimaryPart = function(player)
+if player then
+if Players:FindFirstChild(player) then
+local Player = Players:FindFirstChild(player)
+if Player.Character then
+return Player.Character.HumanoidRootPart
+			end
+		end
+	end
+end
+
 local FindClosestName = function(name,blacklistedname,cmdtype)
 	local MatchingNames = {}
 	local PlayersInGame = #Players:GetPlayers()
@@ -455,7 +466,7 @@ local TakeAction = function(cmdtype,target,distance)
 						Module.Kill(v.Character.PrimaryPart)
 						CONNECTIONS[target] = v.CharacterAdded:Connect(function(char)
 								pcall(function()
-Module.Kill(v.Character.PrimaryPart)
+Module.Kill(GetPrimaryPart(v.Name))
 								end)
 							
 						end)
