@@ -412,7 +412,7 @@ CONNECTIONS[plr]:Disconnect()
 end)
 end
 end
-end)
+end
 
 local FindClosestName = function(name,blacklistedname,cmdtype)
 	local MatchingNames = {}
