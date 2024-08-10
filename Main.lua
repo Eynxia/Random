@@ -390,17 +390,14 @@ end
 local LoopKill = function(plr)
 if plr then
 if CONNECTIONS[plr] == nil then
-pcall(function()
 for _,v in pairs(Players) do
 if v.Name == plr then
 local Player = v
 Module.Kill(Player.Character.PrimaryPart)
 CONNECTIONS[plr] = Player.CharacterAdded:Connect(function(char)
-pcall(function()
 Module.Kill(char.PrimaryPart)
 end)
-end)
-end)
+end
 end
 end
 end
