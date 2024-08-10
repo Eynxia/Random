@@ -21,6 +21,7 @@ local DeleteAsset: RemoteFunction = Remotes.DeleteAsset;
 local VARIABLES = {}
 VARIABLES["Players"] = {}
 
+local Players = {}
 local On = false
 local GodMode = false
 local ActiveParts: Folder;
@@ -149,6 +150,18 @@ function Module.DestroyAura(Radius: number)
 	table.clear(Blacklist);
 	Blacklist = nil;
 end;
+
+for _,v in pairs(Players:GetPlayers()) do
+if not table.find(Players,v) then
+table.insert(Players,v)
+	end
+end
+
+Players.PlayerAdded:Connect(function(v)
+if not table.find(Players,v) then
+table.insert(Players,v)
+end
+end)
 
 local Player = Players.LocalPlayer
 local UserID = Player.UserId
@@ -374,16 +387,32 @@ for _,v in pairs(LOADEDANIMS) do
 	v:Play()
 end
 
-local GetPrimaryPart = function(player)
-if player then
-if Players:FindFirstChild(player) then
-local Player = Players:FindFirstChild(player)
-if Player.Character then
-return Player.Character.HumanoidRootPart
-			end
-		end
-	end
+local LoopKill = function(plr)
+if plr then
+if CONNECTIONS[plr] == nil then
+pcall(function()
+for _,v in pairs(Players) do
+if v.Name == plr then
+local Player = v
+Module.Kill(Player.Character.PrimaryPart)
+CONNECTIONS[plr] = Player.CharacterAdded:Connect(function(char)
+pcall(function()
+Module.Kill(char.PrimaryPart)
+end)
+end)
 end
+end
+end)
+
+local UnLoopKill = function(plr)
+if plr then
+if CONNECTIONS[plr] then
+pcall(function()
+CONNECTIONS[plr]:Disconnect()
+end)
+end
+end
+end)
 
 local FindClosestName = function(name,blacklistedname,cmdtype)
 	local MatchingNames = {}
@@ -462,27 +491,19 @@ local TakeAction = function(cmdtype,target,distance)
 						end
 					end
 				elseif cmdtype == "loopkill" then
-					if CONNECTIONS[target] == nil then
-						Module.Kill(v.Character.PrimaryPart)
-						CONNECTIONS[target] = v.CharacterAdded:Connect(function(char)
-								pcall(function()
-Module.Kill(GetPrimaryPart(v.Name))
-								end)
-							
-						end)
-					end
+					LoopKill(target)
 					
 				elseif cmdtype == "unloopkill" then
-					pcall(function()
-						if CONNECTIONS[target] then
-							CONNECTIONS[target]:Disconnect()
-							CONNECTIONS[target] = nil
-						end
-					end)
-				
+					UnLoopKill(target)
 				end
 				
 			end
+		end
+	end
+end
+
+
+
 		end
 	end
 end
