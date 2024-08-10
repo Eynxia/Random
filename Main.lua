@@ -39,7 +39,7 @@ for _, Plate in pairs(Plates:GetChildren()) do
 	end;
 end;
 
-ActiveParts.ChildAdded:Connect(function(Block)
+CONNECTIONS[9] = ActiveParts.ChildAdded:Connect(function(Block)
 	if (Block.Name == "Spikes - Moving") then
 		local MSpike = Block:WaitForChild("Spike_Retracting"):WaitForChild("Spikes");
 		MSpikes[#MSpikes+1] = MSpike;
@@ -542,10 +542,11 @@ local Set = function()
 			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
 pcall(function()
 VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-CONNECTIONS[8]:Disconnect()
+
 end)
 			end)
 CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
+CONNECTIONS[8]:Disconnect()
 pcall(function()
 if VARIABLES["Pos"] ~= nil then
 task.wait(1)						
@@ -560,8 +561,10 @@ CONNECTIONS[8]:Disconnect()
 end)
 end)
 end)
+
+		end
 elseif Args[1] == "ungod" then
-		pcall(function()
+pcall(function()
 CONNECTIONS[8]:Disconnect()
 CONNECTIONS[8] = nil
 		end)
@@ -569,7 +572,6 @@ pcall(function()
 CONNECTIONS[7]:Disconnect()
 CONNECTIONS[7] = nil
 end)
-		end
 	end
 			if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 				FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
@@ -696,10 +698,11 @@ end)
 			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
 pcall(function()
 VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-CONNECTIONS[8]:Disconnect()
+
 end)
 			end)
 CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
+CONNECTIONS[8]:Disconnect()
 pcall(function()
 if VARIABLES["Pos"] ~= nil then
 task.wait(1)					
@@ -714,8 +717,10 @@ CONNECTIONS[8]:Disconnect()
 end)
 end)
 end)
+
+end
 elseif TextBox.Text:lower() == "ungod" then
-		pcall(function()
+pcall(function()
 CONNECTIONS[8]:Disconnect()
 CONNECTIONS[8] = nil
 		end)
@@ -723,7 +728,6 @@ pcall(function()
 CONNECTIONS[7]:Disconnect()
 CONNECTIONS[7] = nil
 end)
-		    end
 		end
 		if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 			FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
