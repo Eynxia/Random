@@ -540,6 +540,20 @@ local Set = function()
 		   end)
 		elseif Args[1] == "god" then
 		if CONNECTIONS[7] == nil then
+						GodMode = true
+task.spawn(function()
+while GodMode == true and task.wait(0.025) do
+for _,v in pairs(workspace.Plates:GetChildren()) do
+if v.Owner.Value ~= Player.Name then
+for _,Active in pairs(v.ActiveParts:GetChildren()) do
+if Active.Name:lower():find() == "spikes" or Active.Name:lower():find() == "hostile" then
+Active:Destroy()
+end
+end
+end
+end
+end
+end)
 			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
 pcall(function()
 VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
@@ -565,6 +579,7 @@ end)
 
 		end
 elseif Args[1] == "ungod" then
+GodMode = false
 pcall(function()
 CONNECTIONS[8]:Disconnect()
 CONNECTIONS[8] = nil
@@ -702,7 +717,7 @@ while GodMode == true and task.wait(0.025) do
 for _,v in pairs(workspace.Plates:GetChildren()) do
 if v.Owner.Value ~= Player.Name then
 for _,Active in pairs(v.ActiveParts:GetChildren()) do
-if Active.Name == "Spikes - Moving" then
+if Active.Name:lower():find() == "spikes" or Active.Name:lower():find() == "hostile" then
 Active:Destroy()
 end
 end
