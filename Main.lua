@@ -496,7 +496,7 @@ local Set = function()
 				local Target = Args[2]
 				VARIABLES["Target"] = Target
 				VARIABLES["Type"] = "unfreeze"
-					elseif TextBox.Text:lower() == "ubervip" then
+			elseif Args[1] == "ubervip" then
 			pcall(function()
 				local HRP = Player.Character.HumanoidRootPart
 				HRP.CFrame = UberVipCFrame
@@ -544,7 +544,7 @@ VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
 CONNECTIONS[8]:Disconnect()
 end)
 			end)
-CONNECTIONS[7] = Player.PlayerAdded:Connect(functuon(char)
+CONNECTIONS[7] = Player.PlayerAdded:Connect(function(char)
 pcall(function()
 if VARIABLES["Pos"] ~= nil then
 char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
