@@ -400,6 +400,7 @@ pcall(function()
 Module.Kill(char.PrimaryPart)
 end)
 end)
+end)
 end
 end
 end
