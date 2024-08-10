@@ -516,7 +516,7 @@ local Set = function()
 				local HRP = Player.Character.HumanoidRootPart
 				HRP.CFrame = ThumbnailCFrame
 			end)
-		elseif Args[1] == "unfreezeall" the
+		elseif Args[1] == "unfreezeall" then
 			pcall(function()
 				repeat
 				task.wait()
