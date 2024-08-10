@@ -820,6 +820,12 @@ local Set = function()
 			elseif VARIABLES["Type"] == "unfreeze" then
 				TakeAction("unfreeze",VARIABLES["Target"])
 				TextBox.Text = ""
+			elseif VARIABLES["Type"] == "loopkill" then
+				TakeAction("loopkill",VARIABLES["Target"])
+				TextBox.Text = ""
+					elseif VARIABLES["Type"] == "unloopkill" then
+				TakeAction("unloopkill",VARIABLES["Target"])
+				TextBox.Text = ""
 			end
 		end
 
