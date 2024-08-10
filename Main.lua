@@ -468,14 +468,8 @@ local TakeAction = function(cmdtype,target,distance)
 					
 				elseif cmdtype == "unloopkill" then
 					
+				
 				end
-			end
-		end
-	end
-end
-
-
-
 		end
 	end
 end
