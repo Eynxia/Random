@@ -405,6 +405,14 @@ local FindClosestName = function(name,blacklistedname,cmdtype)
 					UI_ELEMENTS["UI_19"].Text = "unfreeze "..MatchingNames[1]
 					VARIABLES["Target"] = MatchingNames[1]
 				end
+				if VARIABLES["Type"] == "loopkill" then
+					UI_ELEMENTS["UI_19"].Text = "loopkill "..MatchingNames[1]
+					VARIABLES["Target"] = MatchingNames[1]
+				end
+				if VARIABLES["Type"] == "unloopkill" then
+					UI_ELEMENTS["UI_19"].Text = "unloopkill "..MatchingNames[1]
+					VARIABLES["Target"] = MatchingNames[1]
+				end
 			end
 		end	
 
@@ -427,7 +435,6 @@ local TakeAction = function(cmdtype,target,distance)
 				elseif cmdtype == "fling" then
 					Module.Fling(v.Character.PrimaryPart)
 				elseif cmdtype == "unfreeze" then
-
 					for _,v in pairs(ActiveParts:GetChildren()) do
 						if v.Name == "Weathervane" then
 
@@ -445,7 +452,24 @@ local TakeAction = function(cmdtype,target,distance)
 							end
 						end
 					end
+				elseif cmdtype == "loopkill" then
+					if CONNECTIONS[target] == nil then
+						Module.Kill(v.Character.PrimaryPart)
+						CONNECTIONS[target] = v.CharacterAdded:Connect(function(char)
+							Module.Kill(char.PrimaryPart)
+						end)
+					end
+					
+				elseif cmdtype == "unloopkill" then
+					pcall(function()
+						if CONNECTIONS[target] then
+							CONNECTIONS[target]:Disconnect()
+							CONNECTIONS[target] = nil
+						end
+					end)
+				
 				end
+				
 			end
 		end
 	end
@@ -470,6 +494,14 @@ local Set = function()
 			if Args[1] == "kill" then
 				local Target = Args[2]
 				VARIABLES["Type"] = "Kill"
+				VARIABLES["Target"] = Target
+			elseif Args[1] == "loopkill" then
+				local Target = Args[2]
+				VARIABLES["Type"] = "loopkill"
+				VARIABLES["Target"] = Target
+			elseif Args[1] == "unloopkill" then
+				local Target = Args[2]
+				VARIABLES["Type"] = "unloopkill"
 				VARIABLES["Target"] = Target
 			elseif Args[1] == "freeze" then
 				local Target = Args[2]
@@ -600,6 +632,12 @@ local Set = function()
 				elseif VARIABLES["Type"] == "unfreeze" then
 					TakeAction("unfreeze",VARIABLES["Target"])
 					TextBox.Text = ""
+				elseif VARIABLES["Type"] == "loopkill" then
+					TakeAction("loopkill",VARIABLES["Target"])
+					TextBox.Text = ""
+				elseif VARIABLES["Type"] == "unloopkill" then
+					TakeAction("unloopkill",VARIABLES["Target"])
+					TextBox.Text = ""
 				end
 			end
 		end
@@ -665,10 +703,11 @@ local Set = function()
 				game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
 				loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
 			end)
+			for _,v in pairs(CONNECTIONS[plr]) do
+				v:Disconnect()
+			end
 			for _,v in pairs(CONNECTIONS) do
 				v:Disconnect()
-
-
 			end
 		elseif TextBox.Text:lower() == "ubervip" then
 			pcall(function()
@@ -701,6 +740,14 @@ local Set = function()
 					end
 				until not ActiveParts:FindFirstChild("Weathervane")
 			end)
+		elseif #TextBox.Text > 2 and Args[1] == "loopkill" then
+			local Target = Args[2]
+			VARIABLES["Type"] = "loopkill"
+			VARIABLES["Target"] = Target
+		elseif #TextBox.Text > 2 and Args[1] == "unloopkill" then
+			local Target = Args[2]
+			VARIABLES["Type"] = "unloopkill"
+			VARIABLES["Target"] = Target
 		elseif TextBox.Text:lower() == "uufreeze" then
 			pcall(function()
 				local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
@@ -713,7 +760,8 @@ local Set = function()
 			if CONNECTIONS[7] == nil then
 				GodMode = true
 				task.spawn(function()
-					while GodMode == true and task.wait(0.0025) do
+					while task.wait(0.0025) do
+						if GodMode == false then break end
 						for _,v in pairs(workspace.Plates:GetChildren()) do
 							if v.Owner.Value ~= Player.Name then
 								for _,Active in pairs(v.ActiveParts:GetChildren()) do
