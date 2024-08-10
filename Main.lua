@@ -21,7 +21,6 @@ local DeleteAsset: RemoteFunction = Remotes.DeleteAsset;
 local VARIABLES = {}
 VARIABLES["Players"] = {}
 
-local Players = {}
 local On = false
 local GodMode = false
 local ActiveParts: Folder;
@@ -91,6 +90,7 @@ function Module.CreateMSpike(CF: CFrame, Weld: table)
 end;
 
 function Module.Kill(Player)
+	if (Player:IsA("Player")) then Player = Player.Character.PrimaryPart; end;
 	StampAsset:InvokeServer(
 		41324885,
 		LPlate.CFrame - Vector3.new(0, 9e9, 0),
@@ -101,6 +101,7 @@ function Module.Kill(Player)
 end;
 
 function Module.Fling(Player)
+	if (Player:IsA("Player")) then Player = Player.Character.PrimaryPart; end;
 	StampAsset:InvokeServer(
 		41324885,
 		LPlate.CFrame + Vector3.new(0, 9e9, 0),
@@ -150,18 +151,6 @@ function Module.DestroyAura(Radius: number)
 	table.clear(Blacklist);
 	Blacklist = nil;
 end;
-
-for _,v in pairs(Players:GetPlayers()) do
-if not table.find(Players,v) then
-table.insert(Players,v)
-	end
-end
-
-Players.PlayerAdded:Connect(function(v)
-if not table.find(Players,v) then
-table.insert(Players,v)
-end
-end)
 
 local Player = Players.LocalPlayer
 local UserID = Player.UserId
@@ -464,12 +453,24 @@ local TakeAction = function(cmdtype,target,distance)
 						end
 					end
 				elseif cmdtype == "loopkill" then
-					
+					if CONNECTIONS[target] == nil then
+						Module.Kill(v.Character.PrimaryPart)
+						CONNECTIONS[target] = v.CharacterAdded:Connect(function(char)
+							Module.Kill(char.PrimaryPart)
+						end)
+					end
 					
 				elseif cmdtype == "unloopkill" then
-					
+					pcall(function()
+						if CONNECTIONS[target] then
+							CONNECTIONS[target]:Disconnect()
+							CONNECTIONS[target] = nil
+						end
+					end)
 				
 				end
+				
+			end
 		end
 	end
 end
@@ -702,36 +703,11 @@ local Set = function()
 				game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
 				loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
 			end)
-			pcall(function()
-CONNECTIONS[1]:Disconnect()
-			end)
-				pcall(function()
-CONNECTIONS[2]:Disconnect()
-			end)
-				pcall(function()
-CONNECTIONS[3]:Disconnect()
-			end)
-				pcall(function()
-CONNECTIONS[4]:Disconnect()
-			end)
-				pcall(function()
-CONNECTIONS[5]:Disconnect()
-			end)
-				pcall(function()
-CONNECTIONS[6]:Disconnect()
-			end)
-				pcall(function()
-CONNECTIONS[7]:Disconnect()
-			end)
-				pcall(function()
-CONNECTIONS[8]:Disconnect()
-			end)
-				pcall(function()
-CONNECTIONS[9]:Disconnect()
-			end)
-				pcall(function()
-CONNECTIONS[10]:Disconnect()
-			end)
+			for _,v in pairs(CONNECTIONS) do
+				v:Disconnect()
+
+
+			end
 		elseif TextBox.Text:lower() == "ubervip" then
 			pcall(function()
 				local HRP = Player.Character.HumanoidRootPart
@@ -842,12 +818,6 @@ CONNECTIONS[10]:Disconnect()
 				TextBox.Text = ""
 			elseif VARIABLES["Type"] == "unfreeze" then
 				TakeAction("unfreeze",VARIABLES["Target"])
-				TextBox.Text = ""
-			elseif VARIABLES["Type"] == "loopkill" then
-				TakeAction("loopkill",VARIABLES["Target"])
-				TextBox.Text = ""
-					elseif VARIABLES["Type"] == "unloopkill" then
-				TakeAction("unloopkill",VARIABLES["Target"])
 				TextBox.Text = ""
 			end
 		end
