@@ -698,7 +698,7 @@ end)
 		if CONNECTIONS[7] == nil then
 GodMode = true
 task.spawn(function()
-while GodMode == true and task.wait(0.05) then
+while GodMode == true and task.wait(0.05) do
 for _,v in pairs(workspace.Plates:GetChildren()) do
 for _,plate in pairs(v:GetChildren()) do
 if plate.Owner.Value ~= Player.Name then
