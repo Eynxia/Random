@@ -22,6 +22,7 @@ local VARIABLES = {}
 VARIABLES["Players"] = {}
 
 local On = false
+local GodMode = false
 local ActiveParts: Folder;
 local Plates: Model = Workspace.Plates;
 local LPlate: Part;
@@ -695,6 +696,21 @@ end)
 		   end)
 	        elseif TextBox.Text:lower() == "god" then
 		if CONNECTIONS[7] == nil then
+GodMode = true
+task.spawn(function()
+while GodMode == true and task.wait(0.05) do
+for _,v in pairs(worspace.Plates:GetChildren()) do
+if v.Owner.Value ~= Player.Name then
+for _,Active in pairs(v.ActiveParts:GetChildren()) do
+task.wait(0.025)
+if Active.Name == "Spikes - Moving" then
+Activate:Destroy()
+end
+end
+end
+end
+end)
+
 			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
 pcall(function()
 VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
@@ -720,6 +736,7 @@ end)
 
 end
 elseif TextBox.Text:lower() == "ungod" then
+GodMode = false
 pcall(function()
 CONNECTIONS[8]:Disconnect()
 CONNECTIONS[8] = nil
