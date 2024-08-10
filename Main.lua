@@ -387,32 +387,6 @@ for _,v in pairs(LOADEDANIMS) do
 	v:Play()
 end
 
-local LoopKill = function(plr)
-if plr then
-if CONNECTIONS[plr] == nil then
-for _,v in pairs(Players) do
-if v.Name == plr then
-local Player = v
-Module.Kill(Player.Character.PrimaryPart)
-CONNECTIONS[plr] = Player.CharacterAdded:Connect(function(char)
-Module.Kill(char.PrimaryPart)
-end)
-end
-end
-end
-end
-end
-
-local UnLoopKill = function(plr)
-if plr then
-if CONNECTIONS[plr] then
-pcall(function()
-CONNECTIONS[plr]:Disconnect()
-end)
-end
-end
-end
-
 local FindClosestName = function(name,blacklistedname,cmdtype)
 	local MatchingNames = {}
 	local PlayersInGame = #Players:GetPlayers()
