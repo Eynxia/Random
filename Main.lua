@@ -546,7 +546,7 @@ while GodMode == true and task.wait(0.025) do
 for _,v in pairs(workspace.Plates:GetChildren()) do
 if v.Owner.Value ~= Player.Name then
 for _,Active in pairs(v.ActiveParts:GetChildren()) do
-if Active.Name:lower():find("spikes") or Active.Name:lower():find("hostile") then
+if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
 Active:Destroy()
 end
 end
@@ -717,7 +717,7 @@ while GodMode == true and task.wait(0.025) do
 for _,v in pairs(workspace.Plates:GetChildren()) do
 if v.Owner.Value ~= Player.Name then
 for _,Active in pairs(v.ActiveParts:GetChildren()) do
-if Active.Name:lower():find() == "spikes" or Active.Name:lower():find() == "hostile" then
+if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
 Active:Destroy()
 end
 end
