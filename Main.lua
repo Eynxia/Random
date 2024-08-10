@@ -455,6 +455,7 @@ local Set = function()
 	VARIABLES["Target"] = nil
 	VARIABLES["Type"] = nil
 	VARIABLES["Distance"] = nil
+	VARIABLES["Pos"] = nil
 	local TextBox = UI_ELEMENTS["UI_19"]
 
 	CONNECTIONS[6] = Player.Chatted:Connect(function(msg)
@@ -495,7 +496,76 @@ local Set = function()
 				local Target = Args[2]
 				VARIABLES["Target"] = Target
 				VARIABLES["Type"] = "unfreeze"
-			end
+					elseif TextBox.Text:lower() == "ubervip" then
+			pcall(function()
+				local HRP = Player.Character.HumanoidRootPart
+				HRP.CFrame = UberVipCFrame
+			end)
+		elseif Args[1] == "vip" then
+			pcall(function()
+				local HRP = Player.Character.HumanoidRootPart
+				HRP.CFrame = VipCFrame
+			end)
+		elseif Args[1] == "megavip" then
+			pcall(function()
+				local HRP = Player.Character.HumanoidRootPart
+				HRP.CFrame = MegaVipCFrame
+			end)
+		elseif Args[1] == "thumbnail" then
+			pcall(function()
+				local HRP = Player.Character.HumanoidRootPart
+				HRP.CFrame = ThumbnailCFrame
+			end)
+		elseif Args[1] == "unfreezeall" the
+			pcall(function()
+				repeat
+				task.wait()
+                                for _,v in pairs(ActiveParts:GetChildren()) do
+					if v.Name == "Weathervane" then
+						Module.Delete(v)		
+					end				
+				end
+				until not ActiveParts:FindFirstChild("Weathervane")
+							
+				
+			end)
+		elseif Args[1] == "uufreeze" then
+		   pcall(function()
+			local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
+			Player.Character.Humanoid.Health = 0
+			Player.CharacterAdded:Wait()
+			Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
+		   end)
+		elseif Args[1] == "god" then
+		if CONNECTIONS[7] == nil then
+			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+pcall(function()
+VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+CONNECTIONS[8]:Disconnect()
+end)
+			end)
+CONNECTIONS[7] = Player.PlayerAdded:Connect(functuon(char)
+pcall(function()
+if VARIABLES["Pos"] ~= nil then
+char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
+end
+    end)
+CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+pcall(function()
+VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+CONNECTIONS[8]:Disconnect()
+end)
+end)
+elseif Args[1] == "ungod" then
+		pcall(function()
+CONNECTIONS[8]:Disconnect()
+CONNECTIONS[8] = nil
+		end)
+pcall(function()
+CONNECTIONS[7]:Disconnect()
+CONNECTIONS[7] = nil
+end)
+		end
 			if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 				FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
 				if 	VARIABLES["Type"] == "Kill" then
@@ -597,6 +667,54 @@ local Set = function()
 				local HRP = Player.Character.HumanoidRootPart
 				HRP.CFrame = ThumbnailCFrame
 			end)
+		elseif TextBox.Text:lower() == "unfreezeall" the
+			pcall(function()
+				repeat
+				task.wait()
+                                for _,v in pairs(ActiveParts:GetChildren()) do
+					if v.Name == "Weathervane" then
+						Module.Delete(v)		
+					end				
+				end
+				until not ActiveParts:FindFirstChild("Weathervane")
+		elseif TextBox.Text:lower() == "uufreeze" then
+		   pcall(function()
+			local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
+			Player.Character.Humanoid.Health = 0
+			Player.CharacterAdded:Wait()
+			Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
+		   end)
+	        elseif TextBox.Text:lower() == "god" then
+		if CONNECTIONS[7] == nil then
+			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+pcall(function()
+VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+CONNECTIONS[8]:Disconnect()
+end)
+			end)
+CONNECTIONS[7] = Player.PlayerAdded:Connect(functuon(char)
+pcall(function()
+if VARIABLES["Pos"] ~= nil then
+char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
+end
+    end)
+CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+pcall(function()
+VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+CONNECTIONS[8]:Disconnect()
+end)
+end)
+elseif TextBox.Text:lower() == "ungod" then
+		pcall(function()
+CONNECTIONS[8]:Disconnect()
+CONNECTIONS[8] = nil
+		end)
+pcall(function()
+CONNECTIONS[7]:Disconnect()
+CONNECTIONS[7] = nil
+end)
+		        end
+		    end
 		end
 		if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 			FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
