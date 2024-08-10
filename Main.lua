@@ -700,8 +700,9 @@ GodMode = true
 task.spawn(function()
 while GodMode == true and task.wait(0.05) then
 for _,v in pairs(workspace.Plates:GetChildren()) do
-if v.Owner.Value ~= Player.Name then
-for _,Active in pairs(v.ActiveParts:GetChildren()) do
+for _,plate in pairs(v:GetChildren()) do
+if plate.Owner.Value ~= Player.Name then
+for _,Active in pairs(plate.ActiveParts:GetChildren()) do
 task.wait(0.025)
 if Active.Name == "Spikes - Moving" then
 Active:Destroy()
@@ -710,6 +711,7 @@ end
 end
 end
 end
+						end
 end)
 
 			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
