@@ -534,6 +534,7 @@ local Set = function()
 			local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
 			Player.Character.Humanoid.Health = 0
 			Player.CharacterAdded:Wait()
+			task.wait(1)
 			Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
 		   end)
 		elseif Args[1] == "god" then
@@ -547,9 +548,11 @@ end)
 CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
 pcall(function()
 if VARIABLES["Pos"] ~= nil then
+task.wait(1)						
 char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
 end
     end)
+task.wait(0.5)
 CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
 pcall(function()
 VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
@@ -685,6 +688,7 @@ end)
 			local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
 			Player.Character.Humanoid.Health = 0
 			Player.CharacterAdded:Wait()
+			task.wait(1)
 			Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
 		   end)
 	        elseif TextBox.Text:lower() == "god" then
@@ -698,9 +702,11 @@ end)
 CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
 pcall(function()
 if VARIABLES["Pos"] ~= nil then
+task.wait(1)					
 char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
 end
     end)
+task.wait(0.5)
 CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
 pcall(function()
 VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
