@@ -48,13 +48,13 @@ CONNECTIONS[9] = ActiveParts.ChildAdded:Connect(function(Block)
 		if (not Block.Parent) then
 			table.remove(MSpikes, table.find(MSpikes, MSpike));	
 		end;
-		
-		elseif (Block.Name == "Weathervane") then
-			if On == true then
-				On = false
-				print("addedtagrq")
-				Block:AddTag(VARIABLES["Target"])
-			end
+
+	elseif (Block.Name == "Weathervane") then
+		if On == true then
+			On = false
+			print("addedtagrq")
+			Block:AddTag(VARIABLES["Target"])
+		end
 	end;
 end);
 
@@ -396,10 +396,10 @@ local FindClosestName = function(name,blacklistedname,cmdtype)
 					VARIABLES["Target"] = MatchingNames[1]
 				end
 				if VARIABLES["Type"] == "freeze" then
-					
+
 					UI_ELEMENTS["UI_19"].Text = "freeze "..MatchingNames[1]
 					VARIABLES["Target"] = MatchingNames[1]
-					
+
 				end
 				if VARIABLES["Type"] == "unfreeze" then
 					UI_ELEMENTS["UI_19"].Text = "unfreeze "..MatchingNames[1]
@@ -415,7 +415,7 @@ end
 
 local TakeAction = function(cmdtype,target,distance)
 	if target and cmdtype then
-		
+
 		for _,v in pairs(Players:GetPlayers()) do
 			if v.Name == target then
 				if cmdtype == "Kill" then
@@ -427,12 +427,12 @@ local TakeAction = function(cmdtype,target,distance)
 				elseif cmdtype == "fling" then
 					Module.Fling(v.Character.PrimaryPart)
 				elseif cmdtype == "unfreeze" then
-					
+
 					for _,v in pairs(ActiveParts:GetChildren()) do
 						if v.Name == "Weathervane" then
-							
+
 							for _,hai in pairs(v:GetTags()) do
-								
+
 								if hai == target then
 									local Sum = 0
 									repeat
@@ -440,7 +440,7 @@ local TakeAction = function(cmdtype,target,distance)
 										task.wait()
 										Module.Delete(v)
 									until Sum > 5
-									
+
 								end
 							end
 						end
@@ -498,97 +498,97 @@ local Set = function()
 				VARIABLES["Target"] = Target
 				VARIABLES["Type"] = "unfreeze"
 			elseif Args[1] == "ubervip" then
-			pcall(function()
-				local HRP = Player.Character.HumanoidRootPart
-				HRP.CFrame = UberVipCFrame
-			end)
-		elseif Args[1] == "vip" then
-			pcall(function()
-				local HRP = Player.Character.HumanoidRootPart
-				HRP.CFrame = VipCFrame
-			end)
-		elseif Args[1] == "megavip" then
-			pcall(function()
-				local HRP = Player.Character.HumanoidRootPart
-				HRP.CFrame = MegaVipCFrame
-			end)
-		elseif Args[1] == "thumbnail" then
-			pcall(function()
-				local HRP = Player.Character.HumanoidRootPart
-				HRP.CFrame = ThumbnailCFrame
-			end)
-		elseif Args[1] == "unfreezeall" then
-			pcall(function()
-				repeat
-				task.wait()
-                                for _,v in pairs(ActiveParts:GetChildren()) do
-					if v.Name == "Weathervane" then
-						Module.Delete(v)		
-					end				
+				pcall(function()
+					local HRP = Player.Character.HumanoidRootPart
+					HRP.CFrame = UberVipCFrame
+				end)
+			elseif Args[1] == "vip" then
+				pcall(function()
+					local HRP = Player.Character.HumanoidRootPart
+					HRP.CFrame = VipCFrame
+				end)
+			elseif Args[1] == "megavip" then
+				pcall(function()
+					local HRP = Player.Character.HumanoidRootPart
+					HRP.CFrame = MegaVipCFrame
+				end)
+			elseif Args[1] == "thumbnail" then
+				pcall(function()
+					local HRP = Player.Character.HumanoidRootPart
+					HRP.CFrame = ThumbnailCFrame
+				end)
+			elseif Args[1] == "unfreezeall" then
+				pcall(function()
+					repeat
+						task.wait()
+						for _,v in pairs(ActiveParts:GetChildren()) do
+							if v.Name == "Weathervane" then
+								Module.Delete(v)		
+							end				
+						end
+					until not ActiveParts:FindFirstChild("Weathervane")
+
+
+				end)
+			elseif Args[1] == "uufreeze" then
+				pcall(function()
+					local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
+					Player.Character.Humanoid.Health = 0
+					Player.CharacterAdded:Wait()
+					task.wait(1)
+					Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
+				end)
+			elseif Args[1] == "god" then
+				if CONNECTIONS[7] == nil then
+					GodMode = true
+					task.spawn(function()
+						while GodMode == true and task.wait(0.0025) do
+							for _,v in pairs(workspace.Plates:GetChildren()) do
+								if v.Owner.Value ~= Player.Name then
+									for _,Active in pairs(v.ActiveParts:GetChildren()) do
+										if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") or string.find(Active.Name:lower(),"lamp") then
+											Active:Destroy()
+										end
+									end
+								end
+							end
+						end
+					end)
+					CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+						pcall(function()
+							VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+
+						end)
+					end)
+					CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
+						CONNECTIONS[8]:Disconnect()
+						pcall(function()
+							if VARIABLES["Pos"] ~= nil then
+								task.wait(1)						
+								char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
+							end
+						end)
+						task.wait(0.5)
+						CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+							pcall(function()
+								VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+								CONNECTIONS[8]:Disconnect()
+							end)
+						end)
+					end)
+
 				end
-				until not ActiveParts:FindFirstChild("Weathervane")
-							
-				
-			end)
-		elseif Args[1] == "uufreeze" then
-		   pcall(function()
-			local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
-			Player.Character.Humanoid.Health = 0
-			Player.CharacterAdded:Wait()
-			task.wait(1)
-			Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
-		   end)
-		elseif Args[1] == "god" then
-		if CONNECTIONS[7] == nil then
-						GodMode = true
-task.spawn(function()
-while GodMode == true and task.wait(0.05) do
-for _,v in pairs(workspace.Plates:GetChildren()) do
-if v.Owner.Value ~= Player.Name then
-for _,Active in pairs(v.ActiveParts:GetChildren()) do
-if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") or string.find(Active.Name:lower(),"lamp") then
-Active:Destroy()
-end
-end
-end
-end
-end
-end)
-			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-pcall(function()
-VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-
-end)
-			end)
-CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
-CONNECTIONS[8]:Disconnect()
-pcall(function()
-if VARIABLES["Pos"] ~= nil then
-task.wait(1)						
-char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
-end
-    end)
-task.wait(0.5)
-CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-pcall(function()
-VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-CONNECTIONS[8]:Disconnect()
-end)
-end)
-end)
-
-		end
-elseif Args[1] == "ungod" then
-GodMode = false
-pcall(function()
-CONNECTIONS[8]:Disconnect()
-CONNECTIONS[8] = nil
-		end)
-pcall(function()
-CONNECTIONS[7]:Disconnect()
-CONNECTIONS[7] = nil
-end)
-	end
+			elseif Args[1] == "ungod" then
+				GodMode = false
+				pcall(function()
+					CONNECTIONS[8]:Disconnect()
+					CONNECTIONS[8] = nil
+				end)
+				pcall(function()
+					CONNECTIONS[7]:Disconnect()
+					CONNECTIONS[7] = nil
+				end)
+			end
 			if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 				FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
 				if 	VARIABLES["Type"] == "Kill" then
@@ -635,7 +635,7 @@ end)
 
 				Module.DestroyAura(Target)
 			end
-			
+
 
 		elseif TextBox.Text == "uncircle" then
 			pcall(function()
@@ -693,73 +693,73 @@ end)
 		elseif TextBox.Text:lower() == "unfreezeall" then
 			pcall(function()
 				repeat
-				task.wait()
-                                for _,v in pairs(ActiveParts:GetChildren()) do
-					if v.Name == "Weathervane" then
-						Module.Delete(v)		
-					end				
-				end
+					task.wait()
+					for _,v in pairs(ActiveParts:GetChildren()) do
+						if v.Name == "Weathervane" then
+							Module.Delete(v)		
+						end				
+					end
 				until not ActiveParts:FindFirstChild("Weathervane")
 			end)
 		elseif TextBox.Text:lower() == "uufreeze" then
-		   pcall(function()
-			local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
-			Player.Character.Humanoid.Health = 0
-			Player.CharacterAdded:Wait()
-			task.wait(1)
-			Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
-		   end)
-	        elseif TextBox.Text:lower() == "god" then
-		if CONNECTIONS[7] == nil then
-GodMode = true
-task.spawn(function()
-while GodMode == true and task.wait(0.025) do
-for _,v in pairs(workspace.Plates:GetChildren()) do
-if v.Owner.Value ~= Player.Name then
-for _,Active in pairs(v.ActiveParts:GetChildren()) do
-if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile")or string.find(Active.Name:lower(),"lamp") then
-Active:Destroy()
-end
-end
-end
-end
-end
-end)
-
-			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-pcall(function()
-VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-
-end)
+			pcall(function()
+				local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
+				Player.Character.Humanoid.Health = 0
+				Player.CharacterAdded:Wait()
+				task.wait(1)
+				Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
 			end)
-CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
-CONNECTIONS[8]:Disconnect()
-pcall(function()
-if VARIABLES["Pos"] ~= nil then
-task.wait(1)					
-char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
-end
-    end)
-task.wait(0.5)
-CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-pcall(function()
-VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-CONNECTIONS[8]:Disconnect()
-end)
-end)
-end)
+		elseif TextBox.Text:lower() == "god" then
+			if CONNECTIONS[7] == nil then
+				GodMode = true
+				task.spawn(function()
+					while GodMode == true and task.wait(0.0025) do
+						for _,v in pairs(workspace.Plates:GetChildren()) do
+							if v.Owner.Value ~= Player.Name then
+								for _,Active in pairs(v.ActiveParts:GetChildren()) do
+									if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile")or string.find(Active.Name:lower(),"lamp") then
+										Active:Destroy()
+									end
+								end
+							end
+						end
+					end
+				end)
 
-end
-elseif TextBox.Text:lower() == "ungod" then
-GodMode = false
-pcall(function()
-CONNECTIONS[8]:Disconnect()
-CONNECTIONS[8] = nil
-		end)
-pcall(function()
-CONNECTIONS[7]:Disconnect()
-CONNECTIONS[7] = nil
-end)
+				CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+					pcall(function()
+						VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+
+					end)
+				end)
+				CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
+					CONNECTIONS[8]:Disconnect()
+					pcall(function()
+						if VARIABLES["Pos"] ~= nil then
+							task.wait(1)					
+							char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
+						end
+					end)
+					task.wait(0.5)
+					CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+						pcall(function()
+							VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+							CONNECTIONS[8]:Disconnect()
+						end)
+					end)
+				end)
+
+			end
+		elseif TextBox.Text:lower() == "ungod" then
+			GodMode = false
+			pcall(function()
+				CONNECTIONS[8]:Disconnect()
+				CONNECTIONS[8] = nil
+			end)
+			pcall(function()
+				CONNECTIONS[7]:Disconnect()
+				CONNECTIONS[7] = nil
+			end)
 		end
 		if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 			FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
