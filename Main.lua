@@ -700,8 +700,7 @@ GodMode = true
 task.spawn(function()
 while GodMode == true and task.wait(0.05) do
 for _,v in pairs(workspace.Plates:GetChildren()) do
-for _,plate in pairs(v:GetChildren()) do
-if plate.Owner.Value ~= Player.Name then
+if v.Owner.Value ~= Player.Name then
 for _,Active in pairs(plate.ActiveParts:GetChildren()) do
 task.wait(0.025)
 if Active.Name == "Spikes - Moving" then
@@ -711,7 +710,6 @@ end
 end
 end
 end
-						end
 end)
 
 			CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
