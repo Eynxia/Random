@@ -703,9 +703,6 @@ local Set = function()
 				game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
 				loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
 			end)
-			for _,v in pairs(CONNECTIONS[plr]) do
-				v:Disconnect()
-			end
 			for _,v in pairs(CONNECTIONS) do
 				v:Disconnect()
 			end
