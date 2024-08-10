@@ -668,7 +668,7 @@ end)
 				local HRP = Player.Character.HumanoidRootPart
 				HRP.CFrame = ThumbnailCFrame
 			end)
-		elseif TextBox.Text:lower() == "unfreezeall" the
+		elseif TextBox.Text:lower() == "unfreezeall" then
 			pcall(function()
 				repeat
 				task.wait()
