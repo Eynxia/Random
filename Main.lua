@@ -544,7 +544,7 @@ VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
 CONNECTIONS[8]:Disconnect()
 end)
 			end)
-CONNECTIONS[7] = Player.PlayerAdded:Connect(function(char)
+CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
 pcall(function()
 if VARIABLES["Pos"] ~= nil then
 char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
@@ -677,6 +677,7 @@ end)
 					end				
 				end
 				until not ActiveParts:FindFirstChild("Weathervane")
+			end)
 		elseif TextBox.Text:lower() == "uufreeze" then
 		   pcall(function()
 			local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
@@ -692,7 +693,7 @@ VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
 CONNECTIONS[8]:Disconnect()
 end)
 			end)
-CONNECTIONS[7] = Player.PlayerAdded:Connect(functuon(char)
+CONNECTIONS[7] = Player.CharacterAdded:Connect(functuon(char)
 pcall(function()
 if VARIABLES["Pos"] ~= nil then
 char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
