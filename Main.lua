@@ -694,7 +694,7 @@ VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
 CONNECTIONS[8]:Disconnect()
 end)
 			end)
-CONNECTIONS[7] = Player.CharacterAdded:Connect(functuon(char)
+CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
 pcall(function()
 if VARIABLES["Pos"] ~= nil then
 char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
