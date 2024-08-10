@@ -90,7 +90,6 @@ function Module.CreateMSpike(CF: CFrame, Weld: table)
 end;
 
 function Module.Kill(Player)
-	if (Player:IsA("Player")) then Player = Player.Character.PrimaryPart; end;
 	StampAsset:InvokeServer(
 		41324885,
 		LPlate.CFrame - Vector3.new(0, 9e9, 0),
@@ -101,7 +100,6 @@ function Module.Kill(Player)
 end;
 
 function Module.Fling(Player)
-	if (Player:IsA("Player")) then Player = Player.Character.PrimaryPart; end;
 	StampAsset:InvokeServer(
 		41324885,
 		LPlate.CFrame + Vector3.new(0, 9e9, 0),
@@ -456,7 +454,10 @@ local TakeAction = function(cmdtype,target,distance)
 					if CONNECTIONS[target] == nil then
 						Module.Kill(v.Character.PrimaryPart)
 						CONNECTIONS[target] = v.CharacterAdded:Connect(function(char)
-							Module.Kill(char.PrimaryPart)
+								pcall(function()
+Module.Kill(v.Character.PrimaryPart)
+								end)
+							
 						end)
 					end
 					
@@ -703,9 +704,36 @@ local Set = function()
 				game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
 				loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
 			end)
-			for _,v in pairs(CONNECTIONS) do
-				v:Disconnect()
-			end
+			pcall(function()
+CONNECTIONS[1]:Disconnect()
+			end)
+				pcall(function()
+CONNECTIONS[2]:Disconnect()
+			end)
+				pcall(function()
+CONNECTIONS[3]:Disconnect()
+			end)
+				pcall(function()
+CONNECTIONS[4]:Disconnect()
+			end)
+				pcall(function()
+CONNECTIONS[5]:Disconnect()
+			end)
+				pcall(function()
+CONNECTIONS[6]:Disconnect()
+			end)
+				pcall(function()
+CONNECTIONS[7]:Disconnect()
+			end)
+				pcall(function()
+CONNECTIONS[8]:Disconnect()
+			end)
+				pcall(function()
+CONNECTIONS[9]:Disconnect()
+			end)
+				pcall(function()
+CONNECTIONS[10]:Disconnect()
+			end)
 		elseif TextBox.Text:lower() == "ubervip" then
 			pcall(function()
 				local HRP = Player.Character.HumanoidRootPart
