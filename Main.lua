@@ -464,12 +464,11 @@ local TakeAction = function(cmdtype,target,distance)
 						end
 					end
 				elseif cmdtype == "loopkill" then
-					LoopKill(target)
+					
 					
 				elseif cmdtype == "unloopkill" then
-					UnLoopKill(target)
+					
 				end
-				
 			end
 		end
 	end
