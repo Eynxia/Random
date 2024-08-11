@@ -575,7 +575,7 @@ local Set = function()
 					GodMode = true
 					task.spawn(function()
 						while GodMode == true and task.wait(0.0025) do
-							v in pairs(workspace.Plates:GetChildren()) do
+							for _,v in pairs(workspace.Plates:GetChildren()) do
 								if v.Owner.Value ~= Player then
 									for _,Active in pairs(v.ActiveParts:GetChildren()) do
 										if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
@@ -598,7 +598,7 @@ local Set = function()
 													gh:Destroy()
 													end
 												end	
-											 
+														end
 										     end
 										end
 									end
@@ -802,7 +802,8 @@ local Set = function()
 												   if string.find(gh.Name:lower(),"laser") then
 													gh:Destroy()
 													end
-												end	
+												end
+													end
 										     end
 										end
 									end
