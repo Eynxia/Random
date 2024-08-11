@@ -578,8 +578,14 @@ local Set = function()
 							for _,v in pairs(workspace.Plates:GetChildren()) do
 								if v.Owner.Value ~= Player.Name then
 									for _,Active in pairs(v.ActiveParts:GetChildren()) do
-										if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") or string.find(Active.Name:lower(),"lamp") then
-											Active:Destroy()
+										if string.find(Active.Name:lower(),"spikes") then
+						                                    for _,Spikes in pairs(Active:GetChildren()) do
+                                                                                            if Spikes.Name == "Spikes" then
+  										               Spikes:Destroy()
+											 end
+										     end
+										elseif string.find(Active.Name:lower(),"hostile") then
+											Active:Destroy((
 										end
 									end
 								end
@@ -759,18 +765,23 @@ local Set = function()
 			if CONNECTIONS[7] == nil then
 				GodMode = true
 				task.spawn(function()
-					while task.wait(0.0025) do
-						if GodMode == false then break end
-						for _,v in pairs(workspace.Plates:GetChildren()) do
-							if v.Owner.Value ~= Player.Name then
-								for _,Active in pairs(v.ActiveParts:GetChildren()) do
-									if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile")or string.find(Active.Name:lower(),"lamp") then
-										Active:Destroy()
+					while GodMode == true and task.wait(0.0025) do
+							for _,v in pairs(workspace.Plates:GetChildren()) do
+								if v.Owner.Value ~= Player.Name then
+									for _,Active in pairs(v.ActiveParts:GetChildren()) do
+										if string.find(Active.Name:lower(),"spikes") then
+						                                    for _,Spikes in pairs(Active:GetChildren()) do
+                                                                                            if Spikes.Name == "Spikes" then
+  										               Spikes:Destroy()
+											 end
+										     end
+										elseif string.find(Active.Name:lower(),"hostile") then
+											Active:Destroy((
+										end
 									end
 								end
 							end
 						end
-					end
 				end)
 
 				CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
