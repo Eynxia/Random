@@ -580,8 +580,12 @@ local Set = function()
 									for _,Active in pairs(v.ActiveParts:GetChildren()) do
 										if string.find(Active.Name:lower(),"spikes") then
 						                                    for _,Spikes in pairs(Active:GetChildren()) do
-                                                                                            if Spikes.Name == "Spikes" then
-  										               Spikes:Destroy()
+                                                                                            if Spikes.Name == "Spikes_Simple" then
+  										               for _,gh in pairs(Spikes:GetChildren()) do
+												   if gh.Name == "Spikes" then
+													gh:Destroy()
+													end
+												end
 											 end
 										     end
 										end
@@ -769,8 +773,12 @@ local Set = function()
 									for _,Active in pairs(v.ActiveParts:GetChildren()) do
 										if string.find(Active.Name:lower(),"spikes") then
 						                                    for _,Spikes in pairs(Active:GetChildren()) do
-                                                                                            if Spikes.Name == "Spikes" then
-  										               Spikes:Destroy()
+                                                                                            if Spikes.Name == "Spikes_Simple" then
+  										               for _,gh in pairs(Spikes:GetChildren()) do
+												   if gh.Name == "Spikes" then
+													gh:Destroy()
+													end
+												end
 											 end
 										     end
 										end
