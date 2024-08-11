@@ -40,6 +40,15 @@ for _, Plate in pairs(Plates:GetChildren()) do
 	end;
 end;
 
+Players.PlayerRemoving:Connect(function(target)
+	if CONNECTIONS[target] then
+		pcall(function()
+			print("Removed: "..target..", from loopkill")
+			CONNECTIONS[target]:Disconnect()
+		end)
+	end
+end)
+
 CONNECTIONS[9] = ActiveParts.ChildAdded:Connect(function(Block)
 	if (Block.Name == "Spikes - Moving") then
 		local MSpike = Block:WaitForChild("Spike_Retracting"):WaitForChild("Spikes");
@@ -52,7 +61,6 @@ CONNECTIONS[9] = ActiveParts.ChildAdded:Connect(function(Block)
 	elseif (Block.Name == "Weathervane") then
 		if On == true then
 			On = false
-			print("addedtagrq")
 			Block:AddTag(VARIABLES["Target"])
 		end
 	end;
@@ -152,13 +160,12 @@ function Module.DestroyAura(Radius: number)
 	Blacklist = nil;
 end;
 
+
+--// Creating The Gui
 local Player = Players.LocalPlayer
 local UserID = Player.UserId
 
 local r,c = Players:GetUserThumbnailAsync(UserID,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size420x420)
-
-
-
 
 local UI_1NormalPos = UDim2.new(0.046, 0,0.203, 0)
 local UI_2NormalPos = UDim2.new(0.6, 0,0.927, 0)
@@ -316,7 +323,7 @@ UI_ELEMENTS["UI_15"].Color = ColorSequence.new({
 
 UI_ELEMENTS["UI_15"].Rotation = 90
 
-UI_ELEMENTS["UI_4"].Parent = game:GetService("CoreGui") -- for testing
+UI_ELEMENTS["UI_4"].Parent = game:GetService("CoreGui")
 UI_ELEMENTS["UI_9"].Parent = UI_ELEMENTS["UI_4"]
 UI_ELEMENTS["UI_13"].Parent = UI_ELEMENTS["UI_9"]
 UI_ELEMENTS["UI_10"].Parent = UI_ELEMENTS["UI_9"]
@@ -337,7 +344,7 @@ UI_ELEMENTS["UI_19"].Parent = UI_ELEMENTS["UI_9"]
 UI_ELEMENTS["UI_20"].Parent = UI_ELEMENTS["UI_19"]
 UI_ELEMENTS["UI_22"].Parent = UI_ELEMENTS["UI_9"]
 
-
+--// Setting Up Animations
 local LOADEDANIMS = {}
 
 local Animations = function()
@@ -376,6 +383,7 @@ for _,v in pairs(LOADEDANIMS) do
 	v:Play()
 end
 
+--// This function finds the closest Player.Name from a string
 local FindClosestName = function(name,blacklistedname,cmdtype)
 	local MatchingNames = {}
 	local PlayersInGame = #Players:GetPlayers()
@@ -421,6 +429,43 @@ local FindClosestName = function(name,blacklistedname,cmdtype)
 	end
 end
 
+--// This is pretty straight forward, this function loopkills a player
+local LoopKill = function(target)
+	if target then
+		if Players:FindFirstChild(target) then
+			if CONNECTIONS[target] == nil then
+				local targetPlr = Players:FindFirstChild(target)
+				if targetPlr:IsA("Player") then
+					Module.Kill(targetPlr.Character.PrimaryPart)
+					CONNECTIONS[target] = targetPlr.CharacterAdded:Connect(function(Char)
+						if Char:FindFirstChild("HumanoidRootPart") then
+							task.wait(0.35)
+								Module.Kill(Char.PrimaryPart)
+							
+						end
+					end)
+				end
+			end
+		end
+	end
+end
+
+--// This is pretty straight forward, this function removes loopkill from a player
+local UnLoopKill = function(target)
+	if target then
+		if Players:FindFirstChild(target) then
+			if CONNECTIONS[target] ~= nil then
+				pcall(function()
+					CONNECTIONS[target]:Disconnect()
+					CONNECTIONS[target] = nil
+				end)
+				
+			end
+		end
+	end
+end
+
+--// This function fires a function from a given string, {cmdtype}.
 local TakeAction = function(cmdtype,target,distance)
 	if target and cmdtype then
 
@@ -453,28 +498,19 @@ local TakeAction = function(cmdtype,target,distance)
 						end
 					end
 				elseif cmdtype == "loopkill" then
-					if CONNECTIONS[target] == nil then
-						Module.Kill(v.Character.PrimaryPart)
-						CONNECTIONS[target] = v.CharacterAdded:Connect(function(char)
-							Module.Kill(char.PrimaryPart)
-						end)
-					end
-					
+					LoopKill(target)
+
 				elseif cmdtype == "unloopkill" then
-					pcall(function()
-						if CONNECTIONS[target] then
-							CONNECTIONS[target]:Disconnect()
-							CONNECTIONS[target] = nil
-						end
-					end)
-				
+					UnLoopKill(target)
+
 				end
-				
+
 			end
 		end
 	end
 end
 
+--// This is pretty straight forward, this function sets up all the important functions.
 local Set = function()
 
 	VARIABLES["Target"] = nil
@@ -521,6 +557,9 @@ local Set = function()
 					local BasePart = v.Character.PrimaryPart
 					if BasePart then
 						if v.Name ~= Player.Name then
+							task.wait(0.05)
+							VARIABLES["Target"] = v.Name
+							On = true
 							Module.Freeze(BasePart)
 						end
 					end
@@ -568,7 +607,7 @@ local Set = function()
 					Player.Character.Humanoid.Health = 0
 					Player.CharacterAdded:Wait()
 					task.wait(1)
-					Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeh
+					Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
 				end)
 			elseif Args[1] == "god" then
 				if CONNECTIONS[7] == nil then
@@ -579,21 +618,27 @@ local Set = function()
 								if v.Owner.Value ~= Player then
 									for _,Active in pairs(v.ActiveParts:GetChildren()) do
 										if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
-						                                    for _,Spikes in pairs(Active:GetChildren()) do
-                                                                                            if Spikes.Name == "Spikes_Simple" then
-  										               for _,gh in pairs(Spikes:GetChildren()) do
-												   if gh.Name == "Spikes" then
-													gh:Destroy()
+											for _,Spikes in pairs(Active:GetChildren()) do
+												if Spikes.Name == "Spikes_Simple" then
+													for _,gh in pairs(Spikes:GetChildren()) do
+														if gh.Name == "Spikes" then
+															gh:Destroy()
+														end
 													end
-												end
-											       elseif Spikes.Name == "Spike_Retracting" then
-												for _,gh in pairs(Spikes:GetChildren()) do
-												   if gh.Name == "Spikes" then
-													gh:Destroy()
-													end
+												elseif Spikes.Name == "Spike_Retracting" then
+													for _,gh in pairs(Spikes:GetChildren()) do
+														if gh.Name == "Spikes" then
+															gh:Destroy()
+														end
+													end	
+												elseif string.find(Spikes.Name:lower(),"friend") then
+													for _,gh in pairs(Spikes:GetChildren()) do
+														if string.find(gh.Name:lower(),"laser") then
+															gh:Destroy()
+														end
+													end	
 												end	
-											end	
-										     end
+											end
 										end
 									end
 								end
@@ -635,6 +680,7 @@ local Set = function()
 					CONNECTIONS[7] = nil
 				end)
 			end
+			--// This i don't even know what to call determines what command that is going to be executed. VARIABLES["Type"]
 			if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
 				FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
 				if 	VARIABLES["Type"] == "Kill" then
@@ -708,19 +754,12 @@ local Set = function()
 				local BasePart = v.Character.PrimaryPart
 				if BasePart then
 					if v.Name ~= Player.Name then
+						task.wait(0.05)
+						VARIABLES["Target"] = v.Name
+						On = true
 						Module.Freeze(BasePart)
 					end
 				end
-			end
-		elseif TextBox.Text == "reload" then
-			pcall(function()
-				game:GetService("CoreGui"):FindFirstChild("GUI"):Destroy()
-				loadstring(game:HttpGet("https://raw.githubusercontent.com/Eynxia/Test/main/Main.lua"))()
-			end)
-			for _,v in pairs(CONNECTIONS) do
-				v:Disconnect()
-
-
 			end
 		elseif TextBox.Text:lower() == "ubervip" then
 			pcall(function()
@@ -773,31 +812,65 @@ local Set = function()
 			if CONNECTIONS[7] == nil then
 				GodMode = true
 				task.spawn(function()
-					while GodMode == true and task.wait(0.0025) do
-							for _,v in pairs(workspace.Plates:GetChildren()) do
-								if v.Owner.Value ~= Player then
-									for _,Active in pairs(v.ActiveParts:GetChildren()) do
-										if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
-						                                    for _,Spikes in pairs(Active:GetChildren()) do
-                                                                                            if Spikes.Name == "Spikes_Simple" then
-  										               for _,gh in pairs(Spikes:GetChildren()) do
-												   if gh.Name == "Spikes" then
-													gh:Destroy()
-													end
+					if CONNECTIONS[7] == nil then
+						GodMode = true
+						task.spawn(function()
+							while GodMode == true and task.wait(0.0025) do
+								for _,v in pairs(workspace.Plates:GetChildren()) do
+									if v.Owner.Value ~= Player then
+										for _,Active in pairs(v.ActiveParts:GetChildren()) do
+											if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
+												for _,Spikes in pairs(Active:GetChildren()) do
+													if Spikes.Name == "Spikes_Simple" then
+														for _,gh in pairs(Spikes:GetChildren()) do
+															if gh.Name == "Spikes" then
+																gh:Destroy()
+															end
+														end
+													elseif Spikes.Name == "Spike_Retracting" then
+														for _,gh in pairs(Spikes:GetChildren()) do
+															if gh.Name == "Spikes" then
+																gh:Destroy()
+															end
+														end	
+													elseif string.find(Spikes.Name:lower(),"friend") then
+														for _,gh in pairs(Spikes:GetChildren()) do
+															if string.find(gh.Name:lower(),"laser") then
+																gh:Destroy()
+															end
+														end	
+													end	
 												end
-											       elseif Spikes.Name == "Spike_Retracting" then
-												for _,gh in pairs(Spikes:GetChildren()) do
-												   if gh.Name == "Spikes" then
-													gh:Destroy()
-													end
-												end	
-											end	
-										     end
+											end
 										end
 									end
 								end
 							end
-						end
+						end)
+						CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+							pcall(function()
+								VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+
+							end)
+						end)
+						CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
+							CONNECTIONS[8]:Disconnect()
+							pcall(function()
+								if VARIABLES["Pos"] ~= nil then
+									task.wait(1)						
+									char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
+								end
+							end)
+							task.wait(0.5)
+							CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+								pcall(function()
+									VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+									CONNECTIONS[8]:Disconnect()
+								end)
+							end)
+						end)
+
+					end
 				end)
 
 				CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
@@ -846,6 +919,12 @@ local Set = function()
 			elseif VARIABLES["Type"] == "unfreeze" then
 				TakeAction("unfreeze",VARIABLES["Target"])
 				TextBox.Text = ""
+			elseif VARIABLES["Type"] == "loopkill" then
+				TakeAction("loopkill",VARIABLES["Target"])
+				TextBox.Text = ""
+			elseif VARIABLES["Type"] == "unloopkill" then
+				TakeAction("unloopkill",VARIABLES["Target"])
+				TextBox.Text = ""
 			end
 		end
 
@@ -866,6 +945,7 @@ end
 TweenService:Create(UI_ELEMENTS["UI_16"],TweenInfo.new(1.5),{Position = UI_16NormalPos}):Play()
 TweenService:Create(UI_ELEMENTS["UI_18"],TweenInfo.new(1.5),{Position = UI_18NormalPos}):Play()
 
+--// This chunk of code makes the gui draggable.
 local UserInputService = game:GetService("UserInputService")
 
 local gui = UI_ELEMENTS["UI_9"]
