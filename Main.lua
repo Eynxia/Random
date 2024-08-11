@@ -591,12 +591,6 @@ local Set = function()
 												   if gh.Name == "Spikes" then
 													gh:Destroy()
 													end
-												end
-												elseif string.find(Spikes.Name:lower(),"hostile") then
-												for _,gh in pairs(Spikes:GetChildren()) do
-												   if string.find(gh.Name:lower(),"laser") then
-													gh:Destroy()
-													end
 												end	
 											end	
 										     end
@@ -796,14 +790,8 @@ local Set = function()
 												   if gh.Name == "Spikes" then
 													gh:Destroy()
 													end
-												end
-												elseif string.find(Spikes.Name:lower(),"hostile") then
-												for _,gh in pairs(Spikes:GetChildren()) do
-												   if string.find(gh.Name:lower(),"laser") then
-													gh:Destroy()
-													end
-												end
-													end	
+												end	
+											end	
 										     end
 										end
 									end
