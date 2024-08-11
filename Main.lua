@@ -598,7 +598,7 @@ local Set = function()
 													gh:Destroy()
 													end
 												end	
-														end
+														
 										     end
 										end
 									end
@@ -803,7 +803,7 @@ local Set = function()
 													gh:Destroy()
 													end
 												end
-													end
+													
 										     end
 										end
 									end
