@@ -438,11 +438,12 @@ local LoopKill = function(target)
 				if targetPlr:IsA("Player") then
 					Module.Kill(targetPlr.Character.PrimaryPart)
 					CONNECTIONS[target] = targetPlr.CharacterAdded:Connect(function(Char)
-						if Char:FindFirstChild("HumanoidRootPart") then
-							task.wait(1)
+						
+							task.wait(0.5)
+							
 								Module.Kill(Char.PrimaryPart)
 							
-						end
+						
 					end)
 				end
 			end
