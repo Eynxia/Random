@@ -586,6 +586,12 @@ local Set = function()
 													gh:Destroy()
 													end
 												end
+											       elseif Spikes.Name == "Spikes_Retracting" then
+												for _,gh in pairs(Spikes:GetChildren()) do
+												   if gh.Name == "Spikes" then
+													gh:Destroy()
+													end
+												end	
 											 end
 										     end
 										end
@@ -779,13 +785,19 @@ local Set = function()
 													gh:Destroy()
 													end
 												end
+											       elseif Spikes.Name == "Spikes_Retracting" then
+												for _,gh in pairs(Spikes:GetChildren()) do
+												   if gh.Name == "Spikes" then
+													gh:Destroy()
+													end
+												end	
 											 end
 										     end
 										end
 									end
 								end
 							end
-						end
+							end
 				end)
 
 				CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
