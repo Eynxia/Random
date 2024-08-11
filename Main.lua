@@ -576,7 +576,7 @@ local Set = function()
 					task.spawn(function()
 						while GodMode == true and task.wait(0.0025) do
 							for _,v in pairs(workspace.Plates:GetChildren()) do
-								if v.Owner.Value ~= Player.Name then
+								if v.Owner.Value ~= Player then
 									for _,Active in pairs(v.ActiveParts:GetChildren()) do
 										if string.find(Active.Name:lower(),"spikes") then
 						                                    for _,Spikes in pairs(Active:GetChildren()) do
@@ -586,7 +586,7 @@ local Set = function()
 													gh:Destroy()
 													end
 												end
-											       elseif Spikes.Name == "Spikes_Retracting" then
+											       elseif Spikes.Name == "Spike_Retracting" then
 												for _,gh in pairs(Spikes:GetChildren()) do
 												   if gh.Name == "Spikes" then
 													gh:Destroy()
@@ -775,7 +775,7 @@ local Set = function()
 				task.spawn(function()
 					while GodMode == true and task.wait(0.0025) do
 							for _,v in pairs(workspace.Plates:GetChildren()) do
-								if v.Owner.Value ~= Player.Name then
+								if v.Owner.Value ~= Player then
 									for _,Active in pairs(v.ActiveParts:GetChildren()) do
 										if string.find(Active.Name:lower(),"spikes") then
 						                                    for _,Spikes in pairs(Active:GetChildren()) do
@@ -785,7 +785,7 @@ local Set = function()
 													gh:Destroy()
 													end
 												end
-											       elseif Spikes.Name == "Spikes_Retracting" then
+											       elseif Spikes.Name == "Spike_Retracting" then
 												for _,gh in pairs(Spikes:GetChildren()) do
 												   if gh.Name == "Spikes" then
 													gh:Destroy()
