@@ -585,7 +585,7 @@ local Set = function()
 											 end
 										     end
 										elseif string.find(Active.Name:lower(),"hostile") then
-											Active:Destroy((
+											Active:Destroy()
 										end
 									end
 								end
@@ -776,7 +776,7 @@ local Set = function()
 											 end
 										     end
 										elseif string.find(Active.Name:lower(),"hostile") then
-											Active:Destroy((
+											Active:Destroy()
 										end
 									end
 								end
