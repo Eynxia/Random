@@ -568,7 +568,7 @@ local Set = function()
 					Player.Character.Humanoid.Health = 0
 					Player.CharacterAdded:Wait()
 					task.wait(1)
-					Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
+					Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeh
 				end)
 			elseif Args[1] == "god" then
 				if CONNECTIONS[7] == nil then
@@ -584,8 +584,6 @@ local Set = function()
   										               Spikes:Destroy()
 											 end
 										     end
-										elseif string.find(Active.Name:lower(),"hostile") then
-											Active:Destroy()
 										end
 									end
 								end
@@ -775,8 +773,6 @@ local Set = function()
   										               Spikes:Destroy()
 											 end
 										     end
-										elseif string.find(Active.Name:lower(),"hostile") then
-											Active:Destroy()
 										end
 									end
 								end
