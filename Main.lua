@@ -575,10 +575,10 @@ local Set = function()
 					GodMode = true
 					task.spawn(function()
 						while GodMode == true and task.wait(0.0025) do
-							for _,v in pairs(workspace.Plates:GetChildren()) do
+							v in pairs(workspace.Plates:GetChildren()) do
 								if v.Owner.Value ~= Player then
 									for _,Active in pairs(v.ActiveParts:GetChildren()) do
-										if string.find(Active.Name:lower(),"spikes") then
+										if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
 						                                    for _,Spikes in pairs(Active:GetChildren()) do
                                                                                             if Spikes.Name == "Spikes_Simple" then
   										               for _,gh in pairs(Spikes:GetChildren()) do
@@ -589,6 +589,12 @@ local Set = function()
 											       elseif Spikes.Name == "Spike_Retracting" then
 												for _,gh in pairs(Spikes:GetChildren()) do
 												   if gh.Name == "Spikes" then
+													gh:Destroy()
+													end
+												end
+												elseif string.find(Spikes.Name:lower(),"hostile") then
+												for _,gh in pairs(Spikes:GetChildren()) do
+												   if string.find(gh.Name:lower(),"laser") then
 													gh:Destroy()
 													end
 												end	
@@ -777,7 +783,7 @@ local Set = function()
 							for _,v in pairs(workspace.Plates:GetChildren()) do
 								if v.Owner.Value ~= Player then
 									for _,Active in pairs(v.ActiveParts:GetChildren()) do
-										if string.find(Active.Name:lower(),"spikes") then
+										if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
 						                                    for _,Spikes in pairs(Active:GetChildren()) do
                                                                                             if Spikes.Name == "Spikes_Simple" then
   										               for _,gh in pairs(Spikes:GetChildren()) do
@@ -790,6 +796,12 @@ local Set = function()
 												   if gh.Name == "Spikes" then
 													gh:Destroy()
 													end
+												end
+												elseif string.find(Spikes.Name:lower(),"hostile") then
+												for _,gh in pairs(Spikes:GetChildren()) do
+												   if string.find(gh.Name:lower(),"laser") then
+													gh:Destroy()
+													end
 												end	
 											 end
 										     end
@@ -797,7 +809,7 @@ local Set = function()
 									end
 								end
 							end
-							end
+						end
 				end)
 
 				CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
