@@ -41,12 +41,7 @@ for _, Plate in pairs(Plates:GetChildren()) do
 end;
 
 Players.PlayerRemoving:Connect(function(target)
-	if CONNECTIONS[target] then
-		pcall(function()
-			print("Removed: "..target..", from loopkill")
-			CONNECTIONS[target]:Disconnect()
-		end)
-	end
+	UnLoopKill(target)
 end)
 
 CONNECTIONS[9] = ActiveParts.ChildAdded:Connect(function(Block)
