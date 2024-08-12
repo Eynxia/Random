@@ -40,9 +40,7 @@ for _, Plate in pairs(Plates:GetChildren()) do
 	end;
 end;
 
-Players.PlayerRemoving:Connect(function(target)
-	UnLoopKill(target)
-end)
+
 
 CONNECTIONS[9] = ActiveParts.ChildAdded:Connect(function(Block)
 	if (Block.Name == "Spikes - Moving") then
@@ -155,6 +153,55 @@ function Module.DestroyAura(Radius: number)
 	Blacklist = nil;
 end;
 
+local CDVAL = 0.125
+local CD = false
+local CD2 = false
+
+local CooldownForFreezeAura = function(plr)
+	
+	if CD == false then
+		CD = true
+		Module.Freeze(plr.Character.PrimaryPart)
+	end
+	if CD2 == false then
+		CD2 = true
+		wait(CDVAL)
+		CD = false
+	end
+end
+
+local FreezeAura;
+function Module.FreezeAura(Radius: number)
+	if (FreezeAura) then FreezeAura:Destroy(); end;
+	Radius = Vector3.new(Radius, Radius, Radius);
+	local Hrp = LPlayer.Character.PrimaryPart;
+	local Weld = Instance.new("Weld", Hrp);
+	FreezeAura = Instance.new("Part", Hrp);
+	FreezeAura.Size = Radius;
+	FreezeAura.Massless = true;
+	FreezeAura.Transparency = 0;
+	FreezeAura.Material = Enum.Material.ForceField;
+	FreezeAura.Color = Color3.new(0.439216, 1, 1);
+	FreezeAura.CanCollide = false;
+	FreezeAura.Shape = Enum.PartType.Ball;
+	FreezeAura.Touched:Connect(function(Part)
+		if Part.Parent:FindFirstChild("Humanoid") then
+			if Players:FindFirstChild(Part.Parent.Name) then
+				local Player = Players:GetPlayerFromCharacter(Part.Parent)
+				coroutine.wrap(function()
+					CooldownForFreezeAura(Player)
+				end)()
+					
+					
+			end
+			
+			
+		end
+		
+	end);
+	Weld.Part0 = Hrp;
+	Weld.Part1 = FreezeAura;
+end;
 
 --// Creating The Gui
 local Player = Players.LocalPlayer
@@ -433,12 +480,12 @@ local LoopKill = function(target)
 				if targetPlr:IsA("Player") then
 					Module.Kill(targetPlr.Character.PrimaryPart)
 					CONNECTIONS[target] = targetPlr.CharacterAdded:Connect(function(Char)
-						
-							task.wait(0.5)
-							
-								Module.Kill(Char.PrimaryPart)
-							
-						
+
+						task.wait(0.5)
+
+						Module.Kill(Char.PrimaryPart)
+
+
 					end)
 				end
 			end
@@ -455,12 +502,15 @@ local UnLoopKill = function(target)
 					CONNECTIONS[target]:Disconnect()
 					CONNECTIONS[target] = nil
 				end)
-				
+
 			end
 		end
 	end
 end
 
+Players.PlayerRemoving:Connect(function(target)
+	UnLoopKill(target)
+end)
 --// This function fires a function from a given string, {cmdtype}.
 local TakeAction = function(cmdtype,target,distance)
 	if target and cmdtype then
@@ -729,9 +779,20 @@ local Set = function()
 
 				Module.DestroyAura(Target)
 			end
+		elseif #TextBox.Text > 2 and Args[1] == "freeezeaura" then
+			if tonumber(Args[2]) then
+				local Target = Args[2]
+
+				Module.FreezeAura(Target)
+			end
 
 
-		elseif TextBox.Text == "uncircle" then
+
+		elseif TextBox.Text:lower() == "uncircle" then
+			pcall(function()
+				Aura:Destroy()
+			end)
+		elseif TextBox.Text:lower() == "unfreezeaura" then
 			pcall(function()
 				Aura:Destroy()
 			end)
