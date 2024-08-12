@@ -161,6 +161,7 @@ local CooldownForFreezeAura = function(plr)
 
 	if CD == false then
 		CD = true
+		On = true
 		Module.Freeze(plr.Character.PrimaryPart)
 	end
 	if CD2 == false then
