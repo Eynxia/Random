@@ -153,12 +153,12 @@ function Module.DestroyAura(Radius: number)
 	Blacklist = nil;
 end;
 
-local CDVAL = 0.125
+local CDVAL = 0.35
 local CD = false
 local CD2 = false
 
 local CooldownForFreezeAura = function(plr)
-	
+
 	if CD == false then
 		CD = true
 		Module.Freeze(plr.Character.PrimaryPart)
@@ -167,6 +167,7 @@ local CooldownForFreezeAura = function(plr)
 		CD2 = true
 		wait(CDVAL)
 		CD = false
+		CD2 = false
 	end
 end
 
@@ -191,16 +192,67 @@ function Module.FreezeAura(Radius: number)
 				coroutine.wrap(function()
 					CooldownForFreezeAura(Player)
 				end)()
-					
-					
+
+
 			end
-			
-			
+
+
 		end
-		
+
 	end);
 	Weld.Part0 = Hrp;
 	Weld.Part1 = FreezeAura;
+end;
+
+local CDVAL2 = 1
+local CD4 = false
+local CD3 = false
+
+local CooldownForKillAura = function(plr)
+
+	if CD4 == false then
+		CD4 = true
+		Module.Kill(plr.Character.PrimaryPart)
+	end
+	if CD2 == false then
+		CD4 = true
+		wait(CDVAL2)
+		CD4 = false
+		CD3 = false
+	end
+end
+
+local KillAura;
+function Module.KillAura(Radius: number)
+	if (KillAura) then KillAura:Destroy(); end;
+	Radius = Vector3.new(Radius, Radius, Radius);
+	local Hrp = LPlayer.Character.PrimaryPart;
+	local Weld = Instance.new("Weld", Hrp);
+	KillAura = Instance.new("Part", Hrp);
+	KillAura.Size = Radius;
+	KillAura.Massless = true;
+	KillAura.Transparency = 0;
+	KillAura.Material = Enum.Material.ForceField;
+	KillAura.Color = Color3.new(1, 0.690196, 0.690196);
+	KillAura.CanCollide = false;
+	KillAura.Shape = Enum.PartType.Ball;
+	KillAura.Touched:Connect(function(Part)
+		if Part.Parent:FindFirstChild("Humanoid") then
+			if Players:FindFirstChild(Part.Parent.Name) then
+				local Player = Players:GetPlayerFromCharacter(Part.Parent)
+				coroutine.wrap(function()
+					CooldownForKillAura(Player)
+				end)()
+
+
+			end
+
+
+		end
+
+	end);
+	Weld.Part0 = Hrp;
+	Weld.Part1 = KillAura;
 end;
 
 --// Creating The Gui
@@ -537,7 +589,7 @@ local TakeAction = function(cmdtype,target,distance)
 										Sum += 1
 										task.wait()
 										Module.Delete(v)
-									until Sum > 5
+									until Sum > 200
 
 								end
 							end
@@ -624,6 +676,22 @@ local Set = function()
 					local HRP = Player.Character.HumanoidRootPart
 					HRP.CFrame = VipCFrame
 				end)
+			elseif Args[1] == "freezeaura" then
+				if tonumber(Args[2]) then
+					local Target = Args[2]
+
+					Module.FreezeAura(Target)
+				end
+			elseif Args[1] == "killaura" then
+				if tonumber(Args[2]) then
+					local Target = Args[2]
+
+					Module.FreezeAura(Target)
+				end
+			elseif Args[1] == "unkillaura" then
+				KillAura:Destroy()
+			elseif Args[1] == "unfreezeaura" then
+				FreezeAura:Destroy()
 			elseif Args[1] == "megavip" then
 				pcall(function()
 					local HRP = Player.Character.HumanoidRootPart
@@ -779,15 +847,18 @@ local Set = function()
 
 				Module.DestroyAura(Target)
 			end
-		elseif #TextBox.Text > 2 and Args[1] == "freeezeaura" then
+		elseif #TextBox.Text > 2 and Args[1] == "freezeaura" then
 			if tonumber(Args[2]) then
 				local Target = Args[2]
 
 				Module.FreezeAura(Target)
 			end
+		elseif #TextBox.Text > 2 and Args[1] == "killaura" then
+			if tonumber(Args[2]) then
+				local Target = Args[2]
 
-
-
+				Module.KillAura(Target)
+			end
 		elseif TextBox.Text:lower() == "uncircle" then
 			pcall(function()
 				Aura:Destroy()
@@ -795,6 +866,10 @@ local Set = function()
 		elseif TextBox.Text:lower() == "unfreezeaura" then
 			pcall(function()
 				Aura:Destroy()
+			end)
+		elseif TextBox.Text:lower() == "unkillaura" then
+			pcall(function()
+				KillAura:Destroy()
 			end)
 		elseif TextBox.Text == "killall" then
 			for _,v in pairs(Players:GetPlayers()) do
