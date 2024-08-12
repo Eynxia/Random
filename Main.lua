@@ -204,7 +204,7 @@ function Module.FreezeAura(Radius: number)
 	Weld.Part1 = FreezeAura;
 end;
 
-local CDVAL2 = 1
+local CDVAL2 = 0.25
 local CD4 = false
 local CD3 = false
 
@@ -686,7 +686,7 @@ local Set = function()
 				if tonumber(Args[2]) then
 					local Target = Args[2]
 
-					Module.FreezeAura(Target)
+					Module.KillAura(Target)
 				end
 			elseif Args[1] == "unkillaura" then
 				KillAura:Destroy()
