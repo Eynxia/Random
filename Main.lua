@@ -61,7 +61,7 @@ end);
 
 local Module = {};
 
-function Module.Freeze(Part: Part
+function Module.Freeze(Part: Part)
 		pcall(function()
 if (typeof(Part) == "Instance") then Part = {Part}; end;
 	StampAsset:InvokeServer(
