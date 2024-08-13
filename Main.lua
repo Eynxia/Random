@@ -61,8 +61,9 @@ end);
 
 local Module = {};
 
-function Module.Freeze(Part: Part)
-	if (typeof(Part) == "Instance") then Part = {Part}; end;
+function Module.Freeze(Part: Part
+		pcall(function()
+if (typeof(Part) == "Instance") then Part = {Part}; end;
 	StampAsset:InvokeServer(
 		56447956,
 		LPlate.CFrame - Vector3.new(0, 5, 0),
@@ -70,6 +71,8 @@ function Module.Freeze(Part: Part)
 		Part,
 		0
 	);
+		end)
+	
 end;
 
 function Module.Weld(...)
@@ -91,7 +94,8 @@ function Module.CreateMSpike(CF: CFrame, Weld: table)
 end;
 
 function Module.Kill(Player)
-	if (Player:IsA("Player")) then Player = Player.Character.PrimaryPart; end;
+	pcall(function()
+if (Player:IsA("Player")) then Player = Player.Character.PrimaryPart; end;
 	StampAsset:InvokeServer(
 		41324885,
 		LPlate.CFrame - Vector3.new(0, 9e9, 0),
@@ -99,6 +103,8 @@ function Module.Kill(Player)
 		{Player},
 		0
 	);
+	end)
+	
 end;
 
 function Module.Fling(Player)
