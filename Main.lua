@@ -782,6 +782,15 @@ local Set = function()
 								fling.P = math.huge
 								game:GetService("Debris"):AddItem(fling,5)
 							end
+							if Active.Name == "Grass - Corner" or Active.Name == "Mud - Corner" or Active.Name == "Stone - Corner" or Active.Name == "Ice - Corner" or Active.Name == "Wood - Corner" then
+								local fling = Instance.new("BodyAngularVelocity")
+								fling.Name = "f"
+								fling.Parent = Active.GrassWedge.Wedge
+								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+								fling.P = math.huge
+								game:GetService("Debris"):AddItem(fling,5)
+							end
 							if Active.Name == "Grass - Wedge" or Active.Name == "Mud - Wedge" or Active.Name == "Stone - Wedge" or Active.Name == "Stone - Wedge" or Active.Name == "Ice - Wedge" or Active.Name == "Wood - Wedge"  then
 								local fling = Instance.new("BodyAngularVelocity")
 								fling.Name = "f"
