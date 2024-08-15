@@ -753,13 +753,29 @@ local Set = function()
 										fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
 										fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 										fling.P = math.huge
-											game:GetService("Debris"):AddItem(fling,2)
+										game:GetService("Debris"):AddItem(fling,2)
+
 										break
 
 
 									end
-								end
+								elseif part:IsA("Model") then
+									for _,pr in pairs(part:GetChildren()) do
+										if pr:IsA("BasePart") then
+											if pr.Anchored == false then
+												local fling = Instance.new("BodyAngularVelocity")
+												fling.Name = "f"
+												fling.Parent = pr
+												fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+												fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+												fling.P = math.huge
+												game:GetService("Debris"):AddItem(fling,2)
+												break
+											end
+										end
+									end
 
+								end
 							end
 						end
 					end
@@ -1015,20 +1031,35 @@ local Set = function()
 									fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
 									fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 									fling.P = math.huge
-game:GetService("Debris"):AddItem(fling,2)
-										
+									game:GetService("Debris"):AddItem(fling,2)
+
 									break
 
 
 								end
-							end
+							elseif part:IsA("Model") then
+								for _,pr in pairs(part:GetChildren()) do
+									if pr:IsA("BasePart") then
+										if pr.Anchored == false then
+											local fling = Instance.new("BodyAngularVelocity")
+											fling.Name = "f"
+											fling.Parent = pr
+											fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+											fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+											fling.P = math.huge
+											game:GetService("Debris"):AddItem(fling,2)
+											break
+										end
+									end
+								end
 
+							end
 						end
 					end
 				end
 			end)
-				
-		
+
+
 
 		elseif TextBox.Text:lower() == "god" then
 			if CONNECTIONS[7] == nil then
