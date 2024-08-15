@@ -998,18 +998,20 @@ print(Prefix)
 				for _,v in pairs(workspace:GetDescendants()) do
 					if v:IsA("BasePart") then
 						if v.Anchored == false then
-							for _,plate in pairs(Plates) do
-								if v:IsDescendantOf(plate) then
-									local Fling = Instance.new("BodyAngularVelocity")
+							if not v:IsDescendantOf(Player.Character) then
+                                                                        local Fling = Instance.new("BodyAngularVelocity")
 									Fling.Name = "Fling"
 									Fling.Parent = v
 									Fling.AngularVelocity = Vector3.new(math.huge,math.huge,math.huge)
 									Fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 									Fling.P = math.huge
 
-									game:GetService("Debris"):AddItem(Fling,2)
-								end
-							end
+									game:GetService("Debris"):AddItem(Fling,10)
+									end
+									
+
+									
+							
 
 						end
 					end
