@@ -1003,7 +1003,7 @@ print(Prefix)
 									local Fling = Instance.new("BodyAngularVelocity")
 									Fling.Name = "Fling"
 									Fling.Parent = v
-									Fling.AngularVelocity = Vector3.new(99999,99999,99999)
+									Fling.AngularVelocity = Vector3.new(math.huge,math.huge,math.huge)
 									Fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 									Fling.P = math.huge
 
