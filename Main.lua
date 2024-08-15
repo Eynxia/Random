@@ -680,12 +680,10 @@ local Set = function()
 				VARIABLES["Type"] = "unfreeze"
 			elseif Args[1] == "prefix" then
 				local Target = Args[2]
-				if not tonumber(Target) then
-					if #Target == 1 then
-						Prefix = Target
-					end
-				  
-				end
+	
+				Prefix = Target
+
+
 			elseif Args[1] == "ubervip" then
 				pcall(function()
 					local HRP = Player.Character.HumanoidRootPart
@@ -902,14 +900,13 @@ local Set = function()
 				Module.KillAura(Target)
 			end
 		elseif #TextBox.Text > 2 and Args[1] == "prefix" then
-			if not tonumber(Args[2]) then
+
 				local Target = Args[2]
-				if #Target == 1 then
+
 				
 					Prefix = Target
-				end
-				
-			end
+
+
 		elseif TextBox.Text:lower() == "uncircle" then
 			pcall(function()
 				Aura:Destroy()
