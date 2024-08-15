@@ -748,11 +748,12 @@ local Set = function()
 
 
 										local fling = Instance.new("BodyAngularVelocity")
-										fling.Name = "BAM BAM AHAHHAHAHHAHAH"
+										fling.Name = "f"
 										fling.Parent = part
 										fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
 										fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 										fling.P = math.huge
+											game:GetService("Debris"):AddItem(fling,2)
 										break
 
 
@@ -1009,11 +1010,13 @@ local Set = function()
 
 
 									local fling = Instance.new("BodyAngularVelocity")
-									fling.Name = "BAM BAM AHAHHAHAHHAHAH"
+									fling.Name = "f"
 									fling.Parent = part
 									fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
 									fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 									fling.P = math.huge
+game:GetService("Debris"):AddItem(fling,2)
+										
 									break
 
 
