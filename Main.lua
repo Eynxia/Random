@@ -737,7 +737,7 @@ local Set = function()
 				end)
 			elseif Args[1] == "dunparts" then
 
-				pcall(function()
+				
 					for _,v in pairs(workspace.Plates:GetChildren()) do
 
 						for _,Active in pairs(v.ActiveParts:GetChildren()) do
@@ -938,7 +938,7 @@ local Set = function()
 						end
 
 					end
-				end)
+				
 			elseif Args[1] == "uufreeze" then
 				pcall(function()
 					local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
