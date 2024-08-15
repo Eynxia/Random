@@ -751,7 +751,7 @@ local Set = function()
 										fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
 										fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 										fling.P = math.huge
-										game:GetService("Debris"):AddItem(fling,5)
+										game:GetService("Debris"):AddItem(fling,20)
 
 										break
 									end
@@ -1009,7 +1009,7 @@ local Set = function()
 									fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
 									fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 									fling.P = math.huge
-									game:GetService("Debris"):AddItem(fling,5)
+									game:GetService("Debris"):AddItem(fling,20)
 
 									break
 								end
