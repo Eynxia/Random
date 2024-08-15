@@ -635,7 +635,7 @@ local Set = function()
 		VARIABLES["Distance"] = nil
 		local FirstCharacter = string.sub(msg:lower(),1,1)
 		if FirstCharacter == Prefix then
-			local PrefixRemoved = string.gsub(msg:lower(),":","")
+			local PrefixRemoved = string.gsub(msg:lower(),Prefix,"")
 			local Args = string.split(PrefixRemoved:lower()," ")
 			if Args[1] == "kill" then
 				local Target = Args[2]
