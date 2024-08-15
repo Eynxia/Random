@@ -62,8 +62,7 @@ end);
 local Module = {};
 
 function Module.Freeze(Part: Part)
-		pcall(function()
-if (typeof(Part) == "Instance") then Part = {Part}; end;
+	if (typeof(Part) == "Instance") then Part = {Part}; end;
 	StampAsset:InvokeServer(
 		56447956,
 		LPlate.CFrame - Vector3.new(0, 5, 0),
@@ -71,8 +70,6 @@ if (typeof(Part) == "Instance") then Part = {Part}; end;
 		Part,
 		0
 	);
-		end)
-	
 end;
 
 function Module.Weld(...)
@@ -94,8 +91,7 @@ function Module.CreateMSpike(CF: CFrame, Weld: table)
 end;
 
 function Module.Kill(Player)
-	pcall(function()
-if (Player:IsA("Player")) then Player = Player.Character.PrimaryPart; end;
+	if (Player:IsA("Player")) then Player = Player.Character.PrimaryPart; end;
 	StampAsset:InvokeServer(
 		41324885,
 		LPlate.CFrame - Vector3.new(0, 9e9, 0),
@@ -103,8 +99,6 @@ if (Player:IsA("Player")) then Player = Player.Character.PrimaryPart; end;
 		{Player},
 		0
 	);
-	end)
-	
 end;
 
 function Module.Fling(Player)
@@ -167,7 +161,6 @@ local CooldownForFreezeAura = function(plr)
 
 	if CD == false then
 		CD = true
-		On = true
 		Module.Freeze(plr.Character.PrimaryPart)
 	end
 	if CD2 == false then
@@ -211,7 +204,7 @@ function Module.FreezeAura(Radius: number)
 	Weld.Part1 = FreezeAura;
 end;
 
-local CDVAL2 = 0.25
+local CDVAL2 = 0.35
 local CD4 = false
 local CD3 = false
 
@@ -617,7 +610,7 @@ end
 
 --// This is pretty straight forward, this function sets up all the important functions.
 local Set = function()
-
+	local Prefix = ":"
 	VARIABLES["Target"] = nil
 	VARIABLES["Type"] = nil
 	VARIABLES["Distance"] = nil
@@ -629,7 +622,7 @@ local Set = function()
 		VARIABLES["Type"] = nil
 		VARIABLES["Distance"] = nil
 		local FirstCharacter = string.sub(msg:lower(),1,1)
-		if FirstCharacter == ":" then
+		if FirstCharacter == Prefix then
 			local PrefixRemoved = string.gsub(msg:lower(),":","")
 			local Args = string.split(PrefixRemoved:lower()," ")
 			if Args[1] == "kill" then
@@ -662,9 +655,9 @@ local Set = function()
 					local BasePart = v.Character.PrimaryPart
 					if BasePart then
 						if v.Name ~= Player.Name then
-							task.wait(0.05)
 							VARIABLES["Target"] = v.Name
 							On = true
+							task.wait(0.05)
 							Module.Freeze(BasePart)
 						end
 					end
@@ -673,6 +666,14 @@ local Set = function()
 				local Target = Args[2]
 				VARIABLES["Target"] = Target
 				VARIABLES["Type"] = "unfreeze"
+			elseif Args[1] == "prefix" then
+				local Target = Args[2]
+				if not tonumber(Target) then
+					if #Target == 1 then
+						Prefix = Target
+					end
+				  
+				end
 			elseif Args[1] == "ubervip" then
 				pcall(function()
 					local HRP = Player.Character.HumanoidRootPart
@@ -693,7 +694,7 @@ local Set = function()
 				if tonumber(Args[2]) then
 					local Target = Args[2]
 
-					Module.KillAura(Target)
+					Module.FreezeAura(Target)
 				end
 			elseif Args[1] == "unkillaura" then
 				KillAura:Destroy()
@@ -722,6 +723,28 @@ local Set = function()
 
 
 				end)
+			elseif Args[1] == "dunparts" then
+				local Plates = Plates:GetChildren()
+
+				for _,v in pairs(workspace:GetDescendants()) do
+					if v:IsA("BasePart") then
+						if v.Anchored == false then
+							for _,plate in pairs(Plates) do
+								if v:IsDescendantOf(plate) then
+									local Fling = Instance.new("BodyAngularVelocity")
+									Fling.Name = "Fling"
+									Fling.Parent = v
+									Fling.AngularVelocity = Vector3.new(99999,99999,99999)
+									Fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+									Fling.P = math.huge
+
+									game:GetService("Debris"):AddItem(Fling,2)
+								end
+							end
+
+						end
+					end
+				end
 			elseif Args[1] == "uufreeze" then
 				pcall(function()
 					local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
@@ -866,6 +889,15 @@ local Set = function()
 
 				Module.KillAura(Target)
 			end
+		elseif #TextBox.Text > 2 and Args[1] == "prefix" then
+			if not tonumber(Args[2]) then
+				local Target = Args[2]
+				if #Target == 1 then
+				
+					Prefix = Target
+				end
+				
+			end
 		elseif TextBox.Text:lower() == "uncircle" then
 			pcall(function()
 				Aura:Destroy()
@@ -878,7 +910,7 @@ local Set = function()
 			pcall(function()
 				KillAura:Destroy()
 			end)
-		elseif TextBox.Text == "killall" then
+		elseif TextBox.Text:lower() == "killall" then
 			for _,v in pairs(Players:GetPlayers()) do
 				local BasePart = v.Character.PrimaryPart
 				if BasePart then
@@ -888,14 +920,14 @@ local Set = function()
 				end
 			end
 
-		elseif TextBox.Text == "freezeall" then
+		elseif TextBox.Text:lower() == "freezeall" then
 			for _,v in pairs(Players:GetPlayers()) do
 				local BasePart = v.Character.PrimaryPart
 				if BasePart then
 					if v.Name ~= Player.Name then
-						task.wait(0.05)
 						VARIABLES["Target"] = v.Name
 						On = true
+						task.wait(0.05)
 						Module.Freeze(BasePart)
 					end
 				end
@@ -947,6 +979,31 @@ local Set = function()
 				task.wait(1)
 				Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
 			end)
+		elseif TextBox.Text:lower() == "dunparts" then
+			pcall(function()
+				local Plates = Plates:GetChildren()
+
+				for _,v in pairs(workspace:GetDescendants()) do
+					if v:IsA("BasePart") then
+						if v.Anchored == false then
+							for _,plate in pairs(Plates) do
+								if v:IsDescendantOf(plate) then
+									local Fling = Instance.new("BodyAngularVelocity")
+									Fling.Name = "Fling"
+									Fling.Parent = v
+									Fling.AngularVelocity = Vector3.new(99999,99999,99999)
+									Fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+									Fling.P = math.huge
+
+									game:GetService("Debris"):AddItem(Fling,2)
+								end
+							end
+
+						end
+					end
+				end
+			end)
+		
 		elseif TextBox.Text:lower() == "god" then
 			if CONNECTIONS[7] == nil then
 				GodMode = true
