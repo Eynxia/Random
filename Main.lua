@@ -40,7 +40,19 @@ for _, Plate in pairs(Plates:GetChildren()) do
 	end;
 end;
 
-
+coroutine.resume(coroutine.create(function()
+	while task.wait(1) do
+		pcall(function()
+			for _,v in pairs(Players:GetPlayers()) do 
+				if v.Character then 
+					if v.Character:FindFirstChild("Humanoid") then
+						v.Character.Humanoid.DisplayName = v.Name
+					end
+				end
+			end					
+		end)
+	end
+end))
 
 CONNECTIONS[9] = ActiveParts.ChildAdded:Connect(function(Block)
 	if (Block.Name == "Spikes - Moving") then
