@@ -680,10 +680,10 @@ local Set = function()
 				VARIABLES["Type"] = "unfreeze"
 			elseif Args[1] == "prefix" then
 				local Target = Args[2]
-	
+
 				if #Target == 1 then
-Prefix = Target
-print(Prefix)
+					Prefix = Target
+					print(Prefix)
 				end
 
 			elseif Args[1] == "ubervip" then
@@ -736,27 +736,33 @@ print(Prefix)
 
 				end)
 			elseif Args[1] == "dunparts" then
-				local Plates = Plates:GetChildren()
 
-				for _,v in pairs(workspace:GetDescendants()) do
-					if v:IsA("BasePart") then
-						if v.Anchored == false then
-							for _,plate in pairs(Plates) do
-								if v:IsDescendantOf(plate) then
-									local Fling = Instance.new("BodyAngularVelocity")
-									Fling.Name = "Fling"
-									Fling.Parent = v
-									Fling.AngularVelocity = Vector3.new(99999,99999,99999)
-									Fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-									Fling.P = math.huge
+				pcall(function()
+					for _,v in pairs(Plates:GetChildren()) do
 
-									game:GetService("Debris"):AddItem(Fling,2)
+						for _,act in pairs(v.ActiveParts:GetChildren()) do
+							for _,part in pairs(act:GetChildren()) do
+								if part:IsA("BasePart") then
+									if part.Anchored == false then
+
+
+
+										local fling = Instance.new("BodyAngularVelocity")
+										fling.Name = "BAM BAM AHAHHAHAHHAHAH"
+										fling.Parent = part
+										fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+										fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+										fling.P = math.huge
+										break
+
+
+									end
 								end
-							end
 
+							end
 						end
 					end
-				end
+				end)
 			elseif Args[1] == "uufreeze" then
 				pcall(function()
 					local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
@@ -902,12 +908,12 @@ print(Prefix)
 				Module.KillAura(Target)
 			end
 		elseif #TextBox.Text > 2 and Args[1] == "prefix" then
-local Target = Args[2]
-	
-				if #Target == 1 then
-Prefix = Target
-print(Prefix)
-				end
+			local Target = Args[2]
+
+			if #Target == 1 then
+				Prefix = Target
+				print(Prefix)
+			end
 
 
 		elseif TextBox.Text:lower() == "uncircle" then
@@ -993,31 +999,34 @@ print(Prefix)
 			end)
 		elseif TextBox.Text:lower() == "dunparts" then
 			pcall(function()
-				local Plates = Plates:GetChildren()
+				for _,v in pairs(Plates:GetChildren()) do
 
-				for _,v in pairs(workspace:GetDescendants()) do
-					if v:IsA("BasePart") then
-						if v.Anchored == false then
-							if not v:IsDescendantOf(Player.Character) then
-                                                                        local Fling = Instance.new("BodyAngularVelocity")
-									Fling.Name = "Fling"
-									Fling.Parent = v
-									Fling.AngularVelocity = Vector3.new(math.huge,math.huge,math.huge)
-									Fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-									Fling.P = math.huge
+					for _,act in pairs(v.ActiveParts:GetChildren()) do
+						for _,part in pairs(act:GetChildren()) do
+							if part:IsA("BasePart") then
+								if part.Anchored == false then
 
-									game:GetService("Debris"):AddItem(Fling,10)
-									end
-									
 
-									
-							
+
+									local fling = Instance.new("BodyAngularVelocity")
+									fling.Name = "BAM BAM AHAHHAHAHHAHAH"
+									fling.Parent = part
+									fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+									fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+									fling.P = math.huge
+									break
+
+
+								end
+							end
 
 						end
 					end
 				end
 			end)
+				
 		
+
 		elseif TextBox.Text:lower() == "god" then
 			if CONNECTIONS[7] == nil then
 				GodMode = true
