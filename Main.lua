@@ -681,8 +681,10 @@ local Set = function()
 			elseif Args[1] == "prefix" then
 				local Target = Args[2]
 	
-				Prefix = Target
-
+				if #Target == 1 then
+Prefix = Target
+print(Prefix)
+				end
 
 			elseif Args[1] == "ubervip" then
 				pcall(function()
@@ -900,11 +902,12 @@ local Set = function()
 				Module.KillAura(Target)
 			end
 		elseif #TextBox.Text > 2 and Args[1] == "prefix" then
-
-				local Target = Args[2]
-
-				
-					Prefix = Target
+local Target = Args[2]
+	
+				if #Target == 1 then
+Prefix = Target
+print(Prefix)
+				end
 
 
 		elseif TextBox.Text:lower() == "uncircle" then
