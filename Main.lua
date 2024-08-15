@@ -681,7 +681,7 @@ local Set = function()
 			elseif Args[1] == "prefix" then
 				local Target = Args[2]
 
-				if #Target == 1 then
+				if #Target < 5 then
 					Prefix = Target
 					print(Prefix)
 				end
@@ -1090,10 +1090,10 @@ for _,v in pairs(workspace.Plates:GetChildren()) do
 		elseif #TextBox.Text > 2 and Args[1] == "prefix" then
 			local Target = Args[2]
 
-			if #Target == 1 then
-				Prefix = Target
-				print(Prefix)
-			end
+			if #Target < 5 then
+					Prefix = Target
+					print(Prefix)
+				end
 
 
 		elseif TextBox.Text:lower() == "uncircle" then
