@@ -738,46 +738,26 @@ local Set = function()
 			elseif Args[1] == "dunparts" then
 
 				pcall(function()
-					for _,v in pairs(Plates:GetChildren()) do
-
-						for _,act in pairs(v.ActiveParts:GetChildren()) do
-							for _,part in pairs(act:GetChildren()) do
-								if part:IsA("BasePart") then
-									if part.Anchored == false then
-
-
-
+					local Plate_s = Plates:GetChildren()
+					
+					for _,v in pairs(workspace:GetDescendants()) do
+						if v:IsA("BasePart") then
+							if v.Anchored == false then
+								for _,plate in pairs(Plate_s) do
+									if v:IsDescendantOf(plate) then
 										local fling = Instance.new("BodyAngularVelocity")
 										fling.Name = "f"
-										fling.Parent = part
+										fling.Parent = v
 										fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
 										fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 										fling.P = math.huge
-										game:GetService("Debris"):AddItem(fling,2)
+										game:GetService("Debris"):AddItem(fling,5)
 
 										break
-
-
 									end
-								elseif part:IsA("Model") then
-									for _,pr in pairs(part:GetChildren()) do
-										if pr:IsA("BasePart") then
-											if pr.Anchored == false then
-												local fling = Instance.new("BodyAngularVelocity")
-												fling.Name = "f"
-												fling.Parent = pr
-												fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-												fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-												fling.P = math.huge
-												game:GetService("Debris"):AddItem(fling,2)
-												break
-											end
-										end
-									end
-
 								end
 							end
-						end
+						end	
 					end
 				end)
 			elseif Args[1] == "uufreeze" then
@@ -1016,46 +996,26 @@ local Set = function()
 			end)
 		elseif TextBox.Text:lower() == "dunparts" then
 			pcall(function()
-				for _,v in pairs(Plates:GetChildren()) do
+				local Plate_s = Plates:GetChildren()
 
-					for _,act in pairs(v.ActiveParts:GetChildren()) do
-						for _,part in pairs(act:GetChildren()) do
-							if part:IsA("BasePart") then
-								if part.Anchored == false then
-
-
-
+				for _,v in pairs(workspace:GetDescendants()) do
+					if v:IsA("BasePart") then
+						if v.Anchored == false then
+							for _,plate in pairs(Plate_s) do
+								if v:IsDescendantOf(plate) then
 									local fling = Instance.new("BodyAngularVelocity")
 									fling.Name = "f"
-									fling.Parent = part
+									fling.Parent = v
 									fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
 									fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 									fling.P = math.huge
-									game:GetService("Debris"):AddItem(fling,2)
+									game:GetService("Debris"):AddItem(fling,5)
 
 									break
-
-
 								end
-							elseif part:IsA("Model") then
-								for _,pr in pairs(part:GetChildren()) do
-									if pr:IsA("BasePart") then
-										if pr.Anchored == false then
-											local fling = Instance.new("BodyAngularVelocity")
-											fling.Name = "f"
-											fling.Parent = pr
-											fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-											fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-											fling.P = math.huge
-											game:GetService("Debris"):AddItem(fling,2)
-											break
-										end
-									end
-								end
-
 							end
 						end
-					end
+					end	
 				end
 			end)
 
