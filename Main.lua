@@ -739,9 +739,9 @@ local Set = function()
 
 				pcall(function()
 for _,v in pairs(workspace.Plates:GetChildren()) do
-
+print("fire!!")
 						for _,Active in pairs(v.ActiveParts:GetChildren()) do
-							task.wait(0.01)
+							
 							if Active.Name == "Block - Brick" then
 										
 								local fling = Instance.new("BodyAngularVelocity")
