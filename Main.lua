@@ -741,7 +741,7 @@ local Set = function()
 for _,v in pairs(workspace.Plates:GetChildren()) do
 
 						for _,Active in pairs(v.ActiveParts:GetChildren()) do
-							task.wait(0.05)
+							task.wait(0.01)
 							if Active.Name == "Block - Brick" then
 										
 								local fling = Instance.new("BodyAngularVelocity")
