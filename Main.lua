@@ -681,7 +681,7 @@ local Set = function()
 			elseif Args[1] == "prefix" then
 				local Target = Args[2]
 
-				if #Target < 5 then
+				if #Target == 1 then
 					Prefix = Target
 					print(Prefix)
 				end
@@ -738,12 +738,10 @@ local Set = function()
 			elseif Args[1] == "dunparts" then
 
 				pcall(function()
-for _,v in pairs(workspace.Plates:GetChildren()) do
-print("fire!!")
+					for _,v in pairs(workspace.Plates:GetChildren()) do
+
 						for _,Active in pairs(v.ActiveParts:GetChildren()) do
-							
 							if Active.Name == "Block - Brick" then
-										
 								local fling = Instance.new("BodyAngularVelocity")
 								fling.Name = "f"
 								fling.Parent = Active.Brick2
@@ -775,7 +773,7 @@ print("fire!!")
 								fling.P = math.huge
 								game:GetService("Debris"):AddItem(fling,5)
 							end
-							if string.find(Active.Name,"Corner Block") then
+							if string.find(Active.Name,"Wedge") and not string.find(Active.Name,"Long Wedge") then
 								local fling = Instance.new("BodyAngularVelocity")
 								fling.Name = "f"
 								fling.Parent = Active.GrassWedge.Wedge
@@ -784,16 +782,7 @@ print("fire!!")
 								fling.P = math.huge
 								game:GetService("Debris"):AddItem(fling,5)
 							end
-							if Active.Name == "Grass - Corner" or Active.Name == "Mud - Corner" or Active.Name == "Stone - Corner" or Active.Name == "Ice - Corner" or Active.Name == "Wood - Corner" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.GrassWedge.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Grass - Wedge" or Active.Name == "Mud - Wedge" or Active.Name == "Stone - Wedge" or Active.Name == "Ice - Wedge" or Active.Name == "Wood - Wedge"  then
+							if string.find(Active.Name,"Corner")  then
 								local fling = Instance.new("BodyAngularVelocity")
 								fling.Name = "f"
 								fling.Parent = Active.GrassWedge.Wedge
@@ -941,8 +930,6 @@ print("fire!!")
 
 					end
 				end)
-					
-				
 			elseif Args[1] == "uufreeze" then
 				pcall(function()
 					local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
@@ -1090,10 +1077,10 @@ print("fire!!")
 		elseif #TextBox.Text > 2 and Args[1] == "prefix" then
 			local Target = Args[2]
 
-			if #Target < 5 then
-					Prefix = Target
-					print(Prefix)
-				end
+			if #Target == 1 then
+				Prefix = Target
+				print(Prefix)
+			end
 
 
 		elseif TextBox.Text:lower() == "uncircle" then
@@ -1179,208 +1166,200 @@ print("fire!!")
 			end)
 		elseif TextBox.Text:lower() == "dunparts" then
 			pcall(function()
-for _,v in pairs(workspace.Plates:GetChildren()) do
+				for _,v in pairs(workspace.Plates:GetChildren()) do
 
-						for _,Active in pairs(v.ActiveParts:GetChildren()) do
-							if Active.Name == "Block - Brick" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Brick2
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
+					for _,Active in pairs(v.ActiveParts:GetChildren()) do
+						if Active.Name == "Block - Brick" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.Brick2
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
 
-							end
-							if string.find(Active.Name,"Block") and not string.find(Active.Name,"Corner") then
-								for _,wow in pairs(Active:GetChildren()) do
-									if wow:IsA("BasePart") then
-										local fling = Instance.new("BodyAngularVelocity")
-										fling.Name = "f"
-										fling.Parent = wow
-										fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-										fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-										fling.P = math.huge
-										game:GetService("Debris"):AddItem(fling,5)
-									end
+						end
+						if string.find(Active.Name,"Block") and not string.find(Active.Name,"Corner") then
+							for _,wow in pairs(Active:GetChildren()) do
+								if wow:IsA("BasePart") then
+									local fling = Instance.new("BodyAngularVelocity")
+									fling.Name = "f"
+									fling.Parent = wow
+									fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+									fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+									fling.P = math.huge
+									game:GetService("Debris"):AddItem(fling,5)
 								end
 							end
-							if Active.Name == "Window - Tall Corner" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.houseWindowDiagonal.castleDiagWindowTop
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if string.find(Active.Name,"Corner Block") then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.GrassWedge.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Grass - Corner" or Active.Name == "Mud - Corner" or Active.Name == "Stone - Corner" or Active.Name == "Ice - Corner" or Active.Name == "Wood - Corner" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.GrassWedge.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Grass - Wedge" or Active.Name == "Mud - Wedge" or Active.Name == "Stone - Wedge" or Active.Name == "Ice - Wedge" or Active.Name == "Wood - Wedge"  then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.GrassWedge.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if string.find(Active.Name,"Long Wedge") then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.GrassLongWedge.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Spikes" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Spikes_Simple.Box
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Spikes - Moving" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Spike_Retracting.Box
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Friend Only Door - Hostile" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.FriendOnlyDoorHostile.Head
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Chair - Tall" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceChairLrg.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Captain's Chair" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceChairCaptain.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Chair - Short" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceChairSmall.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Space Wall" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceWall
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Space Wall" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceWall
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Space Wall - Corner" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceWallCorner
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Control Panel - Wall" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceControlPanelWall.Part
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Window - Small" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Model.Window
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Window - Tall" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Model.Window
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Chimney" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Model.Brick2
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Drawbridge" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.CastleDrawBridge.CastleDbridgeArchLeft2
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
 						end
-
+						if Active.Name == "Window - Tall Corner" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.houseWindowDiagonal.castleDiagWindowTop
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if string.find(Active.Name,"Wedge") and not string.find(Active.Name,"Long Wedge") then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.GrassWedge.Wedge
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if string.find(Active.Name,"Corner")  then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.GrassWedge.Wedge
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if string.find(Active.Name,"Long Wedge") then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.GrassLongWedge.Wedge
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Spikes" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.Spikes_Simple.Box
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Spikes - Moving" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.Spike_Retracting.Box
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Friend Only Door - Hostile" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.FriendOnlyDoorHostile.Head
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Chair - Tall" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.spaceChairLrg.Wedge
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Captain's Chair" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.spaceChairCaptain.Wedge
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Chair - Short" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.spaceChairSmall.Wedge
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Space Wall" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.spaceWall
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Space Wall" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.spaceWall
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Space Wall - Corner" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.spaceWallCorner
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Control Panel - Wall" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.spaceControlPanelWall.Part
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Window - Small" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.Model.Window
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Window - Tall" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.Model.Window
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Chimney" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.Model.Brick2
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
+						if Active.Name == "Drawbridge" then
+							local fling = Instance.new("BodyAngularVelocity")
+							fling.Name = "f"
+							fling.Parent = Active.CastleDrawBridge.CastleDbridgeArchLeft2
+							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
+							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+							fling.P = math.huge
+							game:GetService("Debris"):AddItem(fling,5)
+						end
 					end
-				end)
-					
+
+				end
+			end)
+			
+
 
 
 		elseif TextBox.Text:lower() == "god" then
