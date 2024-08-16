@@ -741,9 +741,9 @@ local Set = function()
 for _,v in pairs(workspace.Plates:GetChildren()) do
 
 						for _,Active in pairs(v.ActiveParts:GetChildren()) do
-									print("god is love, baby don't hurt me aaaaaa")
+							task.wait(0.05)
 							if Active.Name == "Block - Brick" then
-										print("god is love, baby don't hurt me aaaaaa")
+										
 								local fling = Instance.new("BodyAngularVelocity")
 								fling.Name = "f"
 								fling.Parent = Active.Brick2
