@@ -1576,7 +1576,7 @@ end)
 
 --// FarmKills Loop
 
-local interval = 0.05
+local interval = 0.0025
 local start = tick()
 local nextStep = start+interval
 local iter = 1
