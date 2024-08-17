@@ -1576,7 +1576,7 @@ end)
 
 --// FarmKills Loop
 
-local interval = 0.0025
+local interval = 0.025
 local start = tick()
 local nextStep = start+interval
 local iter = 1
@@ -1602,7 +1602,7 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 					for _,v in pairs(AllPlayers) do
 						if v.Character then
 							if v.Character:FindFirstChild("Humanoid") then
-								wait(0.00125)
+								wait(0.025)
 								Handle.Position = v.Character.PrimaryPart.Position
 							end
 						end
