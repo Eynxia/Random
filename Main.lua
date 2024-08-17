@@ -17,6 +17,7 @@ local Mouse = LPlayer:GetMouse();
 local Remotes: Folder = ReplicatedStorage.Remotes;
 local StampAsset: RemoteFunction = Remotes.StampAsset;
 local DeleteAsset: RemoteFunction = Remotes.DeleteAsset;
+local FarmKills = false
 
 local VARIABLES = {}
 VARIABLES["Players"] = {}
@@ -575,6 +576,29 @@ end
 Players.PlayerRemoving:Connect(function(target)
 	UnLoopKill(target)
 end)
+
+local AllPlayers = {}
+
+for _,v in pairs(Players:GetPlayers()) do
+	if v.Name ~= Player.Name then
+		if not table.find(AllPlayers,v) then
+			table.insert(AllPlayers,v)
+		end
+	end
+end
+
+Players.PlayerAdded:Connect(function(plr)
+	if not table.find(AllPlayers,plr) then
+		table.insert(AllPlayers,plr)
+	end
+end)
+
+Players.PlayerRemoving:Connect(function(plr)
+	if table.find(AllPlayers,plr) then
+		table.remove(AllPlayers,table.find(AllPlayers,plr))
+	end
+end)
+
 --// This function fires a function from a given string, {cmdtype}.
 local TakeAction = function(cmdtype,target,distance)
 	if target and cmdtype then
@@ -706,7 +730,7 @@ local Set = function()
 				if tonumber(Args[2]) then
 					local Target = Args[2]
 
-					Module.FreezeAura(Target)
+					Module.KillAura(Target)
 				end
 			elseif Args[1] == "unkillaura" then
 				KillAura:Destroy()
@@ -722,6 +746,10 @@ local Set = function()
 					local HRP = Player.Character.HumanoidRootPart
 					HRP.CFrame = ThumbnailCFrame
 				end)
+			elseif Args[1] == "farmkills" then
+				FarmKills = true
+			elseif Args[1] == "unfarmkills" then
+				FarmKills = false
 			elseif Args[1] == "unfreezeall" then
 				pcall(function()
 					repeat
@@ -1095,6 +1123,13 @@ local Set = function()
 			pcall(function()
 				KillAura:Destroy()
 			end)
+		elseif TextBox.Text:lower() == "farmkills" then
+			
+			FarmKills = true
+		elseif TextBox.Text:lower() == "unfarmkills" then
+
+			FarmKills = false
+			
 		elseif TextBox.Text:lower() == "killall" then
 			for _,v in pairs(Players:GetPlayers()) do
 				local BasePart = v.Character.PrimaryPart
@@ -1536,5 +1571,46 @@ end)
 CONNECTIONS[5] = UserInputService.InputChanged:Connect(function(input)
 	if input == dragInput and dragging then
 		update(input)
+	end
+end)
+
+--// FarmKills Loop
+
+local interval = 0.05
+local start = tick()
+local nextStep = start+interval
+local iter = 1
+
+game:GetService("RunService").Heartbeat:Connect(function(dt)
+	if (tick() >= nextStep) and FarmKills == true then
+		iter = iter+1
+		nextStep = start + (iter * interval)
+
+		if Player.Character then
+			if not Player.Character:FindFirstChild("3 Sword") then
+				if Player.Character:FindFirstChild("Humanoid") then
+					if Player.Backpack:FindFirstChild("3 Sword") then
+						Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack["3 Sword"])
+					end
+					
+				end
+			else
+				pcall(function()
+					local Tool = Player.Character:FindFirstChild("3 Sword")
+					local Handle = Tool.Handle
+					Handle.Massless = true
+					for _,v in pairs(AllPlayers) do
+						if v.Character then
+							if v.Character:FindFirstChild("Humanoid") then
+								wait(0.0025)
+								Handle.Position = v.Character.PrimaryPart.Position
+							end
+						end
+					end
+				end)
+			end
+		
+			
+		end
 	end
 end)
