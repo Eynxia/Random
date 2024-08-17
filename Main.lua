@@ -1124,12 +1124,12 @@ local Set = function()
 				KillAura:Destroy()
 			end)
 		elseif TextBox.Text:lower() == "farmkills" then
-
+			
 			FarmKills = true
 		elseif TextBox.Text:lower() == "unfarmkills" then
 
 			FarmKills = false
-
+			
 		elseif TextBox.Text:lower() == "killall" then
 			for _,v in pairs(Players:GetPlayers()) do
 				local BasePart = v.Character.PrimaryPart
@@ -1393,7 +1393,7 @@ local Set = function()
 
 				end
 			end)
-
+			
 
 
 
@@ -1576,20 +1576,10 @@ end)
 
 --// FarmKills Loop
 
-local interval = 0.05
+local interval = 0.0025
 local start = tick()
 local nextStep = start+interval
 local iter = 1
-local CurrentPriotrity = 0
-
-local Prios = {
-	["nswordprio"] = 0,
-	["kprio"] = 0.5,
-	["fswordprio"] = 1,
-	["vswordprio"] = 2
-
-
-}
 
 game:GetService("RunService").Heartbeat:Connect(function(dt)
 	if (tick() >= nextStep) and FarmKills == true then
@@ -1597,61 +1587,30 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 		nextStep = start + (iter * interval)
 
 		if Player.Character then
-			pcall(function()
-				local Tool
-				if Player.Backpack:FindFirstChild("Venomshank") then
-					CurrentPriotrity = Prios.vswordprio
-					Player.Character.Humanoid:EquipTool(Player.Backpack:FindFirstChild("Venomshank"))
-					Tool = Player.Backpack:FindFirstChild("Venomshank")
-				elseif Player.Character:FindFirstChild("Venomshank") then
-					CurrentPriotrity = Prios.vswordprio
-					Tool = Player.Character:FindFirstChild("Venomshank")
+			if not Player.Character:FindFirstChild("3 Sword") then
+				if Player.Character:FindFirstChild("Humanoid") then
+					if Player.Backpack:FindFirstChild("3 Sword") then
+						Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack["3 Sword"])
+					end
+					
 				end
-
-				if Player.Backpack:FindFirstChild("Katana") then
-					if CurrentPriotrity < Prios.kprio then
-						CurrentPriotrity = Prios.kprio
-						Player.Character.Humanoid:EquipTool(Player.Backpack:FindFirstChild("Katana"))
-						Tool = Player.Backpack:FindFirstChild("Katana")
-					end
-				elseif Player.Character:FindFirstChild("Katana") then
-
-					if CurrentPriotrity < Prios.kprio then
-						CurrentPriotrity = Prios.kprio
-						Tool = Player.Character:FindFirstChild("Katana")
-					end
-				end
-
-				if Player.Backpack:FindFirstChild("3 Sword") then
-					if CurrentPriotrity == Prios.nswordprio then
-						CurrentPriotrity = Prios.nswordprio
-						Player.Character.Humanoid:EquipTool(Player.Backpack:FindFirstChild("3 Sword"))
-						Tool = Player.Backpack:FindFirstChild("3 Sword")
-					end
-				elseif Player.Character:FindFirstChild("3 Sword") then
-
-					if CurrentPriotrity == Prios.nswordprio then
-						CurrentPriotrity = Prios.nswordprio
-						
-						Tool = Player.Character:FindFirstChild("3 Sword")
-					end
-				end
-
-
-
-
-
-				local Handle = Tool.Handle
-				Handle.Massless = true
-				for _,v in pairs(AllPlayers) do
-					if v.Character then
-						if v.Character:FindFirstChild("Humanoid") then
-							wait(0.0025)
-							Handle.Position = v.Character.PrimaryPart.Position
+			else
+				pcall(function()
+					local Tool = Player.Character:FindFirstChild("3 Sword")
+					local Handle = Tool.Handle
+					Handle.Massless = true
+					for _,v in pairs(AllPlayers) do
+						if v.Character then
+							if v.Character:FindFirstChild("Humanoid") then
+								wait(0.00125)
+								Handle.Position = v.Character.PrimaryPart.Position
+							end
 						end
 					end
-				end
-			end)
+				end)
+			end
+		
+			
 		end
 	end
 end)
