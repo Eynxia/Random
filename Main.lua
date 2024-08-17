@@ -1576,10 +1576,11 @@ end)
 
 --// FarmKills Loop
 
-local interval = 0.0025
+local interval = 0.05
 local start = tick()
 local nextStep = start+interval
 local iter = 1
+
 
 game:GetService("RunService").Heartbeat:Connect(function(dt)
 	if (tick() >= nextStep) and FarmKills == true then
@@ -1590,13 +1591,31 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 			if not Player.Character:FindFirstChild("3 Sword") then
 				if Player.Character:FindFirstChild("Humanoid") then
 					if Player.Backpack:FindFirstChild("3 Sword") then
-						Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack["3 Sword"])
+						if not Player.Backpack:FindFirstChild("Venomshank") and not Player.Backpack:FindFirstChild("Firebrand") and not Player.Backpack:FindFirstChild("Katana") then
+							Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack["3 Sword"])
+						elseif not Player.Backpack:FindFirstChild("Venomshank") and not Player.Backpack:FindFirstChild("Firebrand") and Player.Backpack:FindFirstChild("Katana") then
+							Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack["Katana"])
+						elseif not Player.Backpack:FindFirstChild("Venomshank") and Player.Backpack:FindFirstChild("Firebrand") and Player.Backpack:FindFirstChild("Katana") then
+							Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack["Firebrand"])
+						elseif Player.Backpack:FindFirstChild("Venomshank") and Player.Backpack:FindFirstChild("Firebrand") and Player.Backpack:FindFirstChild("Katana") then
+							Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack["Venomshand"])
+						end
+						
 					end
 					
 				end
 			else
 				pcall(function()
-					local Tool = Player.Character:FindFirstChild("3 Sword")
+					local Tool
+					if not Player.Backpack:FindFirstChild("Venomshank") and not Player.Backpack:FindFirstChild("Firebrand") and not Player.Backpack:FindFirstChild("Katana") then
+						Tool = Player.Backpack:FindFirstChild("3 Sword")
+					elseif not Player.Backpack:FindFirstChild("Venomshank") and not Player.Backpack:FindFirstChild("Firebrand") and Player.Backpack:FindFirstChild("Katana") then
+						Tool = Player.Backpack:FindFirstChild("Katana")
+					elseif not Player.Backpack:FindFirstChild("Venomshank") and Player.Backpack:FindFirstChild("Firebrand") and Player.Backpack:FindFirstChild("Katana") then
+						Tool = Player.Backpack:FindFirstChild("Firebrand")
+					elseif Player.Backpack:FindFirstChild("Venomshank") and Player.Backpack:FindFirstChild("Firebrand") and Player.Backpack:FindFirstChild("Katana") then
+						Tool = Player.Backpack:FindFirstChild("Venomshank")
+					end
 					local Handle = Tool.Handle
 					Handle.Massless = true
 					for _,v in pairs(AllPlayers) do
