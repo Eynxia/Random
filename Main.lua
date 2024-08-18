@@ -688,11 +688,12 @@ local TakeAction = function(cmdtype,target,distance)
 					end
 				elseif cmdtype == "unwhitelist" then
 
-					if table.find(WhitelistedPlayers,v) then
-						print("removed")
-						table.remove(WhitelistedPlayers,table.find(WhitelistedPlayers,v))
 						
-					end
+						pcall(function()
+table.remove(WhitelistedPlayers,table.find(WhitelistedPlayers,v))
+						
+						end)
+					
 				end
 
 			end
