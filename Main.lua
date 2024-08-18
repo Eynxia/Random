@@ -1724,7 +1724,7 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 						if v.Character and not table.find(WhitelistedPlayers,v) then
 							if v.Character:FindFirstChild("Humanoid") then
 								wait(0.00125)
-								Handle.Position = v.Character.PrimaryPart.Position
+								Handle.Position = v.Character.HumanoidRootPart.Position
 							end
 						end
 					end
