@@ -1,7 +1,7 @@
 --[[
 
 Hello, my name is Eynxia!
-This script's owner is WrdSup1 (aka. Eynx)
+This script's owner is WrdSup1 (aka. Eynx) <-- ME
 Please, do not try to steal or impersonate this script or else i will take action.
 
 --// New Commands
@@ -10,11 +10,6 @@ Please, do not try to steal or impersonate this script or else i will take actio
 -whitelist
 
 --]]
-
-
-
-
-
 
 --// Services
 
