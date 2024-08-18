@@ -27,6 +27,8 @@ local GodMode = false
 local ActiveParts: Folder;
 local Plates: Model = Workspace.Plates;
 local LPlate: Part;
+local PositionBeforeUsingFarmKills
+local TempPart = nil
 local MSpikes = {};
 local UberVipCFrame = CFrame.new(-52.117424, 17633.498, 9022.96289, 0.878907919, 8.86190747e-08, -0.476991445, -6.97595155e-08, 1, 5.72481689e-08, 0.476991445, -1.70411774e-08, 0.878907919)
 local MegaVipCFrame = CFrame.new(-81.6340179, 17633.498, 9206.84863, 0.939545095, 4.39642598e-08, -0.342425227, -2.73242602e-08, 1, 5.34186313e-08, 0.342425227, -4.08326954e-08, 0.939545095)
@@ -746,10 +748,29 @@ local Set = function()
 					local HRP = Player.Character.HumanoidRootPart
 					HRP.CFrame = ThumbnailCFrame
 				end)
-			elseif Args[1] == "farmkills" then
-				FarmKills = true
-			elseif Args[1] == "unfarmkills" then
+			elseif Args[1] == "killfarm" then
+				if TempPart == nil then
+					TempPart = Instance.new("Part")
+					TempPart.Size = Vector3.new(100,0.1,100)
+					TempPart.CFrame = CFrame.new(71, -101, -61)
+					TempPart.Parent = workspace
+					TempPart.Anchored = true
+					TempPart.Transparency = 0.5
+					TempPart.Color = Color3.fromRGB(0,0,0)
+					TempPart.CanCollide = true
+					TempPart.Name = "Safe"
+					PositionBeforeUsingFarmKills = Player.Character.HumanoidRootPart.CFrame
+					wait(0.05)
+					Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -101, -61)
+					FarmKills = true
+					
+				end
+				
+			elseif Args[1] == "unkillfarm" then
+				TempPart:Destroy()
+				TempPart = nil
 				FarmKills = false
+				Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
 			elseif Args[1] == "unfreezeall" then
 				pcall(function()
 					repeat
@@ -1123,13 +1144,28 @@ local Set = function()
 			pcall(function()
 				KillAura:Destroy()
 			end)
-		elseif TextBox.Text:lower() == "farmkills" then
+		elseif TextBox.Text:lower() == "killfarm" then
 			
-			FarmKills = true
-		elseif TextBox.Text:lower() == "unfarmkills" then
-
+			if TempPart == nil then
+				TempPart = Instance.new("Part")
+				TempPart.Size = Vector3.new(100,0.1,100)
+				TempPart.CFrame = CFrame.new(71, -101, -61)
+				TempPart.Parent = workspace
+				TempPart.Anchored = true
+				TempPart.Transparency = 0.5
+				TempPart.Color = Color3.fromRGB(0,0,0)
+				TempPart.CanCollide = true
+				TempPart.Name = "Safe"
+				PositionBeforeUsingFarmKills = Player.Character.HumanoidRootPart.CFrame
+				wait(0.05)
+				Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -101, -61)
+				FarmKills = true
+			end
+		elseif TextBox.Text:lower() == "unkillfarm" then
+			Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
+			TempPart:Destroy()
+			TempPart = nil
 			FarmKills = false
-			
 		elseif TextBox.Text:lower() == "killall" then
 			for _,v in pairs(Players:GetPlayers()) do
 				local BasePart = v.Character.PrimaryPart
@@ -1576,7 +1612,7 @@ end)
 
 --// FarmKills Loop
 
-local interval = 0.025
+local interval = 0.0025
 local start = tick()
 local nextStep = start+interval
 local iter = 1
@@ -1596,13 +1632,14 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 				end
 			else
 				pcall(function()
+					Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -99, -61)
 					local Tool = Player.Character:FindFirstChild("3 Sword")
 					local Handle = Tool.Handle
 					Handle.Massless = true
 					for _,v in pairs(AllPlayers) do
 						if v.Character then
 							if v.Character:FindFirstChild("Humanoid") then
-								wait(0.025)
+								wait(0.00125)
 								Handle.Position = v.Character.PrimaryPart.Position
 							end
 						end
