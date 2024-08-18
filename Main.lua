@@ -1,3 +1,21 @@
+--[[
+
+Hello, my name is Eynxia!
+This script's owner is WrdSup1 (aka. Eynx)
+Please, do not try to steal or impersonate this script or else i will take action.
+
+--// New Commands
+
+-killfarm
+-whitelist
+
+--]]
+
+
+
+
+
+
 --// Services
 
 local Players = game:GetService("Players")
@@ -20,6 +38,7 @@ local DeleteAsset: RemoteFunction = Remotes.DeleteAsset;
 local FarmKills = false
 
 local VARIABLES = {}
+local WhitelistedPlayers = {}
 VARIABLES["Players"] = {}
 
 local On = false
@@ -176,7 +195,9 @@ local CooldownForFreezeAura = function(plr)
 
 	if CD == false then
 		CD = true
-		Module.Freeze(plr.Character.PrimaryPart)
+		if not table.find(WhitelistedPlayers,plr) then
+			Module.Freeze(plr.Character.PrimaryPart)
+		end
 	end
 	if CD2 == false then
 		CD2 = true
@@ -227,7 +248,10 @@ local CooldownForKillAura = function(plr)
 
 	if CD4 == false then
 		CD4 = true
-		Module.Kill(plr.Character.PrimaryPart)
+		if not table.find(WhitelistedPlayers,plr) then
+			Module.Kill(plr.Character.PrimaryPart)
+		end
+		
 	end
 	if CD2 == false then
 		CD4 = true
@@ -530,6 +554,14 @@ local FindClosestName = function(name,blacklistedname,cmdtype)
 					UI_ELEMENTS["UI_19"].Text = "unloopkill "..MatchingNames[1]
 					VARIABLES["Target"] = MatchingNames[1]
 				end
+				if VARIABLES["Type"] == "whitelist" then
+					UI_ELEMENTS["UI_19"].Text = "whitelist "..MatchingNames[1]
+					VARIABLES["Target"] = MatchingNames[1]
+				end
+				if VARIABLES["Type"] == "unwhitelist " then
+					UI_ELEMENTS["UI_19"].Text = "unwhitelist "..MatchingNames[1]
+					VARIABLES["Target"] = MatchingNames[1]
+				end
 			end
 		end	
 
@@ -575,9 +607,12 @@ local UnLoopKill = function(target)
 	end
 end
 
+
+
 Players.PlayerRemoving:Connect(function(target)
 	UnLoopKill(target)
 end)
+
 
 local AllPlayers = {}
 
@@ -608,11 +643,16 @@ local TakeAction = function(cmdtype,target,distance)
 		for _,v in pairs(Players:GetPlayers()) do
 			if v.Name == target then
 				if cmdtype == "Kill" then
-					print(target)
-					Module.Kill(v.Character.PrimaryPart)
+					if not table.find(WhitelistedPlayers,v) then
+						Module.Kill(v.Character.PrimaryPart)
+					end
+					
 				elseif cmdtype == "freeze" then
-					On = true
-					Module.Freeze(v.Character.PrimaryPart)
+					if not table.find(WhitelistedPlayers,v) then
+						On = true
+						Module.Freeze(v.Character.PrimaryPart)
+					end
+					
 				elseif cmdtype == "fling" then
 					Module.Fling(v.Character.PrimaryPart)
 				elseif cmdtype == "unfreeze" then
@@ -634,11 +674,30 @@ local TakeAction = function(cmdtype,target,distance)
 						end
 					end
 				elseif cmdtype == "loopkill" then
-					LoopKill(target)
+					if not table.find(WhitelistedPlayers,v) then
+						LoopKill(target)
+					end
+					
 
 				elseif cmdtype == "unloopkill" then
-					UnLoopKill(target)
 
+						UnLoopKill(target)
+				elseif cmdtype == "whitelist" then
+					
+					if not table.find(WhitelistedPlayers,v) then
+						print("added")
+						table.insert(WhitelistedPlayers,v)
+					end
+					for _,v in pairs(WhitelistedPlayers) do
+						print(v)
+					end
+				elseif cmdtype == "unwhitelist" then
+
+					if table.find(WhitelistedPlayers,v) then
+						print("removed")
+						table.insert(WhitelistedPlayers,table.find(WhitelistedPlayers,v))
+						
+					end
 				end
 
 			end
@@ -679,11 +738,19 @@ local Set = function()
 				local Target = Args[2]
 				VARIABLES["Type"] = "freeze"
 				VARIABLES["Target"] = Target
+			elseif Args[1] == "whitelist" then
+				local Target = Args[2]
+				VARIABLES["Type"] = "whitelist"
+				VARIABLES["Target"] = Target
+			elseif Args[1] == "unwhitelist" then
+				local Target = Args[2]
+				VARIABLES["Type"] = "unwhitelist"
+				VARIABLES["Target"] = Target
 			elseif Args[1] == "killall" then
 				for _,v in pairs(Players:GetPlayers()) do
 					local BasePart = v.Character.PrimaryPart
 					if BasePart then
-						if v.Name ~= Player.Name then
+						if v.Name ~= Player.Name and not table.find(WhitelistedPlayers,v) then
 							Module.Kill(BasePart)
 						end
 					end
@@ -692,7 +759,7 @@ local Set = function()
 				for _,v in pairs(Players:GetPlayers()) do
 					local BasePart = v.Character.PrimaryPart
 					if BasePart then
-						if v.Name ~= Player.Name then
+						if v.Name ~= Player.Name and not table.find(WhitelistedPlayers,v) then
 							VARIABLES["Target"] = v.Name
 							On = true
 							task.wait(0.05)
@@ -1076,6 +1143,12 @@ local Set = function()
 				elseif VARIABLES["Type"] == "unloopkill" then
 					TakeAction("unloopkill",VARIABLES["Target"])
 					TextBox.Text = ""
+				elseif VARIABLES["Type"] == "whitelist" then
+					TakeAction("whitelist",VARIABLES["Target"])
+					TextBox.Text = ""
+				elseif VARIABLES["Type"] == "unwhitelist" then
+					TakeAction("unwhitelist",VARIABLES["Target"])
+					TextBox.Text = ""
 				end
 			end
 		end
@@ -1103,6 +1176,14 @@ local Set = function()
 			local Target = Args[2]
 			VARIABLES["Target"] = Target
 			VARIABLES["Type"] = "fling"
+		elseif #TextBox.Text > 2 and Args[1] == "whitelist" then
+			local Target = Args[2]
+			VARIABLES["Target"] = Target
+			VARIABLES["Type"] = "whitelist"
+		elseif #TextBox.Text > 2 and Args[1] == "unwhitelist" then
+			local Target = Args[2]
+			VARIABLES["Target"] = Target
+			VARIABLES["Type"] = "unwhitelist"
 
 
 		elseif #TextBox.Text > 2 and Args[1] == "circle" then
@@ -1170,7 +1251,7 @@ local Set = function()
 			for _,v in pairs(Players:GetPlayers()) do
 				local BasePart = v.Character.PrimaryPart
 				if BasePart then
-					if v.Name ~= Player.Name then
+					if v.Name ~= Player.Name  and not table.find(WhitelistedPlayers,v) then
 						Module.Kill(BasePart)
 					end
 				end
@@ -1180,7 +1261,7 @@ local Set = function()
 			for _,v in pairs(Players:GetPlayers()) do
 				local BasePart = v.Character.PrimaryPart
 				if BasePart then
-					if v.Name ~= Player.Name then
+					if v.Name ~= Player.Name  and not table.find(WhitelistedPlayers,v) then
 						VARIABLES["Target"] = v.Name
 						On = true
 						task.wait(0.05)
@@ -1550,6 +1631,12 @@ local Set = function()
 			elseif VARIABLES["Type"] == "unloopkill" then
 				TakeAction("unloopkill",VARIABLES["Target"])
 				TextBox.Text = ""
+			elseif VARIABLES["Type"] == "whitelist" then
+				TakeAction("whitelist",VARIABLES["Target"])
+				TextBox.Text = ""
+			elseif VARIABLES["Type"] == "unwhitelist" then
+				TakeAction("unwhitelist",VARIABLES["Target"])
+				TextBox.Text = ""
 			end
 		end
 
@@ -1637,7 +1724,7 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 					local Handle = Tool.Handle
 					Handle.Massless = true
 					for _,v in pairs(AllPlayers) do
-						if v.Character then
+						if v.Character and not table.find(WhitelistedPlayers,v) then
 							if v.Character:FindFirstChild("Humanoid") then
 								wait(0.00125)
 								Handle.Position = v.Character.PrimaryPart.Position
