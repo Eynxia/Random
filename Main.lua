@@ -1,7 +1,7 @@
 --[[
 
 Hello, my name is Eynxia!
-This script's owner is WrdSup1 (aka. Eynx) <-- ME
+This script's owner is WrdSup1 (aka. Eynx)
 Please, do not try to steal or impersonate this script or else i will take action.
 
 --// New Commands
@@ -10,6 +10,11 @@ Please, do not try to steal or impersonate this script or else i will take actio
 -whitelist
 
 --]]
+
+
+
+
+
 
 --// Services
 
@@ -553,7 +558,7 @@ local FindClosestName = function(name,blacklistedname,cmdtype)
 					UI_ELEMENTS["UI_19"].Text = "whitelist "..MatchingNames[1]
 					VARIABLES["Target"] = MatchingNames[1]
 				end
-				if VARIABLES["Type"] == "unwhitelist" then
+				if VARIABLES["Type"] == "unwhitelist " then
 					UI_ELEMENTS["UI_19"].Text = "unwhitelist "..MatchingNames[1]
 					VARIABLES["Target"] = MatchingNames[1]
 				end
@@ -688,12 +693,11 @@ local TakeAction = function(cmdtype,target,distance)
 					end
 				elseif cmdtype == "unwhitelist" then
 
+					if table.find(WhitelistedPlayers,v) then
+						print("removed")
+						table.insert(WhitelistedPlayers,table.find(WhitelistedPlayers,v))
 						
-						pcall(function()
-table.remove(WhitelistedPlayers,table.find(WhitelistedPlayers,v))
-						
-						end)
-					
+					end
 				end
 
 			end
@@ -1696,9 +1700,12 @@ end)
 --// FarmKills Loop
 
 local interval = 0.0025
+local Secondinterval = 0.5
 local start = tick()
 local nextStep = start+interval
+local nextStep2 = start+Secondinterval
 local iter = 1
+local iter2 = 1
 
 game:GetService("RunService").Heartbeat:Connect(function(dt)
 	if (tick() >= nextStep) and FarmKills == true then
@@ -1718,13 +1725,12 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 					Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -99, -61)
 					local Tool = Player.Character:FindFirstChild("3 Sword")
 					local Handle = Tool.Handle
-					Handle.Size = Vector3.new(50,50,50)
-							Handle.Massless = true
+					Handle.Massless = true
 					for _,v in pairs(AllPlayers) do
 						if v.Character and not table.find(WhitelistedPlayers,v) then
 							if v.Character:FindFirstChild("Humanoid") then
 								wait(0.00125)
-								Handle.Position = v.Character.HumanoidRootPart.Position
+								Handle.Position = v.Character.PrimaryPart.Position
 							end
 						end
 					end
@@ -1733,5 +1739,10 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 		
 			
 		end
+	end
+	if (tick() >= nextStep) and FarmKills == true then
+		iter2 = iter2+1
+		nextStep2 = start + (iter2 * Secondinterval)
+		mouse1press()
 	end
 end)
