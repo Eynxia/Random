@@ -1740,11 +1740,4 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 			
 		end
 	end
-	if (tick() >= nextStep) and FarmKills == true then
-		iter2 = iter2+1
-		nextStep2 = start + (iter2 * Secondinterval)
-		mouse1press()
-		wait(1.25)
-		mouse1release()
-	end
 end)
