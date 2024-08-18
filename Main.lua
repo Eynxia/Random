@@ -1718,7 +1718,8 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 					Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -99, -61)
 					local Tool = Player.Character:FindFirstChild("3 Sword")
 					local Handle = Tool.Handle
-					Handle.Massless = true
+					Handle.Size = Vector3.new(50,50,50)
+							Handle.Massless = true
 					for _,v in pairs(AllPlayers) do
 						if v.Character and not table.find(WhitelistedPlayers,v) then
 							if v.Character:FindFirstChild("Humanoid") then
