@@ -1700,7 +1700,7 @@ end)
 --// FarmKills Loop
 
 local interval = 0.0025
-local Secondinterval = 0.5
+local Secondinterval = 1.25
 local start = tick()
 local nextStep = start+interval
 local nextStep2 = start+Secondinterval
@@ -1744,5 +1744,7 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 		iter2 = iter2+1
 		nextStep2 = start + (iter2 * Secondinterval)
 		mouse1press()
+		wait(1.25)
+		mouse1release()
 	end
 end)
