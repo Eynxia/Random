@@ -690,7 +690,7 @@ local TakeAction = function(cmdtype,target,distance)
 
 					if table.find(WhitelistedPlayers,v) then
 						print("removed")
-						table.insert(WhitelistedPlayers,table.find(WhitelistedPlayers,v))
+						table.remove(WhitelistedPlayers,table.find(WhitelistedPlayers,v))
 						
 					end
 				end
