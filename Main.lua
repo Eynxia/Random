@@ -595,7 +595,7 @@ UI_ELEMENTS["UI_4"].ZIndexBehavior = Enum.ZIndexBehavior.Global
 UI_ELEMENTS["UI_4"].ResetOnSpawn = false
 UI_ELEMENTS["UI_4"].IgnoreGuiInset = true
 UI_ELEMENTS["UI_4"].Name = "GUI"
-UI_ELEMENTS["UI_4"].Parent = game:Getservice("CoreGui")
+UI_ELEMENTS["UI_4"].Parent = game:GetService("CoreGui")
 NotificationFolder.Parent = UI_ELEMENTS["UI_4"]
 SendNotify("Loading","Loading the gui and important functions, please be patient!")
 
