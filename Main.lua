@@ -14,7 +14,9 @@ local NotificationFolder = Instance.new("Folder")
 
 
 if _G.AlreadyLoaded then
-	NotificationsFolder.Parent = game.CoreGui.GUI
+	local newscreen = Instance.new("ScreenGui")
+	newscreen.Parent = game:GetService("CoreGui")
+	NotificationsFolder.Parent = newscreen
 local TXT1 = Instance.new("TextLabel") --// Topic/Command Name
 	local TXT2 = Instance.new("TextLabel") --// Error/warning
 	local MAINFR = Instance.new("Frame")
@@ -113,7 +115,7 @@ local TXT1 = Instance.new("TextLabel") --// Topic/Command Name
 		MAINFR:Destroy()
 	end)()
 task.wait(5)
-NotificationsFolder:Destroy()
+newscreen:Destroy()
 error("Already loaded GUI")
 end
 	
