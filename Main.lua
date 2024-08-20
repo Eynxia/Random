@@ -926,10 +926,10 @@ local TakeAction = function(cmdtype,target,distance)
                                         if not table.find(WhitelistedPlayers,v) then
 						local s,e = pcall(function()
 							Module.Kill(v.Character.PrimaryPart)
-								
+							SendNotify("kill","Successfully killed: "..v.Name)
 						end)
 						if s then
-							SendNotify("kill","Successfully killed: "..v.Name)
+							
 						else
 							SendNotify("kill","Failed to kill: "..v.Name..", player's PrimaryPart is missing.")
 						end
