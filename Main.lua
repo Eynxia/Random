@@ -127,8 +127,104 @@ end
 
 if _G.AlreadyLoaded then
 	NotificationsFolder.Parent = game.CoreGui.GUI
-SendNotify("Already loaded","The gui is already loaded by the player.")
-task.wait(3.5)
+local TXT1 = Instance.new("TextLabel") --// Topic/Command Name
+	local TXT2 = Instance.new("TextLabel") --// Error/warning
+	local MAINFR = Instance.new("Frame")
+	local EFF = Instance.new("Frame")
+	local PAT = Instance.new("ImageLabel")
+	local GRAD = Instance.new("UIGradient")
+	local GRAD2 = Instance.new("UIGradient")
+	local UICOR = Instance.new("UICorner")
+	local UITEXTSIZE = Instance.new("UITextSizeConstraint")
+
+	UITEXTSIZE.MaxTextSize = 17
+	UITEXTSIZE.MinTextSize = 1
+
+	GRAD.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(0,0,0)),
+	})
+	GRAD.Rotation = 90
+
+	GRAD2.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 1, 0),
+		NumberSequenceKeypoint.new(0.501247, 0.2375, 0 ),
+		NumberSequenceKeypoint.new(1,0.9875,0),
+	})
+
+	TXT1.Size = UDim2.new(1, 0,0.293, 0)
+	TXT1.Position = UDim2.new(0, 0,0, 0)
+	TXT1.TextScaled = true
+	TXT1.TextColor3 = Color3.fromRGB(255,255,255)
+	TXT1.TextXAlignment = Enum.TextXAlignment.Left
+	TXT1.TextYAlignment = Enum.TextYAlignment.Top
+	TXT1.ZIndex = 2
+	TXT1.Text = "Already Loaded"
+	TXT1.BackgroundTransparency = 1
+	TXT1.TextXAlignment = Enum.TextXAlignment.Center
+	TXT1.Font = Enum.Font.Montserrat
+	TXT1.TextTransparency = 1
+
+	TXT2.Size = UDim2.new(0.957, 0,0.568, 0)
+	TXT2.Position = UDim2.new(0.021, 0,0.346, 0)
+	TXT2.TextScaled = true
+	TXT2.TextColor3 = Color3.fromRGB(255,255,255)
+	TXT2.TextXAlignment = Enum.TextXAlignment.Left
+	TXT2.TextYAlignment = Enum.TextYAlignment.Top
+	TXT2.ZIndex = 2
+	TXT2.Text = "The gui has already been loaded by the player."
+	TXT2.BackgroundTransparency = 1
+	TXT2.Font = Enum.Font.Montserrat
+	TXT2.TextTransparency = 1
+
+
+	UICOR.CornerRadius = UDim.new(0.1, 0)
+
+	PAT.Image = PATTERN_LINK
+	PAT.Size = UDim2.new(1,0,1,0)
+	PAT.Position = UDim2.new(0,0,0,0)
+	PAT.ScaleType = Enum.ScaleType.Tile
+	PAT.TileSize = UDim2.new(0, 90,0, 90)
+	PAT.ImageTransparency = 0.8
+	PAT.ImageColor3 = Color3.fromRGB(0,0,0)
+	PAT.ZIndex = 1
+	PAT.BackgroundTransparency = 1
+
+	MAINFR.Size = UDim2.new(0.18, 0,0.106, 0)
+	MAINFR.Position = UDim2.new(1.25, 0,0.886, 0)
+	MAINFR.BackgroundColor3 = Color3.fromRGB(48,48,48)
+	MAINFR.Name = "Notification "..NotificationsSent
+
+	EFF.Size = UDim2.new(0,0,0,0)
+	EFF.Position = UDim2.new(0.5, 0,0.303, 0)
+	EFF.BackgroundColor3 = Color3.fromRGB(255,255,255)
+	EFF.AnchorPoint = Vector2.new(0.5,0.5)
+	EFF.ZIndex = 2
+
+	MAINFR.Parent = NotificationFolder
+	UICOR.Parent = MAINFR
+	GRAD.Parent = MAINFR
+	EFF.Parent = MAINFR
+	TXT1.Parent = MAINFR
+	TXT2.Parent = MAINFR
+	PAT.Parent = MAINFR
+	GRAD2.Parent = EFF
+	UITEXTSIZE.Parent = TXT2
+
+	coroutine.wrap(function()
+		MAINFR:TweenPosition(UDim2.new(0.813, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
+		task.wait(0.25)
+		TweenService:Create(TXT1,TweenInfo.new(1),{TextTransparency = 0}):Play()
+		task.wait(0.25)
+		TweenService:Create(EFF,TweenInfo.new(1),{Size = UDim2.new(1, 0,0.02, 0)}):Play()
+		task.wait(0.25)
+		TweenService:Create(TXT2,TweenInfo.new(1),{TextTransparency = 0}):Play()
+		task.wait(2)
+		MAINFR:TweenPosition(UDim2.new(1.25, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
+		task.wait(1)
+		MAINFR:Destroy()
+	end)()
+task.wait(5)
 NotificationsFolder:Destroy()
 error("Already loaded GUI")
 end
