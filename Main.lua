@@ -542,7 +542,7 @@ function Module.KillAura(Radius: number)
 end;
 
 --// Creating The Gui
-SendNotify("Loading","Loading the gui and important functions, please be patient!")
+
 
 local Player = Players.LocalPlayer
 local UserID = Player.UserId
@@ -595,6 +595,9 @@ UI_ELEMENTS["UI_4"].ZIndexBehavior = Enum.ZIndexBehavior.Global
 UI_ELEMENTS["UI_4"].ResetOnSpawn = false
 UI_ELEMENTS["UI_4"].IgnoreGuiInset = true
 UI_ELEMENTS["UI_4"].Name = "GUI"
+UI_ELEMENTS["UI_4"].Parent = game:Getservice("CoreGui")
+NotificationFolder.Parent = UI_ELEMENTS["UI_4"]
+SendNotify("Loading","Loading the gui and important functions, please be patient!")
 
 UI_ELEMENTS["UI_1"].Size = UDim2.new(0.4, 0,0.073, 0)
 UI_ELEMENTS["UI_1"].Position = UDim2.new(-1, 0,0.203, 0)
@@ -705,7 +708,6 @@ UI_ELEMENTS["UI_15"].Color = ColorSequence.new({
 
 UI_ELEMENTS["UI_15"].Rotation = 90
 
-UI_ELEMENTS["UI_4"].Parent = game:GetService("CoreGui")
 UI_ELEMENTS["UI_9"].Parent = UI_ELEMENTS["UI_4"]
 UI_ELEMENTS["UI_13"].Parent = UI_ELEMENTS["UI_9"]
 UI_ELEMENTS["UI_10"].Parent = UI_ELEMENTS["UI_9"]
@@ -725,7 +727,7 @@ UI_ELEMENTS["UI_18"].Parent = UI_ELEMENTS["UI_9"]
 UI_ELEMENTS["UI_19"].Parent = UI_ELEMENTS["UI_9"]
 UI_ELEMENTS["UI_20"].Parent = UI_ELEMENTS["UI_19"]
 UI_ELEMENTS["UI_22"].Parent = UI_ELEMENTS["UI_9"]
-NotificationFolder.Parent = UI_ELEMENTS["UI_4"]
+
 
 --// Setting Up Animations
 local LOADEDANIMS = {}
