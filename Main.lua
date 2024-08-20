@@ -8,18 +8,19 @@ Please, do not try to steal or impersonate this script or else i will take actio
 
 -killfarm
 -whitelist
+-notification
 
 --]]
 local NotificationFolder = Instance.new("Folder")
-
+local StartTime = tick()
 
 if _G.AlreadyLoaded then
 	local TweenService = game.TweenService
-		local PATTERN_LINK = "rbxassetid://300134974"
+	local PATTERN_LINK = "rbxassetid://300134974"
 	local newscreen = Instance.new("ScreenGui")
 	newscreen.Parent = game:GetService("CoreGui")
 	NotificationFolder.Parent = newscreen
-local TXT1 = Instance.new("TextLabel") --// Topic/Command Name
+	local TXT1 = Instance.new("TextLabel") --// Topic/Command Name
 	local TXT2 = Instance.new("TextLabel") --// Error/warning
 	local MAINFR = Instance.new("Frame")
 	local EFF = Instance.new("Frame")
@@ -115,11 +116,11 @@ local TXT1 = Instance.new("TextLabel") --// Topic/Command Name
 		task.wait(1)
 		MAINFR:Destroy()
 	end)()
-task.wait(5)
-newscreen:Destroy()
-error("Already loaded GUI")
+	task.wait(5)
+	newscreen:Destroy()
+	error("Already loaded GUI")
 end
-	
+
 _G.AlreadyLoaded = true
 
 --// Services
@@ -287,28 +288,28 @@ end;
 
 
 for _,v in pairs(Plates:GetChildren()) do
-for _,active in pairs(v.ActiveParts:GetDescendants()) do
-if active:IsA("Seat") then
-if not table.find(VARIABLES["Seats"],active) then
-table.insert(VARIABLES["Seats"],active)
-end
+	for _,active in pairs(v.ActiveParts:GetDescendants()) do
+		if active:IsA("Seat") then
+			if not table.find(VARIABLES["Seats"],active) then
+				table.insert(VARIABLES["Seats"],active)
+			end
 
-end
-end
+		end
+	end
 end
 
 coroutine.resume(coroutine.create(function()
 	while task.wait(1) do
-for _,v in pairs(Plates:GetChildren()) do
-for _,active in pairs(v.ActiveParts:GetDescendants()) do
-if active:IsA("Seat") then
-if not table.find(VARIABLES["Seats"],active) then
-table.insert(VARIABLES["Seats"],active)
-end
+		for _,v in pairs(Plates:GetChildren()) do
+			for _,active in pairs(v.ActiveParts:GetDescendants()) do
+				if active:IsA("Seat") then
+					if not table.find(VARIABLES["Seats"],active) then
+						table.insert(VARIABLES["Seats"],active)
+					end
 
-end
-end
-end
+				end
+			end
+		end
 
 		pcall(function()
 			for _,v in pairs(Players:GetPlayers()) do 
@@ -541,6 +542,8 @@ function Module.KillAura(Radius: number)
 end;
 
 --// Creating The Gui
+SendNotify("Loading","Loading the gui and important functions, please be patient!")
+
 local Player = Players.LocalPlayer
 local UserID = Player.UserId
 
@@ -906,34 +909,34 @@ local TakeAction = function(cmdtype,target,distance)
 						if v.Character:FindFirstChild("Humanoid") then
 							local Hum = v.Character.Humanoid
 							if Hum.Sit == true then
-								
+
 								for _,seat in pairs(VARIABLES["Seats"]) do
-									
+
 									if seat.Occupant ~= nil then
 										if seat.Occupant.Parent.Name == v.Name then
-											
+
 											SendNotify("kill","Couldn't kill "..v.Name..", player is currently sitting.")
 											return
 										end
 									end
-								
-									
+
+
 								end
 							end
-							
+
 						end
 					end
-                                        if not table.find(WhitelistedPlayers,v) then
+					if not table.find(WhitelistedPlayers,v) then
 						local s,e = pcall(function()
 							Module.Kill(v.Character.PrimaryPart)
 							SendNotify("kill","Successfully killed: "..v.Name)
 						end)
 						if s then
-							
+
 						else
 							SendNotify("kill","Failed to kill: "..v.Name..", player's PrimaryPart is missing.")
 						end
-					
+
 					end
 				elseif cmdtype == "freeze" then
 					if not table.find(WhitelistedPlayers,v) then
@@ -942,7 +945,7 @@ local TakeAction = function(cmdtype,target,distance)
 
 							Module.Freeze(v.Character.PrimaryPart)
 						end)
-						
+
 						if s then
 							SendNotify("freeze","Successfully froze: "..v.Name)
 						else
@@ -951,9 +954,9 @@ local TakeAction = function(cmdtype,target,distance)
 					end
 
 				elseif cmdtype == "fling" then
-				
-						Module.Fling(v.Character.PrimaryPart)
-					
+
+					Module.Fling(v.Character.PrimaryPart)
+
 
 				elseif cmdtype == "unfreeze" then
 					SendNotify("unfreeze","Unfreezing: "..v.Name..".")
@@ -1047,6 +1050,7 @@ local Set = function()
 				VARIABLES["Type"] = "unwhitelist"
 				VARIABLES["Target"] = Target
 			elseif Args[1] == "killall" then
+				SendNotify("killall","Attempting to kill all players.")
 				for _,v in pairs(Players:GetPlayers()) do
 					local BasePart = v.Character.PrimaryPart
 					if BasePart then
@@ -1056,9 +1060,9 @@ local Set = function()
 					end
 				end
 			elseif Args[1] == "freezeall" then
-					SendNotify("freezeall","Froze all players.")
+				SendNotify("freezeall","Froze all players.")
 				for _,v in pairs(Players:GetPlayers()) do
-					
+
 					local BasePart = v.Character.PrimaryPart
 					if BasePart then
 						if v.Name ~= Player.Name and not table.find(WhitelistedPlayers,v) then
@@ -1084,25 +1088,55 @@ local Set = function()
 				end
 
 			elseif Args[1] == "ubervip" then
-				local s,e = pcall(function()
-					local HRP = Player.Character.HumanoidRootPart
-					HRP.CFrame = UberVipCFrame
-				end)
-				if s then
-					SendNotify("Teleport","Successfully teleported to ubervip.")
+				if Player.Character then
+					if Player.Character:FindFirstChild("Humanoid") then
+						if Player.Character.Humanoid.Health > 1 then
+							local s,e = pcall(function()
+								local HRP = Player.Character.HumanoidRootPart
+								HRP.CFrame = UberVipCFrame
+							end)
+							if s then
+								SendNotify("Teleport","Successfully teleported to ubervip.")
+							else
+								SendNotify("Teleport","Failed to teleport to ubervip, could not find HumanoidRootPart or Character.")
+							end
+						else
+							SendNotify("Teleport","Failed to teleport to ubervip, Player's character is in a dead state.")			
+						end
+
+
+
+					end
 				else
-					SendNotify("Teleport","Failed to teleport to ubervip, could not found HumanoidRootPart or Character.")
+					SendNotify("Teleport","Failed to teleport to ubervip, could not find Character.")
 				end
+
+
+
 			elseif Args[1] == "vip" then
-				local s,e = pcall(function()
-					local HRP = Player.Character.HumanoidRootPart
-					HRP.CFrame = VipCFrame
-				end)
-				if s then
-					SendNotify("Teleport","Successfully teleported to vip.")
+				if Player.Character then
+					if Player.Character:FindFirstChild("Humanoid") then
+						if Player.Character.Humanoid.Health > 1 then
+							local s,e = pcall(function()
+								local HRP = Player.Character.HumanoidRootPart
+								HRP.CFrame = VipCFrame
+							end)
+							if s then
+								SendNotify("Teleport","Successfully teleported to vip.")
+							else
+								SendNotify("Teleport","Failed to teleport to vip, could not find HumanoidRootPart or Character.")
+							end
+						else
+							SendNotify("Teleport","Failed to teleport to vip, Player's character is in a dead state.")			
+						end
+
+
+
+					end
 				else
-					SendNotify("Teleport","Failed to teleport to vip, could not found HumanoidRootPart or Character.")
+					SendNotify("Teleport","Failed to teleport to ubervip, could not find Character.")
 				end
+
 			elseif Args[1] == "freezeaura" then
 				if tonumber(Args[2]) then
 					local Target = Args[2]
@@ -1124,24 +1158,50 @@ local Set = function()
 			elseif Args[1] == "unfreezeaura" then
 				FreezeAura:Destroy()
 			elseif Args[1] == "megavip" then
-				local s,e = pcall(function()
-					local HRP = Player.Character.HumanoidRootPart
-					HRP.CFrame = MegaVipCFrame
-				end)
-				if s then
-					SendNotify("Teleport","Successfully teleported to megavip.")
+				if Player.Character then
+					if Player.Character:FindFirstChild("Humanoid") then
+						if Player.Character.Humanoid.Health > 1 then
+							local s,e = pcall(function()
+								local HRP = Player.Character.HumanoidRootPart
+								HRP.CFrame = MegaVipCFrame
+							end)
+							if s then
+								SendNotify("Teleport","Successfully teleported to MegaVip.")
+							else
+								SendNotify("Teleport","Failed to teleport to MegaVip, could not find HumanoidRootPart or Character.")
+							end
+						else
+							SendNotify("Teleport","Failed to teleport to MegaVip, Player's character is in a dead state.")			
+						end
+
+
+
+					end
 				else
-					SendNotify("Teleport","Failed to teleport to megavip, could not found HumanoidRootPart or Character.")
+					SendNotify("Teleport","Failed to teleport to MegaVip, could not find Character.")
 				end
 			elseif Args[1] == "thumbnail" then
-				local s,e = pcall(function()
-					local HRP = Player.Character.HumanoidRootPart
-					HRP.CFrame = ThumbnailCFrame
-				end)
-				if s then
-					SendNotify("Teleport","Successfully teleported to thumbnail.")
+				if Player.Character then
+					if Player.Character:FindFirstChild("Humanoid") then
+						if Player.Character.Humanoid.Health > 1 then
+							local s,e = pcall(function()
+								local HRP = Player.Character.HumanoidRootPart
+								HRP.CFrame = ThumbnailCFrame
+							end)
+							if s then
+								SendNotify("Teleport","Successfully teleported to Thumbnail.")
+							else
+								SendNotify("Teleport","Failed to teleport to Thumbnail, could not find HumanoidRootPart or Character.")
+							end
+						else
+							SendNotify("Teleport","Failed to teleport to Thumbnail, Player's character is in a dead state.")			
+						end
+
+
+
+					end
 				else
-					SendNotify("Teleport","Failed to teleport to thumbnail, could not found HumanoidRootPart or Character.")
+					SendNotify("Teleport","Failed to teleport to Thumbnail, could not find Character.")
 				end
 			elseif Args[1] == "killfarm" then
 				if TempPart == nil then
@@ -1204,7 +1264,7 @@ local Set = function()
 					for _,v in pairs(workspace.Plates:GetChildren()) do
 
 						for _,Active in pairs(v.ActiveParts:GetChildren()) do
-							wait(0.05)
+							wait(0.01)
 							if Active.Name == "Block - Brick" then
 								local fling = Instance.new("BodyAngularVelocity")
 								fling.Name = "f"
@@ -1464,7 +1524,7 @@ local Set = function()
 
 				end
 			elseif Args[1] == "ungod" then
-					SendNotify("God Mode","Successfully stopped god mode.")
+				SendNotify("God Mode","Successfully stopped god mode.")
 				GodMode = false
 				pcall(function()
 					CONNECTIONS[8]:Disconnect()
@@ -1541,8 +1601,8 @@ local Set = function()
 				local Target = Args[2]
 
 				Module.DestroyAura(Target)
-					else
-					SendNotify("circle","Failed to execute circle, Argument 2 needs to be a number!")
+			else
+				SendNotify("circle","Failed to execute circle, Argument 2 needs to be a number!")
 			end
 		elseif #TextBox.Text > 2 and Args[1] == "freezeaura" then
 			if tonumber(Args[2]) then
@@ -1574,14 +1634,17 @@ local Set = function()
 		elseif TextBox.Text:lower() == "uncircle" then
 			pcall(function()
 				Aura:Destroy()
+				SendNotify("uncircle","Removed circle from character.")
 			end)
 		elseif TextBox.Text:lower() == "unfreezeaura" then
 			pcall(function()
 				Aura:Destroy()
+				SendNotify("uncircle","Removed freezeaura from character.")
 			end)
 		elseif TextBox.Text:lower() == "unkillaura" then
 			pcall(function()
 				KillAura:Destroy()
+				SendNotify("uncircle","Removed killaura from character.")
 			end)
 		elseif TextBox.Text:lower() == "killfarm" then
 
@@ -1625,6 +1688,7 @@ local Set = function()
 				SendNotify("unkillfarm","Could not find player's character.")
 			end
 		elseif TextBox.Text:lower() == "killall" then
+			SendNotify("killall","Attempting to kill all players.")
 			for _,v in pairs(Players:GetPlayers()) do
 				local BasePart = v.Character.PrimaryPart
 				if BasePart then
@@ -1636,7 +1700,7 @@ local Set = function()
 
 		elseif TextBox.Text:lower() == "freezeall" then
 			for _,v in pairs(Players:GetPlayers()) do
-					SendNotify("freezeall","Froze all players.")
+				SendNotify("freezeall","Froze all players.")
 				local BasePart = v.Character.PrimaryPart
 				if BasePart then
 					if v.Name ~= Player.Name  and not table.find(WhitelistedPlayers,v) then
@@ -1648,44 +1712,96 @@ local Set = function()
 				end
 			end
 		elseif TextBox.Text:lower() == "ubervip" then
-			local s,e = pcall(function()
-				local HRP = Player.Character.HumanoidRootPart
-				HRP.CFrame = UberVipCFrame
-			end)
-			if s then
-				SendNotify("Teleport","Successfully teleported to ubervip.")
+			if Player.Character then
+				if Player.Character:FindFirstChild("Humanoid") then
+					if Player.Character.Humanoid.Health > 1 then
+						local s,e = pcall(function()
+							local HRP = Player.Character.HumanoidRootPart
+							HRP.CFrame = UberVipCFrame
+						end)
+						if s then
+							SendNotify("Teleport","Successfully teleported to UberVip.")
+						else
+							SendNotify("Teleport","Failed to teleport to UberVip, could not find HumanoidRootPart or Character.")
+						end
+					else
+						SendNotify("Teleport","Failed to teleport to UberVip, Player's character is in a dead state.")			
+					end
+
+
+
+				end
 			else
-				SendNotify("Teleport","Failed to teleport to ubervip, could not found HumanoidRootPart or Character.")
+				SendNotify("Teleport","Failed to teleport to UberVip, could not find Character.")
 			end
 		elseif TextBox.Text:lower() == "vip" then
-			local s,e = pcall(function()
-				local HRP = Player.Character.HumanoidRootPart
-				HRP.CFrame = VipCFrame
-			end)
-			if s then
-				SendNotify("Teleport","Successfully teleported to vip.")
+			if Player.Character then
+				if Player.Character:FindFirstChild("Humanoid") then
+					if Player.Character.Humanoid.Health > 1 then
+						local s,e = pcall(function()
+							local HRP = Player.Character.HumanoidRootPart
+							HRP.CFrame = VipCFrame
+						end)
+						if s then
+							SendNotify("Teleport","Successfully teleported to Vip.")
+						else
+							SendNotify("Teleport","Failed to teleport to Vip, could not find HumanoidRootPart or Character.")
+						end
+					else
+						SendNotify("Teleport","Failed to teleport to Vip, Player's character is in a dead state.")			
+					end
+
+
+
+				end
 			else
-				SendNotify("Teleport","Failed to teleport to vip, could not found HumanoidRootPart or Character.")
+				SendNotify("Teleport","Failed to teleport to Vip, could not find Character.")
 			end
 		elseif TextBox.Text:lower() == "megavip" then
-			local s,e = pcall(function()
-				local HRP = Player.Character.HumanoidRootPart
-				HRP.CFrame = MegaVipCFrame
-			end)
-			if s then
-				SendNotify("Teleport","Successfully teleported to megavip.")
+			if Player.Character then
+				if Player.Character:FindFirstChild("Humanoid") then
+					if Player.Character.Humanoid.Health > 1 then
+						local s,e = pcall(function()
+							local HRP = Player.Character.HumanoidRootPart
+							HRP.CFrame = MegaVipCFrame
+						end)
+						if s then
+							SendNotify("Teleport","Successfully teleported to MegaVip.")
+						else
+							SendNotify("Teleport","Failed to teleport to MegaVip, could not find HumanoidRootPart or Character.")
+						end
+					else
+						SendNotify("Teleport","Failed to teleport to MegaVip, Player's character is in a dead state.")			
+					end
+
+
+
+				end
 			else
-				SendNotify("Teleport","Failed to teleport to megavip, could not found HumanoidRootPart or Character.")
+				SendNotify("Teleport","Failed to teleport to MegaVip, could not find Character.")
 			end
 		elseif TextBox.Text:lower() == "thumbnail" then
-			local s,e = pcall(function()
-				local HRP = Player.Character.HumanoidRootPart
-				HRP.CFrame = ThumbnailCFrame
-			end)
-			if s then
-				SendNotify("Teleport","Successfully teleported to thumbnail.")
+			if Player.Character then
+				if Player.Character:FindFirstChild("Humanoid") then
+					if Player.Character.Humanoid.Health > 1 then
+						local s,e = pcall(function()
+							local HRP = Player.Character.HumanoidRootPart
+							HRP.CFrame = ThumbnailCFrame
+						end)
+						if s then
+							SendNotify("Teleport","Successfully teleported to Thumbnail.")
+						else
+							SendNotify("Teleport","Failed to teleport to Thumbnail, could not find HumanoidRootPart or Character.")
+						end
+					else
+						SendNotify("Teleport","Failed to teleport to Thumbnail, Player's character is in a dead state.")			
+					end
+
+
+
+				end
 			else
-				SendNotify("Teleport","Failed to teleport to thumbnail, could not found HumanoidRootPart or Character.")
+				SendNotify("Teleport","Failed to teleport to Thumbnail, could not find Character.")
 			end
 		elseif TextBox.Text:lower() == "unfreezeall" then
 			pcall(function()
@@ -1917,7 +2033,7 @@ local Set = function()
 			if CONNECTIONS[7] == nil then
 				GodMode = true
 				task.spawn(function()
-							SendNotify("God Mode","Successfully started god mode.")
+					SendNotify("God Mode","Successfully started god mode.")
 					if CONNECTIONS[7] == nil then
 						GodMode = true
 						task.spawn(function()
@@ -2005,7 +2121,7 @@ local Set = function()
 			end
 		elseif TextBox.Text:lower() == "ungod" then
 			GodMode = false
-				SendNotify("God Mode","Successfully stopped god mode.")
+			SendNotify("God Mode","Successfully stopped god mode.")
 			pcall(function()
 				CONNECTIONS[8]:Disconnect()
 				CONNECTIONS[8] = nil
@@ -2142,3 +2258,12 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 		end
 	end
 end)
+
+function FormatStringToHourMinuteSecond(seconds)
+	return string.format("%02i:%02i:%02i", seconds/60^2, seconds/60%60, seconds%60)
+end
+
+local Loaded = StartTime - tick()
+
+
+SendNotify("Success","Successfully loaded the gui in "..FormatStringToHourMinuteSecond(tostring(Loaded)).."!")
