@@ -66,31 +66,30 @@ end;
 
 
 
-for _,v in pairs(workspace:GetDescendants()) do
-	if v:IsA("Seat") then
-		wait(0.01)
-		table.insert(VARIABLES["Seats"],v)
-	end
+for _,v in pairs(Plates:GetChildren()) do
+for _,active in pairs(v.ActiveParts:GetDescendants()) do
+if active:IsA("Seat") then
+if not table.find(VARIABLES["Seats"],active) then
+table.insert(VARIABLES["Seats"],active)
 end
 
-workspace.DescendantAdded:Connect(function(desc)
-	if desc:IsA("Seat") then
-		table.insert(VARIABLES["Seats"],desc)
-	end
-end)
-
-workspace.DescendantRemoving:Connect(function(desc)
-	if desc:IsA("Seat") then
-		for _,v in pairs(VARIABLES["Seats"]) do
-			if v == desc then
-				table.remove(VARIABLES["Seats"],table.find(VARIABLES["Players"],desc))
-			end
-		end
-	end
-end)
+end
+end
+end
 
 coroutine.resume(coroutine.create(function()
 	while task.wait(1) do
+for _,v in pairs(Plates:GetChildren()) do
+for _,active in pairs(v.ActiveParts:GetDescendants()) do
+if active:IsA("Seat") then
+if not table.find(VARIABLES["Seats"],active) then
+table.insert(VARIABLES["Seats"],active)
+end
+
+end
+end
+end
+
 		pcall(function()
 			for _,v in pairs(Players:GetPlayers()) do 
 				if v.Character then 
