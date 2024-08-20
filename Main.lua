@@ -801,7 +801,7 @@ local TakeAction = function(cmdtype,target,distance)
 								local Num = #VARIABLES["Seats"]
 								local Sum = 0
 								for _,seat in pairs(VARIABLES["Seats"]) do
-									sum += 1
+									Sum += 1
 									if seat.Occupant ~= nil then
 										if seat.Occupant.Parent.Name == v.Name then
 											Sitting = true
@@ -809,7 +809,7 @@ local TakeAction = function(cmdtype,target,distance)
 											return
 										end
 									end
-									if sum == Num and Sitting == false then
+									if Sum == Num and Sitting == false then
                                                                              if not table.find(WhitelistedPlayers,v) then
 						local s,e = pcall(function()
 							Module.Kill(v.Character.PrimaryPart)
