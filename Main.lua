@@ -1034,7 +1034,7 @@ local Set = function()
 				local Target = Args[2]
 				VARIABLES["Type"] = "unloopkill"
 				VARIABLES["Target"] = Target
-			elseif Args[1] == "freeze" or Args[1] == "thaw" then
+			elseif Args[1] == "freeze" then
 				local Target = Args[2]
 				VARIABLES["Type"] = "freeze"
 				VARIABLES["Target"] = Target
@@ -1069,7 +1069,7 @@ local Set = function()
 						end
 					end
 				end
-			elseif Args[1] == "unfreeze" then
+			elseif Args[1] == "unfreeze"  or Args[1] == "thaw"  then
 				local Target = Args[2]
 				VARIABLES["Target"] = Target
 				VARIABLES["Type"] = "unfreeze"
@@ -1514,11 +1514,11 @@ local Set = function()
 			VARIABLES["Target"] = Target
 			VARIABLES["Type"] = "Kill"
 
-		elseif #TextBox.Text > 2 and Args[1] == "freeze" or Args[1] == "thaw" then
+		elseif #TextBox.Text > 2 and Args[1] == "freeze" then
 			local Target = Args[2]
 			VARIABLES["Target"] = Target
 			VARIABLES["Type"] = "freeze"
-		elseif #TextBox.Text > 2 and Args[1] == "unfreeze" then
+		elseif #TextBox.Text > 2 and Args[1] == "unfreeze"  or Args[1] == "thaw"  then
 			local Target = Args[2]
 			VARIABLES["Target"] = Target
 			VARIABLES["Type"] = "unfreeze"
