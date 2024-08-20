@@ -16,7 +16,7 @@ local NotificationFolder = Instance.new("Folder")
 if _G.AlreadyLoaded then
 	local newscreen = Instance.new("ScreenGui")
 	newscreen.Parent = game:GetService("CoreGui")
-	NotificationsFolder.Parent = newscreen
+	NotificationFolder.Parent = newscreen
 local TXT1 = Instance.new("TextLabel") --// Topic/Command Name
 	local TXT2 = Instance.new("TextLabel") --// Error/warning
 	local MAINFR = Instance.new("Frame")
