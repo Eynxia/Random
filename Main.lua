@@ -14,6 +14,7 @@ local NotificationFolder = Instance.new("Folder")
 
 
 if _G.AlreadyLoaded then
+	local TweenService = game.TweenService
 		local PATTERN_LINK = "rbxassetid://300134974"
 	local newscreen = Instance.new("ScreenGui")
 	newscreen.Parent = game:GetService("CoreGui")
