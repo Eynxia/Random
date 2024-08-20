@@ -36,9 +36,11 @@ local Remotes: Folder = ReplicatedStorage.Remotes;
 local StampAsset: RemoteFunction = Remotes.StampAsset;
 local DeleteAsset: RemoteFunction = Remotes.DeleteAsset;
 local FarmKills = false
+local NotificationFolder = Instance.new("Folder")
 
 local VARIABLES = {}
 local WhitelistedPlayers = {}
+VARIABLES["Seats"] = {}
 VARIABLES["Players"] = {}
 
 local On = false
@@ -61,6 +63,31 @@ for _, Plate in pairs(Plates:GetChildren()) do
 		break;
 	end;
 end;
+
+
+
+for _,v in pairs(workspace:GetDescendants()) do
+	if v:IsA("Seat") then
+		wait(0.01)
+		table.insert(VARIABLES["Seats"],v)
+	end
+end
+
+workspace.DescendantAdded:Connect(function(desc)
+	if desc:IsA("Seat") then
+		table.insert(VARIABLES["Seats"],desc)
+	end
+end)
+
+workspace.DescendantRemoving:Connect(function(desc)
+	if desc:IsA("Seat") then
+		for _,v in pairs(VARIABLES["Seats"]) do
+			if v == desc then
+				table.remove(VARIABLES["Seats"],table.find(VARIABLES["Players"],desc))
+			end
+		end
+	end
+end)
 
 coroutine.resume(coroutine.create(function()
 	while task.wait(1) do
@@ -251,7 +278,7 @@ local CooldownForKillAura = function(plr)
 		if not table.find(WhitelistedPlayers,plr) then
 			Module.Kill(plr.Character.PrimaryPart)
 		end
-		
+
 	end
 	if CD2 == false then
 		CD4 = true
@@ -476,6 +503,7 @@ UI_ELEMENTS["UI_18"].Parent = UI_ELEMENTS["UI_9"]
 UI_ELEMENTS["UI_19"].Parent = UI_ELEMENTS["UI_9"]
 UI_ELEMENTS["UI_20"].Parent = UI_ELEMENTS["UI_19"]
 UI_ELEMENTS["UI_22"].Parent = UI_ELEMENTS["UI_9"]
+NotificationFolder.Parent = UI_ELEMENTS["UI_4"]
 
 --// Setting Up Animations
 local LOADEDANIMS = {}
@@ -570,6 +598,120 @@ local FindClosestName = function(name,blacklistedname,cmdtype)
 	end
 end
 
+
+local NotificationsSent = 0
+
+local SendNotify = function(topic,text)
+	NotificationsSent += 1
+	coroutine.wrap(function()
+		if NotificationFolder:FindFirstChild("Notification "..NotificationsSent - 1) then
+			local Frame = NotificationFolder:FindFirstChild("Notification "..NotificationsSent - 1)
+			Frame:TweenPosition(UDim2.new(1.25, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
+			task.wait(1.1)
+			Frame:Destroy()
+		end
+	end)()
+
+	local TXT1 = Instance.new("TextLabel") --// Topic/Command Name
+	local TXT2 = Instance.new("TextLabel") --// Error/warning
+	local MAINFR = Instance.new("Frame")
+	local EFF = Instance.new("Frame")
+	local PAT = Instance.new("ImageLabel")
+	local GRAD = Instance.new("UIGradient")
+	local GRAD2 = Instance.new("UIGradient")
+	local UICOR = Instance.new("UICorner")
+	local UITEXTSIZE = Instance.new("UITextSizeConstraint")
+
+	UITEXTSIZE.MaxTextSize = 17
+	UITEXTSIZE.MinTextSize = 1
+
+	GRAD.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(0,0,0)),
+	})
+	GRAD.Rotation = 90
+
+	GRAD2.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 1, 0),
+		NumberSequenceKeypoint.new(0.501247, 0.2375, 0 ),
+		NumberSequenceKeypoint.new(1,0.9875,0),
+	})
+
+	TXT1.Size = UDim2.new(1, 0,0.293, 0)
+	TXT1.Position = UDim2.new(0, 0,0, 0)
+	TXT1.TextScaled = true
+	TXT1.TextColor3 = Color3.fromRGB(255,255,255)
+	TXT1.TextXAlignment = Enum.TextXAlignment.Left
+	TXT1.TextYAlignment = Enum.TextYAlignment.Top
+	TXT1.ZIndex = 2
+	TXT1.Text = topic
+	TXT1.BackgroundTransparency = 1
+	TXT1.TextXAlignment = Enum.TextXAlignment.Center
+	TXT1.Font = Enum.Font.Montserrat
+	TXT1.TextTransparency = 1
+
+	TXT2.Size = UDim2.new(0.957, 0,0.568, 0)
+	TXT2.Position = UDim2.new(0.021, 0,0.346, 0)
+	TXT2.TextScaled = true
+	TXT2.TextColor3 = Color3.fromRGB(255,255,255)
+	TXT2.TextXAlignment = Enum.TextXAlignment.Left
+	TXT2.TextYAlignment = Enum.TextYAlignment.Top
+	TXT2.ZIndex = 2
+	TXT2.Text = text
+	TXT2.BackgroundTransparency = 1
+	TXT2.Font = Enum.Font.Montserrat
+	TXT2.TextTransparency = 1
+
+
+	UICOR.CornerRadius = UDim.new(0.1, 0)
+
+	PAT.Image = PATTERN_LINK
+	PAT.Size = UDim2.new(1,0,1,0)
+	PAT.Position = UDim2.new(0,0,0,0)
+	PAT.ScaleType = Enum.ScaleType.Tile
+	PAT.TileSize = UDim2.new(0, 90,0, 90)
+	PAT.ImageTransparency = 0.8
+	PAT.ImageColor3 = Color3.fromRGB(0,0,0)
+	PAT.ZIndex = 1
+	PAT.BackgroundTransparency = 1
+
+	MAINFR.Size = UDim2.new(0.18, 0,0.106, 0)
+	MAINFR.Position = UDim2.new(1.25, 0,0.886, 0)
+	MAINFR.BackgroundColor3 = Color3.fromRGB(48,48,48)
+	MAINFR.Name = "Notification "..NotificationsSent
+
+	EFF.Size = UDim2.new(0,0,0,0)
+	EFF.Position = UDim2.new(0.5, 0,0.303, 0)
+	EFF.BackgroundColor3 = Color3.fromRGB(255,255,255)
+	EFF.AnchorPoint = Vector2.new(0.5,0.5)
+	EFF.ZIndex = 2
+
+	MAINFR.Parent = NotificationFolder
+	UICOR.Parent = MAINFR
+	GRAD.Parent = MAINFR
+	EFF.Parent = MAINFR
+	TXT1.Parent = MAINFR
+	TXT2.Parent = MAINFR
+	PAT.Parent = MAINFR
+	GRAD2.Parent = EFF
+	UITEXTSIZE.Parent = TXT2
+
+	coroutine.wrap(function()
+		MAINFR:TweenPosition(UDim2.new(0.813, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
+		task.wait(0.25)
+		TweenService:Create(TXT1,TweenInfo.new(1),{TextTransparency = 0}):Play()
+		task.wait(0.25)
+		TweenService:Create(EFF,TweenInfo.new(1),{Size = UDim2.new(1, 0,0.02, 0)}):Play()
+		task.wait(0.25)
+		TweenService:Create(TXT2,TweenInfo.new(1),{TextTransparency = 0}):Play()
+		task.wait(2)
+		MAINFR:TweenPosition(UDim2.new(1.25, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
+		task.wait(1)
+		MAINFR:Destroy()
+	end)()
+
+end
+
 --// This is pretty straight forward, this function loopkills a player
 local LoopKill = function(target)
 	if target then
@@ -577,6 +719,7 @@ local LoopKill = function(target)
 			if CONNECTIONS[target] == nil then
 				local targetPlr = Players:FindFirstChild(target)
 				if targetPlr:IsA("Player") then
+					SendNotify("loopkill","Successfully turned on loopkill for: "..target..".")
 					Module.Kill(targetPlr.Character.PrimaryPart)
 					CONNECTIONS[target] = targetPlr.CharacterAdded:Connect(function(Char)
 
@@ -592,6 +735,7 @@ local LoopKill = function(target)
 	end
 end
 
+
 --// This is pretty straight forward, this function removes loopkill from a player
 local UnLoopKill = function(target)
 	if target then
@@ -600,6 +744,7 @@ local UnLoopKill = function(target)
 				pcall(function()
 					CONNECTIONS[target]:Disconnect()
 					CONNECTIONS[target] = nil
+					SendNotify("unloopkill","Successfully turned off loopkill for: "..target..".")
 				end)
 
 			end
@@ -610,7 +755,12 @@ end
 
 
 Players.PlayerRemoving:Connect(function(target)
-	UnLoopKill(target)
+	pcall(function()
+		if CONNECTIONS[target] ~= nil then
+			CONNECTIONS[target]:Disconnect()
+			CONNECTIONS[target] = nil
+		end
+	end)
 end)
 
 
@@ -643,19 +793,57 @@ local TakeAction = function(cmdtype,target,distance)
 		for _,v in pairs(Players:GetPlayers()) do
 			if v.Name == target then
 				if cmdtype == "Kill" then
-					if not table.find(WhitelistedPlayers,v) then
-						Module.Kill(v.Character.PrimaryPart)
+					if v.Character then
+						if v.Character:FindFirstChild("Humanoid") then
+							local Hum = v.Character.Humanoid
+							if Hum.Sit == true then
+								for _,seat in pairs(VARIABLES["Seats"]) do
+									if seat.Occupant ~= nil then
+										if seat.Occupant.Parent.Name == v.Name then
+											SendNotify("kill","Couldn't kill "..v.Name..", player is currently sitting.")
+											return
+										end
+									end
+									
+								end
+							end
+							
+						end
 					end
+					if not table.find(WhitelistedPlayers,v) then
+						local s,e = pcall(function()
+							Module.Kill(v.Character.PrimaryPart)
+						end)
+						if s then
+							SendNotify("kill","Successfully killed: "..v.Name)
+						else
+							SendNotify("kill","Failed to kill: "..v.Name..", player's PrimaryPart is missing.")
+						end
 					
+					end
+
 				elseif cmdtype == "freeze" then
 					if not table.find(WhitelistedPlayers,v) then
-						On = true
-						Module.Freeze(v.Character.PrimaryPart)
+						local s,e = pcall(function()
+							On = true
+
+							Module.Freeze(v.Character.PrimaryPart)
+						end)
+						
+						if s then
+							SendNotify("freeze","Successfully froze: "..v.Name)
+						else
+							SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
+						end
 					end
-					
+
 				elseif cmdtype == "fling" then
-					Module.Fling(v.Character.PrimaryPart)
+				
+						Module.Fling(v.Character.PrimaryPart)
+					
+
 				elseif cmdtype == "unfreeze" then
+					SendNotify("unfreeze","Unfreezing: "..v.Name..".")
 					for _,v in pairs(ActiveParts:GetChildren()) do
 						if v.Name == "Weathervane" then
 
@@ -677,15 +865,15 @@ local TakeAction = function(cmdtype,target,distance)
 					if not table.find(WhitelistedPlayers,v) then
 						LoopKill(target)
 					end
-					
+
 
 				elseif cmdtype == "unloopkill" then
 
-						UnLoopKill(target)
+					UnLoopKill(target)
 				elseif cmdtype == "whitelist" then
-					
+
 					if not table.find(WhitelistedPlayers,v) then
-						print("added")
+						SendNotify("Whitelist","Successfully whitelisted: "..v.Name)
 						table.insert(WhitelistedPlayers,v)
 					end
 					for _,v in pairs(WhitelistedPlayers) do
@@ -693,10 +881,10 @@ local TakeAction = function(cmdtype,target,distance)
 					end
 				elseif cmdtype == "unwhitelist" then
 
-					
-						table.remove(WhitelistedPlayers,table.find(WhitelistedPlayers,v))
-						
-					
+					SendNotify("UnWhitelist","Successfully unwhitelisted: "..v.Name)
+					table.remove(WhitelistedPlayers,table.find(WhitelistedPlayers,v))
+
+
 				end
 
 			end
@@ -775,45 +963,71 @@ local Set = function()
 
 				if #Target == 1 then
 					Prefix = Target
-					print(Prefix)
+					SendNotify("Prefix","Successfully changed prefix to: "..Target)
+				else
+					SendNotify("Prefix","Failed to change prefix to: "..Target..", character length too long.")
 				end
 
 			elseif Args[1] == "ubervip" then
-				pcall(function()
+				local s,e = pcall(function()
 					local HRP = Player.Character.HumanoidRootPart
 					HRP.CFrame = UberVipCFrame
 				end)
+				if s then
+					SendNotify("Teleport","Successfully teleported to ubervip.")
+				else
+					SendNotify("Teleport","Failed to teleport to ubervip, could not found HumanoidRootPart or Character.")
+				end
 			elseif Args[1] == "vip" then
-				pcall(function()
+				local s,e = pcall(function()
 					local HRP = Player.Character.HumanoidRootPart
 					HRP.CFrame = VipCFrame
 				end)
+				if s then
+					SendNotify("Teleport","Successfully teleported to vip.")
+				else
+					SendNotify("Teleport","Failed to teleport to vip, could not found HumanoidRootPart or Character.")
+				end
 			elseif Args[1] == "freezeaura" then
 				if tonumber(Args[2]) then
 					local Target = Args[2]
 
 					Module.FreezeAura(Target)
+				else
+					SendNotify("freezeaura","Failed to execute freezeaura, Argument 2 needs to be a number!")
 				end
 			elseif Args[1] == "killaura" then
 				if tonumber(Args[2]) then
 					local Target = Args[2]
 
 					Module.KillAura(Target)
+				else
+					SendNotify("killaura","Failed to execute killaura, Argument 2 needs to be a number!")
 				end
 			elseif Args[1] == "unkillaura" then
 				KillAura:Destroy()
 			elseif Args[1] == "unfreezeaura" then
 				FreezeAura:Destroy()
 			elseif Args[1] == "megavip" then
-				pcall(function()
+				local s,e = pcall(function()
 					local HRP = Player.Character.HumanoidRootPart
 					HRP.CFrame = MegaVipCFrame
 				end)
+				if s then
+					SendNotify("Teleport","Successfully teleported to megavip.")
+				else
+					SendNotify("Teleport","Failed to teleport to megavip, could not found HumanoidRootPart or Character.")
+				end
 			elseif Args[1] == "thumbnail" then
-				pcall(function()
+				local s,e = pcall(function()
 					local HRP = Player.Character.HumanoidRootPart
 					HRP.CFrame = ThumbnailCFrame
 				end)
+				if s then
+					SendNotify("Teleport","Successfully teleported to thumbnail.")
+				else
+					SendNotify("Teleport","Failed to teleport to thumbnail, could not found HumanoidRootPart or Character.")
+				end
 			elseif Args[1] == "killfarm" then
 				if TempPart == nil then
 					TempPart = Instance.new("Part")
@@ -825,20 +1039,39 @@ local Set = function()
 					TempPart.Color = Color3.fromRGB(0,0,0)
 					TempPart.CanCollide = true
 					TempPart.Name = "Safe"
-					PositionBeforeUsingFarmKills = Player.Character.HumanoidRootPart.CFrame
-					wait(0.05)
-					Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -101, -61)
-					FarmKills = true
-					
+					if Player.Character then
+						if Player.Character:FindFirstChild("HumanoidRootPart") then
+							SendNotify("killfarm","Successfully started killfarm.")
+							PositionBeforeUsingFarmKills = Player.Character.HumanoidRootPart.CFrame
+							wait(0.05)
+							Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -101, -61)
+							FarmKills = true
+						else
+							SendNotify("killfarm","Failed to start killfarm, could not find HumanoidRootPart.")
+						end
+					else
+						SendNotify("killfarm","Failed to start killfarm, could not find character.")
+					end
+
 				end
-				
+
 			elseif Args[1] == "unkillfarm" then
 				TempPart:Destroy()
 				TempPart = nil
 				FarmKills = false
-				Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
+				if Player.Character then
+					if Player.Character:FindFirstChild("HumanoidRootPart") then
+						Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
+						SendNotify("unkillfarm","Successfully stopped killfarm.")
+					else
+						SendNotify("unkillfarm","Could not find player's HumanoidRootPart.")
+					end
+				else
+					SendNotify("unkillfarm","Could not find player's character.")
+				end
 			elseif Args[1] == "unfreezeall" then
 				pcall(function()
+					SendNotify("unfreezeall","unfreezing all players.")
 					repeat
 						task.wait()
 						for _,v in pairs(ActiveParts:GetChildren()) do
@@ -856,6 +1089,7 @@ local Set = function()
 					for _,v in pairs(workspace.Plates:GetChildren()) do
 
 						for _,Active in pairs(v.ActiveParts:GetChildren()) do
+							wait(0.05)
 							if Active.Name == "Block - Brick" then
 								local fling = Instance.new("BodyAngularVelocity")
 								fling.Name = "f"
@@ -1057,6 +1291,7 @@ local Set = function()
 				if CONNECTIONS[7] == nil then
 					GodMode = true
 					task.spawn(function()
+						SendNotify("God Mode","Successfully started god mode.")
 						while GodMode == true and task.wait(0.0025) do
 							for _,v in pairs(workspace.Plates:GetChildren()) do
 								if v.Owner.Value ~= Player then
@@ -1196,19 +1431,25 @@ local Set = function()
 				local Target = Args[2]
 
 				Module.FreezeAura(Target)
+			else
+				SendNotify("killaura","Failed to execute killaura, Argument 2 needs to be a number!")
 			end
 		elseif #TextBox.Text > 2 and Args[1] == "killaura" then
 			if tonumber(Args[2]) then
 				local Target = Args[2]
 
 				Module.KillAura(Target)
+			else
+				SendNotify("killaura","Failed to execute killaura, Argument 2 needs to be a number!")
 			end
 		elseif #TextBox.Text > 2 and Args[1] == "prefix" then
 			local Target = Args[2]
 
 			if #Target == 1 then
 				Prefix = Target
-				print(Prefix)
+				SendNotify("Prefix","Successfully changed prefix to: "..Target)
+			else
+				SendNotify("Prefix","Failed to change prefix to: "..Target..", character length too long.")
 			end
 
 
@@ -1225,7 +1466,7 @@ local Set = function()
 				KillAura:Destroy()
 			end)
 		elseif TextBox.Text:lower() == "killfarm" then
-			
+
 			if TempPart == nil then
 				TempPart = Instance.new("Part")
 				TempPart.Size = Vector3.new(100,0.1,100)
@@ -1236,16 +1477,35 @@ local Set = function()
 				TempPart.Color = Color3.fromRGB(0,0,0)
 				TempPart.CanCollide = true
 				TempPart.Name = "Safe"
-				PositionBeforeUsingFarmKills = Player.Character.HumanoidRootPart.CFrame
-				wait(0.05)
-				Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -101, -61)
-				FarmKills = true
+				if Player.Character then
+					if Player.Character:FindFirstChild("HumanoidRootPart") then
+						SendNotify("killfarm","Successfully started killfarm.")
+						PositionBeforeUsingFarmKills = Player.Character.HumanoidRootPart.CFrame
+						wait(0.05)
+						Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -101, -61)
+						FarmKills = true
+					else
+						SendNotify("killfarm","Failed to start killfarm, could not find HumanoidRootPart.")
+					end
+				else
+					SendNotify("killfarm","Failed to start killfarm, could not find character.")
+				end
+
 			end
 		elseif TextBox.Text:lower() == "unkillfarm" then
-			Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
 			TempPart:Destroy()
 			TempPart = nil
 			FarmKills = false
+			if Player.Character then
+				if Player.Character:FindFirstChild("HumanoidRootPart") then
+					Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
+					SendNotify("unkillfarm","Successfully stopped killfarm.")
+				else
+					SendNotify("unkillfarm","Could not find player's HumanoidRootPart.")
+				end
+			else
+				SendNotify("unkillfarm","Could not find player's character.")
+			end
 		elseif TextBox.Text:lower() == "killall" then
 			for _,v in pairs(Players:GetPlayers()) do
 				local BasePart = v.Character.PrimaryPart
@@ -1269,27 +1529,48 @@ local Set = function()
 				end
 			end
 		elseif TextBox.Text:lower() == "ubervip" then
-			pcall(function()
+			local s,e = pcall(function()
 				local HRP = Player.Character.HumanoidRootPart
 				HRP.CFrame = UberVipCFrame
 			end)
+			if s then
+				SendNotify("Teleport","Successfully teleported to ubervip.")
+			else
+				SendNotify("Teleport","Failed to teleport to ubervip, could not found HumanoidRootPart or Character.")
+			end
 		elseif TextBox.Text:lower() == "vip" then
-			pcall(function()
+			local s,e = pcall(function()
 				local HRP = Player.Character.HumanoidRootPart
 				HRP.CFrame = VipCFrame
 			end)
+			if s then
+				SendNotify("Teleport","Successfully teleported to vip.")
+			else
+				SendNotify("Teleport","Failed to teleport to vip, could not found HumanoidRootPart or Character.")
+			end
 		elseif TextBox.Text:lower() == "megavip" then
-			pcall(function()
+			local s,e = pcall(function()
 				local HRP = Player.Character.HumanoidRootPart
 				HRP.CFrame = MegaVipCFrame
 			end)
+			if s then
+				SendNotify("Teleport","Successfully teleported to megavip.")
+			else
+				SendNotify("Teleport","Failed to teleport to megavip, could not found HumanoidRootPart or Character.")
+			end
 		elseif TextBox.Text:lower() == "thumbnail" then
-			pcall(function()
+			local s,e = pcall(function()
 				local HRP = Player.Character.HumanoidRootPart
 				HRP.CFrame = ThumbnailCFrame
 			end)
+			if s then
+				SendNotify("Teleport","Successfully teleported to thumbnail.")
+			else
+				SendNotify("Teleport","Failed to teleport to thumbnail, could not found HumanoidRootPart or Character.")
+			end
 		elseif TextBox.Text:lower() == "unfreezeall" then
 			pcall(function()
+				SendNotify("unfreezeall","unfreezing all players.")
 				repeat
 					task.wait()
 					for _,v in pairs(ActiveParts:GetChildren()) do
@@ -1509,7 +1790,7 @@ local Set = function()
 
 				end
 			end)
-			
+
 
 
 
@@ -1717,7 +1998,7 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 					if Player.Backpack:FindFirstChild("3 Sword") then
 						Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack["3 Sword"])
 					end
-					
+
 				end
 			else
 				pcall(function()
@@ -1735,8 +2016,8 @@ game:GetService("RunService").Heartbeat:Connect(function(dt)
 					end
 				end)
 			end
-		
-			
+
+
 		end
 	end
 end)
