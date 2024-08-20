@@ -60,6 +60,7 @@ local NotificationsSent = 0
 
 local SendNotify = function(topic,text)
 	NotificationsSent += 1
+	local PATTERN_LINK = "rbxassetid://300134974"
 	coroutine.wrap(function()
 		if NotificationFolder:FindFirstChild("Notification "..NotificationsSent - 1) then
 			local Frame = NotificationFolder:FindFirstChild("Notification "..NotificationsSent - 1)
