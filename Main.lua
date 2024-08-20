@@ -1062,7 +1062,7 @@ local Set = function()
 				if Player.Character then
 					if Player.Character:FindFirstChild("HumanoidRootPart") then
 						Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
-						SendNotify("unkillfarm","Successfully stopped killfarm.")
+						SendNotify("killfarm","Successfully stopped killfarm.")
 					else
 						SendNotify("unkillfarm","Could not find player's HumanoidRootPart.")
 					end
@@ -1349,6 +1349,7 @@ local Set = function()
 
 				end
 			elseif Args[1] == "ungod" then
+					SendNotify("God Mode","Successfully stopped god mode.")
 				GodMode = false
 				pcall(function()
 					CONNECTIONS[8]:Disconnect()
@@ -1499,7 +1500,7 @@ local Set = function()
 			if Player.Character then
 				if Player.Character:FindFirstChild("HumanoidRootPart") then
 					Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
-					SendNotify("unkillfarm","Successfully stopped killfarm.")
+					SendNotify("killfarm","Successfully stopped killfarm.")
 				else
 					SendNotify("unkillfarm","Could not find player's HumanoidRootPart.")
 				end
@@ -1798,6 +1799,7 @@ local Set = function()
 			if CONNECTIONS[7] == nil then
 				GodMode = true
 				task.spawn(function()
+							SendNotify("God Mode","Successfully started god mode.")
 					if CONNECTIONS[7] == nil then
 						GodMode = true
 						task.spawn(function()
@@ -1885,6 +1887,7 @@ local Set = function()
 			end
 		elseif TextBox.Text:lower() == "ungod" then
 			GodMode = false
+				SendNotify("God Mode","Successfully stopped god mode.")
 			pcall(function()
 				CONNECTIONS[8]:Disconnect()
 				CONNECTIONS[8] = nil
