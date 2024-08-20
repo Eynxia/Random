@@ -10,7 +10,7 @@ Please, do not try to steal or impersonate this script or else i will take actio
 -whitelist
 
 --]]
-
+local NotificationFolder = Instance.new("Folder")
 local NotificationsSent = 0
 
 local SendNotify = function(topic,text)
@@ -126,8 +126,10 @@ local SendNotify = function(topic,text)
 end
 
 if _G.AlreadyLoaded then
+	NotificationsFolder.Parent = game.CoreGui.GUI
 SendNotify("Already loaded","The gui is already loaded by the player.")
-task.wait(2.5)
+task.wait(3.5)
+NotificationsFolder:Destroy()
 error("Already loaded GUI")
 end
 	
