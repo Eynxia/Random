@@ -793,24 +793,24 @@ local TakeAction = function(cmdtype,target,distance)
 		for _,v in pairs(Players:GetPlayers()) do
 			if v.Name == target then
 				if cmdtype == "Kill" then
+					local Sitting = false
 					if v.Character then
 						if v.Character:FindFirstChild("Humanoid") then
 							local Hum = v.Character.Humanoid
 							if Hum.Sit == true then
+								local Num = #VARIABLES["Seats"]
+								local Sum = 0
 								for _,seat in pairs(VARIABLES["Seats"]) do
+									sum += 1
 									if seat.Occupant ~= nil then
 										if seat.Occupant.Parent.Name == v.Name then
+											Sitting = true
 											SendNotify("kill","Couldn't kill "..v.Name..", player is currently sitting.")
 											return
 										end
 									end
-									
-								end
-							end
-							
-						end
-					end
-					if not table.find(WhitelistedPlayers,v) then
+									if sum == Num and Sitting == false then
+                                                                             if not table.find(WhitelistedPlayers,v) then
 						local s,e = pcall(function()
 							Module.Kill(v.Character.PrimaryPart)
 								SendNotify("kill","Successfully killed: "..v.Name)
@@ -822,6 +822,14 @@ local TakeAction = function(cmdtype,target,distance)
 						end
 					
 					end
+									end
+									
+								end
+							end
+							
+						end
+					end
+					
 
 				elseif cmdtype == "freeze" then
 					if not table.find(WhitelistedPlayers,v) then
