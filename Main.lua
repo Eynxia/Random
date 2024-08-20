@@ -14,6 +14,7 @@ local NotificationFolder = Instance.new("Folder")
 
 
 if _G.AlreadyLoaded then
+		local PATTERN_LINK = "rbxassetid://300134974"
 	local newscreen = Instance.new("ScreenGui")
 	newscreen.Parent = game:GetService("CoreGui")
 	NotificationFolder.Parent = newscreen
@@ -83,7 +84,6 @@ local TXT1 = Instance.new("TextLabel") --// Topic/Command Name
 	MAINFR.Size = UDim2.new(0.18, 0,0.106, 0)
 	MAINFR.Position = UDim2.new(1.25, 0,0.886, 0)
 	MAINFR.BackgroundColor3 = Color3.fromRGB(48,48,48)
-	MAINFR.Name = "Notification "..NotificationsSent
 
 	EFF.Size = UDim2.new(0,0,0,0)
 	EFF.Position = UDim2.new(0.5, 0,0.303, 0)
