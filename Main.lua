@@ -127,6 +127,7 @@ end
 
 if _G.AlreadyLoaded then
 SendNotify("Already loaded","The gui is already loaded by the player.")
+task.wait(2.5)
 error("Already loaded GUI")
 end
 	
