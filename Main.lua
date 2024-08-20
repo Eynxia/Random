@@ -1428,6 +1428,8 @@ local Set = function()
 				local Target = Args[2]
 
 				Module.DestroyAura(Target)
+					else
+					SendNotify("circle","Failed to execute circle, Argument 2 needs to be a number!")
 			end
 		elseif #TextBox.Text > 2 and Args[1] == "freezeaura" then
 			if tonumber(Args[2]) then
