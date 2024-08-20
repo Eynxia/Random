@@ -814,7 +814,6 @@ local TakeAction = function(cmdtype,target,distance)
 							
 						end
 					end
-					task.wait(0.1)
                                         if not table.find(WhitelistedPlayers,v) then
 						local s,e = pcall(function()
 							Module.Kill(v.Character.PrimaryPart)
