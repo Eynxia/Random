@@ -810,7 +810,7 @@ local FindClosestName = function(name,blacklistedname,cmdtype)
 					UI_ELEMENTS["UI_19"].Text = "whitelist "..MatchingNames[1]
 					VARIABLES["Target"] = MatchingNames[1]
 				end
-				if VARIABLES["Type"] == "unwhitelist " then
+				if VARIABLES["Type"] == "unwhitelist" then
 					UI_ELEMENTS["UI_19"].Text = "unwhitelist "..MatchingNames[1]
 					VARIABLES["Target"] = MatchingNames[1]
 				end
