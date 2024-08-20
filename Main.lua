@@ -943,7 +943,9 @@ local Set = function()
 					end
 				end
 			elseif Args[1] == "freezeall" then
+					SendNotify("freezeall","Froze all players.")
 				for _,v in pairs(Players:GetPlayers()) do
+					
 					local BasePart = v.Character.PrimaryPart
 					if BasePart then
 						if v.Name ~= Player.Name and not table.find(WhitelistedPlayers,v) then
@@ -1519,6 +1521,7 @@ local Set = function()
 
 		elseif TextBox.Text:lower() == "freezeall" then
 			for _,v in pairs(Players:GetPlayers()) do
+					SendNotify("freezeall","Froze all players.")
 				local BasePart = v.Character.PrimaryPart
 				if BasePart then
 					if v.Name ~= Player.Name  and not table.find(WhitelistedPlayers,v) then
