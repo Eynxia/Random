@@ -2416,6 +2416,7 @@ mouse.Button1Down:Connect(function()
 						elseif FreezeMode == true then
 							if not table.find(WhitelistedPlayers,v) then
 								local s,e = pcall(function()
+									VARIABLES["Target"] = v.Name
 									Module.Freeze(v.Character.PrimaryPart)
 								end)
 
