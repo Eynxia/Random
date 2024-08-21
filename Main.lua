@@ -9,6 +9,8 @@ Please, do not try to steal or impersonate this script or else i will take actio
 -killfarm
 -whitelist
 -notification
+-clickkill
+-clikfreeze
 
 --]]
 local NotificationFolder = Instance.new("Folder")
@@ -143,6 +145,8 @@ local Remotes: Folder = ReplicatedStorage.Remotes;
 local StampAsset: RemoteFunction = Remotes.StampAsset;
 local DeleteAsset: RemoteFunction = Remotes.DeleteAsset;
 local FarmKills = false
+local KillMode = false
+local FreezeMode = false
 local NotificationFolder = Instance.new("Folder")
 
 local VARIABLES = {}
@@ -344,6 +348,7 @@ local Module = {};
 
 function Module.Freeze(Part: Part)
 	if (typeof(Part) == "Instance") then Part = {Part}; end;
+	On = true
 	StampAsset:InvokeServer(
 		56447956,
 		LPlate.CFrame - Vector3.new(0, 5, 0),
@@ -943,7 +948,7 @@ local TakeAction = function(cmdtype,target,distance)
 				elseif cmdtype == "freeze" then
 					if not table.find(WhitelistedPlayers,v) then
 						local s,e = pcall(function()
-							On = true
+							
 
 							Module.Freeze(v.Character.PrimaryPart)
 						end)
@@ -1069,7 +1074,7 @@ local Set = function()
 					if BasePart then
 						if v.Name ~= Player.Name and not table.find(WhitelistedPlayers,v) then
 							VARIABLES["Target"] = v.Name
-							On = true
+						
 							task.wait(0.05)
 							Module.Freeze(BasePart)
 						end
@@ -1246,6 +1251,20 @@ local Set = function()
 				else
 					SendNotify("unkillfarm","Could not find player's character.")
 				end
+			elseif Args[1] == "clickkill" then
+				SendNotify("Click Kill","Enabled click kill, click on any player to kill.")
+				KillMode = true
+				FreezeMode = false
+			elseif Args[1] == "clickfreeze" then
+				SendNotify("Click Freeze","Enabled click freeze, click on any player to freeze.")
+				FreezeMode = true
+				KillMode = false			
+			elseif Args[1] == "unclickkill" then
+				SendNotify("Click Kill","Disabled click kill.")
+				KillMode = false
+			elseif Args[1] == "unclickfreeze" then
+				SendNotify("Click Freeze","Disabled click freeze.")
+				FreezeMode = false
 			elseif Args[1] == "unfreezeall" then
 				pcall(function()
 					SendNotify("unfreezeall","unfreezing all players.")
@@ -1707,7 +1726,7 @@ local Set = function()
 				if BasePart then
 					if v.Name ~= Player.Name  and not table.find(WhitelistedPlayers,v) then
 						VARIABLES["Target"] = v.Name
-						On = true
+						
 						task.wait(0.05)
 						Module.Freeze(BasePart)
 					end
@@ -1805,6 +1824,20 @@ local Set = function()
 			else
 				SendNotify("Teleport","Failed to teleport to Thumbnail, could not find Character.")
 			end
+		elseif TextBox.Text:lower() == "clickkill" then
+			SendNotify("Click Kill","Enabled click kill, click on any player to kill.")
+			KillMode = true
+			FreezeMode = false
+		elseif TextBox.Text:lower() == "clickfreeze" then
+			SendNotify("Click Freeze","Enabled click freeze, click on any player to freeze.")
+			FreezeMode = true
+			KillMode = false			
+		elseif TextBox.Text:lower() == "unclickkill" then
+			SendNotify("Click Kill","Disabled click kill.")
+			KillMode = false
+		elseif TextBox.Text:lower() == "unclickfreeze" then
+			SendNotify("Click Freeze","Disabled click freeze.")
+			FreezeMode = false
 		elseif TextBox.Text:lower() == "unfreezeall" then
 			pcall(function()
 				SendNotify("unfreezeall","unfreezing all players.")
@@ -2269,3 +2302,100 @@ local Loaded = StartTime - tick()
 
 
 SendNotify("Success","Successfully loaded the gui in "..FormatStringToHourMinuteSecond(tostring(Loaded)).."!")
+
+--// uhh, click kill, click freeze thingy!!!!!!!!! (mobile)
+local mouse = Player:GetMouse()
+
+game:GetService("UserInputService").TouchTap:Connect(function()
+	local Char = Player.Character or Player.CharacterAdded:Wait()
+
+	local raycastParams = RaycastParams.new()
+	raycastParams.FilterDescendantsInstances = {Char}
+	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+
+	local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
+
+	if raycastResult then
+		local raycastHit = raycastResult.Instance
+		if raycastHit then
+			local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
+			if raycastModel then
+				for _,v in pairs(Players:GetPlayers()) do
+					if raycastModel.Name == v.Name then
+						if KillMode == true then
+							local s,e = pcall(function()
+								Module.Kill(v.Character.PrimaryPart)
+							end)
+							if s then
+								SendNotify("kill","Successfully killed: "..v.Name)
+							else
+								SendNotify("kill","Failed to kill: "..", player's PrimaryPart is missing.")
+							end
+						elseif FreezeMode == true then
+							
+							local s,e = pcall(function()
+								
+								Module.Freeze(v.Character.PrimaryPart)
+							end)
+							if s then
+								SendNotify("freeze","Successfully froze: "..v.Name)
+							else
+								SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+--// uhh, click kill, click freeze thingy!!!!!!!!! (PC)
+mouse.Button1Down:Connect(function()
+	
+	local Char = Player.Character or Player.CharacterAdded:Wait()
+
+	local raycastParams = RaycastParams.new()
+	raycastParams.FilterDescendantsInstances = {Char}
+	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+
+	
+		local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
+
+		if raycastResult then
+			local raycastHit = raycastResult.Instance
+			if raycastHit then
+				local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
+				if raycastModel then
+					for _,v in pairs(Players:GetPlayers()) do
+						if raycastModel.Name == v.Name then
+							if KillMode == true then
+							local s,e = pcall(function()
+								
+									Module.Kill(v.Character.PrimaryPart)
+								end)
+								if s then
+									SendNotify("kill","Successfully killed: "..v.Name)
+								else
+									SendNotify("kill","Failed to kill: "..", player's PrimaryPart is missing.")
+								end
+							elseif FreezeMode == true then
+							local s,e = pcall(function()
+								VARIABLES["Target"] = v.Name
+								Module.Freeze(v.Character.PrimaryPart)
+								
+								end)
+								if s then
+									SendNotify("freeze","Successfully froze: "..v.Name)
+								else
+									SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	
+	
+end)
