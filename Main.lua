@@ -299,10 +299,9 @@ for _,v in pairs(Plates:GetChildren()) do
 end
 
 coroutine.resume(coroutine.create(function()
-	while task.wait(1) do
+	while task.wait(2.5) do
 		for _,v in pairs(Plates:GetChildren()) do
 			for _,active in pairs(v.ActiveParts:GetDescendants()) do
-				wait()
 				if active:IsA("Seat") then
 					if not table.find(VARIABLES["Seats"],active) then
 						table.insert(VARIABLES["Seats"],active)
