@@ -943,13 +943,13 @@ local TakeAction = function(cmdtype,target,distance)
 						else
 							SendNotify("kill","Failed to kill: "..v.Name..", player's PrimaryPart is missing.")
 						end
-else
-						SendNotify("kill","Failed to kill: "..", player is whitelisted.")
+					else
+						SendNotify("kill","Failed to kill: "..v.Name..", player is whitelisted.")
 					end
 				elseif cmdtype == "freeze" then
 					if not table.find(WhitelistedPlayers,v) then
 						local s,e = pcall(function()
-							
+
 
 							Module.Freeze(v.Character.PrimaryPart)
 						end)
@@ -960,7 +960,7 @@ else
 							SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
 						end
 					else
-						SendNotify("freeze","Failed to froze: "..", player is whitelisted.")
+						SendNotify("freeze","Failed to froze: "..v.Name..", player is whitelisted.")
 					end
 
 				elseif cmdtype == "fling" then
@@ -990,7 +990,7 @@ else
 				elseif cmdtype == "loopkill" then
 					if not table.find(WhitelistedPlayers,v) then
 						LoopKill(target)
-						else
+					else
 						SendNotify("loopkill","Failed to kill: "..", player is whitelisted.")
 					end
 
@@ -1003,7 +1003,7 @@ else
 					if not table.find(WhitelistedPlayers,v) then
 						SendNotify("Whitelist","Successfully whitelisted: "..v.Name)
 						table.insert(WhitelistedPlayers,v)
-						else
+					else
 						SendNotify("whitelist","Failed to whitelist: "..", player is already whitelisted.")
 					end
 					for _,v in pairs(WhitelistedPlayers) do
@@ -1081,7 +1081,7 @@ local Set = function()
 					if BasePart then
 						if v.Name ~= Player.Name and not table.find(WhitelistedPlayers,v) then
 							VARIABLES["Target"] = v.Name
-						
+
 							task.wait(0.05)
 							Module.Freeze(BasePart)
 						end
@@ -1733,7 +1733,7 @@ local Set = function()
 				if BasePart then
 					if v.Name ~= Player.Name  and not table.find(WhitelistedPlayers,v) then
 						VARIABLES["Target"] = v.Name
-						
+
 						task.wait(0.05)
 						Module.Freeze(BasePart)
 					end
@@ -2320,90 +2320,120 @@ game:GetService("UserInputService").TouchTap:Connect(function()
 	raycastParams.FilterDescendantsInstances = {Char}
 	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
 
-	
-		local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
 
-		if raycastResult then
-			local raycastHit = raycastResult.Instance
-			if raycastHit then
-				local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
-				if raycastModel then
-					for _,v in pairs(Players:GetPlayers()) do
-						if raycastModel.Name == v.Name then
-							if KillMode == true then
+	local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
+
+	if raycastResult then
+		local raycastHit = raycastResult.Instance
+		if raycastHit then
+			local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
+			if raycastModel then
+				for _,v in pairs(Players:GetPlayers()) do
+					if raycastModel.Name == v.Name then
+						if KillMode == true then
 							local s,e = pcall(function()
 								VARIABLES["Target"] = v.Name
 								TakeAction("Kill",VARIABLES["Target"])
-								end)
-								if s then
-									SendNotify("kill","Successfully killed: "..v.Name)
-								else
-									SendNotify("kill","Failed to kill: "..", player's PrimaryPart is missing.")
-								end
-							elseif FreezeMode == true then
+							end)
+							if s then
+								SendNotify("kill","Successfully killed: "..v.Name)
+							else
+								SendNotify("kill","Failed to kill: "..", player's PrimaryPart is missing.")
+							end
+						elseif FreezeMode == true then
 							local s,e = pcall(function()
 								VARIABLES["Target"] = v.Name
 								TakeAction("freeze",VARIABLES["Target"])
-								end)
-								if s then
-									SendNotify("freeze","Successfully froze: "..v.Name)
-								else
-									SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
-								end
+							end)
+							if s then
+								SendNotify("freeze","Successfully froze: "..v.Name)
+							else
+								SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
 							end
 						end
 					end
 				end
 			end
 		end
-	
+	end
+
 end)
 
 --// uhh, click kill, click freeze thingy!!!!!!!!! (PC)
 mouse.Button1Down:Connect(function()
-	
+
 	local Char = Player.Character or Player.CharacterAdded:Wait()
 
 	local raycastParams = RaycastParams.new()
 	raycastParams.FilterDescendantsInstances = {Char}
 	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
 
-	
-		local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
 
-		if raycastResult then
-			local raycastHit = raycastResult.Instance
-			if raycastHit then
-				local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
-				if raycastModel then
-					for _,v in pairs(Players:GetPlayers()) do
-						if raycastModel.Name == v.Name then
-							if KillMode == true then
-							local s,e = pcall(function()
-								VARIABLES["Target"] = v.Name
-								TakeAction("Kill",VARIABLES["Target"])
+	local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
+
+	if raycastResult then
+		local raycastHit = raycastResult.Instance
+		if raycastHit then
+			local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
+			if raycastModel then
+				for _,v in pairs(Players:GetPlayers()) do
+					if raycastModel.Name == v.Name then
+						if KillMode == true then
+							if v.Character then
+								if v.Character:FindFirstChild("Humanoid") then
+									local Hum = v.Character.Humanoid
+									if Hum.Sit == true then
+
+										for _,seat in pairs(VARIABLES["Seats"]) do
+
+											if seat.Occupant ~= nil then
+												if seat.Occupant.Parent.Name == v.Name then
+
+													SendNotify("kill","Couldn't kill "..v.Name..", player is currently sitting.")
+													return
+												end
+											end
+
+
+										end
+									end
+
+								end
+							end
+							if not table.find(WhitelistedPlayers,v) then
+								local s,e = pcall(function()
+									Module.Kill(v.Character.PrimaryPart)
+									SendNotify("kill","Successfully killed: "..v.Name)
 								end)
 								if s then
-									SendNotify("kill","Successfully killed: "..v.Name)
+
 								else
-									SendNotify("kill","Failed to kill: "..", player's PrimaryPart is missing.")
+									SendNotify("kill","Failed to kill: "..v.Name..", player's PrimaryPart is missing.")
 								end
-							elseif FreezeMode == true then
-							local s,e = pcall(function()
-								VARIABLES["Target"] = v.Name
-								TakeAction("freeze",VARIABLES["Target"])
+							else
+								SendNotify("kill","Failed to kill: "..v.Name..", player is whitelisted.")
+							end
+						elseif FreezeMode == true then
+							if not table.find(WhitelistedPlayers,v) then
+								local s,e = pcall(function()
+									Module.Freeze(v.Character.PrimaryPart)
 								end)
+
 								if s then
 									SendNotify("freeze","Successfully froze: "..v.Name)
 								else
 									SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
 								end
+							else
+								SendNotify("freeze","Failed to froze: "..v.Name..", player is whitelisted.")
 							end
+
 						end
 					end
 				end
 			end
 		end
-	
-	
+	end
+
+
 end)
