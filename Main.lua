@@ -943,7 +943,8 @@ local TakeAction = function(cmdtype,target,distance)
 						else
 							SendNotify("kill","Failed to kill: "..v.Name..", player's PrimaryPart is missing.")
 						end
-
+else
+						SendNotify("kill","Failed to kill: "..", player is whitelisted.")
 					end
 				elseif cmdtype == "freeze" then
 					if not table.find(WhitelistedPlayers,v) then
@@ -958,6 +959,8 @@ local TakeAction = function(cmdtype,target,distance)
 						else
 							SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
 						end
+					else
+						SendNotify("freeze","Failed to froze: "..", player is whitelisted.")
 					end
 
 				elseif cmdtype == "fling" then
@@ -987,6 +990,8 @@ local TakeAction = function(cmdtype,target,distance)
 				elseif cmdtype == "loopkill" then
 					if not table.find(WhitelistedPlayers,v) then
 						LoopKill(target)
+						else
+						SendNotify("loopkill","Failed to kill: "..", player is whitelisted.")
 					end
 
 
@@ -998,6 +1003,8 @@ local TakeAction = function(cmdtype,target,distance)
 					if not table.find(WhitelistedPlayers,v) then
 						SendNotify("Whitelist","Successfully whitelisted: "..v.Name)
 						table.insert(WhitelistedPlayers,v)
+						else
+						SendNotify("whitelist","Failed to whitelist: "..", player is already whitelisted.")
 					end
 					for _,v in pairs(WhitelistedPlayers) do
 						print(v)
