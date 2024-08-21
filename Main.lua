@@ -2313,41 +2313,43 @@ game:GetService("UserInputService").TouchTap:Connect(function()
 	raycastParams.FilterDescendantsInstances = {Char}
 	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
 
-	local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
+	
+		local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
 
-	if raycastResult then
-		local raycastHit = raycastResult.Instance
-		if raycastHit then
-			local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
-			if raycastModel then
-				for _,v in pairs(Players:GetPlayers()) do
-					if raycastModel.Name == v.Name then
-						if KillMode == true then
+		if raycastResult then
+			local raycastHit = raycastResult.Instance
+			if raycastHit then
+				local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
+				if raycastModel then
+					for _,v in pairs(Players:GetPlayers()) do
+						if raycastModel.Name == v.Name then
+							if KillMode == true then
 							local s,e = pcall(function()
-								Module.Kill(v.Character.PrimaryPart)
-							end)
-							if s then
-								SendNotify("kill","Successfully killed: "..v.Name)
-							else
-								SendNotify("kill","Failed to kill: "..", player's PrimaryPart is missing.")
-							end
-						elseif FreezeMode == true then
-							
+								VARIABLES["Target"] = v.Name
+								TakeAction("Kill",VARIABLES["Target"])
+								end)
+								if s then
+									SendNotify("kill","Successfully killed: "..v.Name)
+								else
+									SendNotify("kill","Failed to kill: "..", player's PrimaryPart is missing.")
+								end
+							elseif FreezeMode == true then
 							local s,e = pcall(function()
-								
-								Module.Freeze(v.Character.PrimaryPart)
-							end)
-							if s then
-								SendNotify("freeze","Successfully froze: "..v.Name)
-							else
-								SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
+								VARIABLES["Target"] = v.Name
+								TakeAction("freeze",VARIABLES["Target"])
+								end)
+								if s then
+									SendNotify("freeze","Successfully froze: "..v.Name)
+								else
+									SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
+								end
 							end
 						end
 					end
 				end
 			end
 		end
-	end
+	
 end)
 
 --// uhh, click kill, click freeze thingy!!!!!!!!! (PC)
@@ -2371,8 +2373,8 @@ mouse.Button1Down:Connect(function()
 						if raycastModel.Name == v.Name then
 							if KillMode == true then
 							local s,e = pcall(function()
-								
-									Module.Kill(v.Character.PrimaryPart)
+								VARIABLES["Target"] = v.Name
+								TakeAction("Kill",VARIABLES["Target"])
 								end)
 								if s then
 									SendNotify("kill","Successfully killed: "..v.Name)
@@ -2382,8 +2384,7 @@ mouse.Button1Down:Connect(function()
 							elseif FreezeMode == true then
 							local s,e = pcall(function()
 								VARIABLES["Target"] = v.Name
-								Module.Freeze(v.Character.PrimaryPart)
-								
+								TakeAction("freeze",VARIABLES["Target"])
 								end)
 								if s then
 									SendNotify("freeze","Successfully froze: "..v.Name)
