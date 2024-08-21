@@ -1638,7 +1638,7 @@ local Set = function()
 
 				Module.FreezeAura(Target)
 			else
-				SendNotify("killaura","Failed to execute killaura, Argument 2 needs to be a number!")
+				SendNotify("freezeaura","Failed to execute freezeaura, Argument 2 needs to be a number!")
 			end
 		elseif #TextBox.Text > 2 and Args[1] == "killaura" then
 			if tonumber(Args[2]) then
@@ -1667,12 +1667,12 @@ local Set = function()
 		elseif TextBox.Text:lower() == "unfreezeaura" then
 			pcall(function()
 				Aura:Destroy()
-				SendNotify("uncircle","Removed freezeaura from character.")
+				SendNotify("unfreezeaura","Removed freezeaura from character.")
 			end)
 		elseif TextBox.Text:lower() == "unkillaura" then
 			pcall(function()
 				KillAura:Destroy()
-				SendNotify("uncircle","Removed killaura from character.")
+				SendNotify("unkillaura","Removed killaura from character.")
 			end)
 		elseif TextBox.Text:lower() == "killfarm" then
 
