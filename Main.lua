@@ -132,6 +132,7 @@ local TweenService = game:GetService("TweenService")
 
 --// Other
 local CONNECTIONS = {}
+CONNECTIONS["PlayerHasSeated"] = {}
 --//Services\\--
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local UserInputService = game:GetService("UserInputService");
@@ -151,7 +152,7 @@ local NotificationFolder = Instance.new("Folder")
 
 local VARIABLES = {}
 local WhitelistedPlayers = {}
-VARIABLES["Seats"] = {}
+VARIABLES["IsPlayerSitting"] = {}
 VARIABLES["Players"] = {}
 
 local On = false
@@ -289,19 +290,6 @@ for _, Plate in pairs(Plates:GetChildren()) do
 	end;
 end;
 
-
-
-for _,v in pairs(Plates:GetChildren()) do
-	for _,active in pairs(v.ActiveParts:GetDescendants()) do
-		if active:IsA("Seat") then
-			if not table.find(VARIABLES["Seats"],active) then
-				table.insert(VARIABLES["Seats"],active)
-			end
-
-		end
-	end
-end
-
 coroutine.resume(coroutine.create(function()
 	while task.wait(1) do
 		pcall(function()
@@ -313,18 +301,9 @@ coroutine.resume(coroutine.create(function()
 				end
 			end					
 		end)
-		for _,v in pairs(Plates:GetChildren()) do
-			for _,active in pairs(v.ActiveParts:GetDescendants()) do
-				if active:IsA("Seat") then
-					if not table.find(VARIABLES["Seats"],active) then
-						table.insert(VARIABLES["Seats"],active)
-					end
-
-				end
-			end
-		end
-
 		
+
+
 	end
 end))
 
@@ -891,18 +870,81 @@ for _,v in pairs(Players:GetPlayers()) do
 			table.insert(AllPlayers,v)
 		end
 	end
+	coroutine.wrap(function()
+		
+		if not v.Character:FindFirstChild("Humanoid") then
+			v.CharacterAppearanceLoaded:Wait()		
+		end
+		
+		CONNECTIONS["PlayerHasSeated"][v.Name] = {}
+		VARIABLES["IsPlayerSitting"][v.Name] = {}
+		CONNECTIONS["PlayerHasSeated"][v.Name][2] = v.Character.Humanoid.Seated:Connect(function(seated)
+			if seated == true then
+				VARIABLES["IsPlayerSitting"][v.Name][1] = true
+			else
+				VARIABLES["IsPlayerSitting"][v.Name][1] = false
+			end
+		end)
+		CONNECTIONS["PlayerHasSeated"][v.Name][1] = v.CharacterAdded:Connect(function(char)
+			v.CharacterAppearanceLoaded:Wait()
+			CONNECTIONS["PlayerHasSeated"][v.Name][2]:Disconnect()
+			CONNECTIONS["PlayerHasSeated"][v.Name][2] = v.Character.Humanoid.Seated:Connect(function(seated)
+				if seated == true then
+					VARIABLES["IsPlayerSitting"][v.Name][1] = true
+				else
+					VARIABLES["IsPlayerSitting"][v.Name][1] = false
+				end
+			end)
+		end)
+
+	end)()
+
 end
 
 Players.PlayerAdded:Connect(function(plr)
 	if not table.find(AllPlayers,plr) then
 		table.insert(AllPlayers,plr)
 	end
+	coroutine.wrap(function()
+		plr.CharacterAppearanceLoaded:Wait()
+		if CONNECTIONS["PlayerHasSeated"][plr.Name] == nil then			
+			CONNECTIONS["PlayerHasSeated"][plr.Name] = {}
+			VARIABLES["IsPlayerSitting"][plr.Name] = {}
+			CONNECTIONS["PlayerHasSeated"][plr.Name][2] = plr.Character.Humanoid.Seated:Connect(function(seated)
+				if seated == true then
+					VARIABLES["IsPlayerSitting"][plr.Name][1] = true
+				else
+					VARIABLES["IsPlayerSitting"][plr.Name][1] = false
+				end
+			end)
+			CONNECTIONS["PlayerHasSeated"][plr.Name][1] = plr.CharacterAdded:Connect(function(char)
+				plr.CharacterAppearanceLoaded:Wait()
+				CONNECTIONS["PlayerHasSeated"][plr.Name][2]:Disconnect()
+				CONNECTIONS["PlayerHasSeated"][plr.Name][2] = plr.Character.Humanoid.Seated:Connect(function(seated)
+					if seated == true then
+						VARIABLES["IsPlayerSitting"][plr.Name][1] = true
+					else
+						VARIABLES["IsPlayerSitting"][plr.Name][1] = false
+					end
+				end)
+			end)
+		end
+	end)()
+	
 end)
 
 Players.PlayerRemoving:Connect(function(plr)
 	if table.find(AllPlayers,plr) then
 		table.remove(AllPlayers,table.find(AllPlayers,plr))
 	end
+	pcall(function()
+		CONNECTIONS["PlayerHasSeated"][plr.Name][1]:Disconnect()
+		CONNECTIONS["PlayerHasSeated"][plr.Name][2]:Disconnect()
+		CONNECTIONS["PlayerHasSeated"][plr.Name] = nil
+	end)
+	pcall(function()
+		VARIABLES["IsPlayerSitting"][plr.Name] = nil
+	end)
 end)
 
 --// This function fires a function from a given string, {cmdtype}.
@@ -912,27 +954,9 @@ local TakeAction = function(cmdtype,target,distance)
 		for _,v in pairs(Players:GetPlayers()) do
 			if v.Name == target then
 				if cmdtype == "Kill" then
-					local Sitting = false
-					if v.Character then
-						if v.Character:FindFirstChild("Humanoid") then
-							local Hum = v.Character.Humanoid
-							if Hum.Sit == true then
-
-								for _,seat in pairs(VARIABLES["Seats"]) do
-
-									if seat.Occupant ~= nil then
-										if seat.Occupant.Parent.Name == v.Name then
-
-											SendNotify("kill","Couldn't kill "..v.Name..", player is currently sitting.")
-											return
-										end
-									end
-
-
-								end
-							end
-
-						end
+					if VARIABLES["IsPlayerSitting"][v.Name][1] == true then
+						SendNotify("Kill","Failed to execute kill, the player is currently sitting!")
+						return
 					end
 					if not table.find(WhitelistedPlayers,v) then
 						local s,e = pcall(function()
@@ -2332,6 +2356,10 @@ game:GetService("UserInputService").TouchTap:Connect(function()
 				for _,v in pairs(Players:GetPlayers()) do
 					if raycastModel.Name == v.Name then
 						if KillMode == true then
+							if VARIABLES["IsPlayerSitting"][v.Name][1] == true then
+								SendNotify("Kill","Failed to execute kill, the player is currently sitting")
+								return
+							end
 							local s,e = pcall(function()
 								VARIABLES["Target"] = v.Name
 								TakeAction("Kill",VARIABLES["Target"])
@@ -2380,26 +2408,9 @@ mouse.Button1Down:Connect(function()
 				for _,v in pairs(Players:GetPlayers()) do
 					if raycastModel.Name == v.Name then
 						if KillMode == true then
-							if v.Character then
-								if v.Character:FindFirstChild("Humanoid") then
-									local Hum = v.Character.Humanoid
-									if Hum.Sit == true then
-
-										for _,seat in pairs(VARIABLES["Seats"]) do
-
-											if seat.Occupant ~= nil then
-												if seat.Occupant.Parent.Name == v.Name then
-
-													SendNotify("kill","Couldn't kill "..v.Name..", player is currently sitting.")
-													return
-												end
-											end
-
-
-										end
-									end
-
-								end
+							if VARIABLES["IsPlayerSitting"][v.Name][1] == true then
+								SendNotify("Kill","Failed to execute kill, the player is currently sitting")
+								return
 							end
 							if not table.find(WhitelistedPlayers,v) then
 								local s,e = pcall(function()
