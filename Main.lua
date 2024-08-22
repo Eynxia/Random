@@ -156,6 +156,7 @@ VARIABLES["IsPlayerSitting"] = {}
 VARIABLES["Players"] = {}
 
 local On = false
+local On2 = false
 local GodMode = false
 local antisit = false
 local ActiveParts: Folder;
@@ -320,6 +321,11 @@ CONNECTIONS[9] = ActiveParts.ChildAdded:Connect(function(Block)
 	elseif (Block.Name == "Weathervane") then
 		if On == true then
 			On = false
+			Block:AddTag(VARIABLES["Target"])
+		end
+	elseif (Block.Name == "Spikes") then
+		if On2 == true then
+			On2 = false
 			Block:AddTag(VARIABLES["Target"])
 		end
 	end;
@@ -800,6 +806,10 @@ local FindClosestName = function(name,blacklistedname,cmdtype)
 					UI_ELEMENTS["UI_19"].Text = "unwhitelist "..MatchingNames[1]
 					VARIABLES["Target"] = MatchingNames[1]
 				end
+				if VARIABLES["Type"] == "spike" then
+					UI_ELEMENTS["UI_19"].Text = "spike "..MatchingNames[1]
+					VARIABLES["Target"] = MatchingNames[1]
+				end
 			end
 		end	
 
@@ -988,7 +998,43 @@ local TakeAction = function(cmdtype,target,distance)
 					else
 						SendNotify("freeze","Failed to froze: "..v.Name..", player is whitelisted.")
 					end
+				elseif cmdtype == "spike" then
+					if not table.find(WhitelistedPlayers,v) then
+						local s,e = pcall(function()
+							VARIABLES["Target"] = v.Name
+							On2 = true
+							Module.CreateSpike(LPlate.CFrame)
+							
+							for _,parts in pairs(ActiveParts:GetChildren()) do
+								
+								if parts.Name == "Spikes" then
+								
+									for _,tag in pairs(parts:GetTags()) do
+										if tag == v.Name then
+											
+											local Sum = 0
+											repeat
+												task.wait()
+												Sum += 1
+												parts.Spikes.Spikes_Simple.Box.CFrame = v.Character.HumanoidRootPart.CFrame
+												if Sum == 500 then
+													Module.Delete(parts)
+												end
+											until Sum == 500
+										end
+									end
+								end
+							end
+						end)
 
+						if s then
+							SendNotify("spike","Successfully spiked: "..v.Name)
+						else
+							SendNotify("spike","Failed to spiked: "..", player's PrimaryPart is missing.")
+						end
+					else
+						SendNotify("spike","Failed to spike: "..v.Name..", player is whitelisted.")
+					end
 				elseif cmdtype == "fling" then
 
 					Module.Fling(v.Character.PrimaryPart)
@@ -1123,6 +1169,10 @@ local Set = function()
 				local Target = Args[2]
 				VARIABLES["Target"] = Target
 				VARIABLES["Type"] = "unfreeze"
+			elseif Args[1] == "spike"  then
+				local Target = Args[2]
+				VARIABLES["Target"] = Target
+				VARIABLES["Type"] = "spike"
 			elseif Args[1] == "prefix" then
 				local Target = Args[2]
 
@@ -1652,6 +1702,9 @@ local Set = function()
 				elseif VARIABLES["Type"] == "unwhitelist" then
 					TakeAction("unwhitelist",VARIABLES["Target"])
 					TextBox.Text = ""
+				elseif VARIABLES["Type"] == "spike" then
+					TakeAction("spike",VARIABLES["Target"])
+					TextBox.Text = ""
 				end
 			end
 		end
@@ -1687,8 +1740,10 @@ local Set = function()
 			local Target = Args[2]
 			VARIABLES["Target"] = Target
 			VARIABLES["Type"] = "unwhitelist"
-
-
+		elseif #TextBox.Text > 2 and Args[1] == "spike" then
+			local Target = Args[2]
+			VARIABLES["Target"] = Target
+			VARIABLES["Type"] = "spike"
 		elseif #TextBox.Text > 2 and Args[1] == "circle" then
 			if tonumber(Args[2]) then
 				local Target = Args[2]
@@ -2270,7 +2325,7 @@ local Set = function()
 					end
 				end)
 			end
-		
+	
 		elseif TextBox.Text:lower() == "unantisit" then
 			antisit = false
 			for _,v in pairs(workspace:GetDescendants()) do
@@ -2307,6 +2362,9 @@ local Set = function()
 				TextBox.Text = ""
 			elseif VARIABLES["Type"] == "unwhitelist" then
 				TakeAction("unwhitelist",VARIABLES["Target"])
+				TextBox.Text = ""
+			elseif VARIABLES["Type"] == "spike" then
+				TakeAction("spike",VARIABLES["Target"])
 				TextBox.Text = ""
 			end
 		end
@@ -2417,7 +2475,7 @@ function FormatStringToHourMinuteSecond(seconds)
 	return string.format("%02i:%02i:%02i", seconds/60^2, seconds/60%60, seconds%60)
 end
 
-local Loaded = StartTime - tick()
+
 
 
 
@@ -2537,5 +2595,6 @@ mouse.Button1Down:Connect(function()
 
 
 end)
+local Loaded = StartTime - tick()
 
 SendNotify("Success","Successfully loaded the gui in "..FormatStringToHourMinuteSecond(tostring(Loaded)).."!")
