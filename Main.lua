@@ -1017,10 +1017,10 @@ local TakeAction = function(cmdtype,target,distance)
 												task.wait()
 												Sum += 1
 												parts.Spikes_Simple.Box.CFrame = v.Character.HumanoidRootPart.CFrame
-												if Sum == 500 then
+												if Sum == 5000 then
 													Module.Delete(parts)
 												end
-											until Sum == 500
+											until Sum == 5000
 										end
 									end
 								end
