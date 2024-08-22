@@ -157,6 +157,7 @@ VARIABLES["Players"] = {}
 
 local On = false
 local GodMode = false
+local antisit = false
 local ActiveParts: Folder;
 local Plates: Model = Workspace.Plates;
 local LPlate: Part;
@@ -1049,6 +1050,12 @@ end
 
 --// This is pretty straight forward, this function sets up all the important functions.
 local Set = function()
+	local interval = 0.0025
+	local Secondinterval = 1.25
+	local start = tick()
+	local nextStep = start+interval
+	local iter = 1
+	
 	local Prefix = ":"
 	VARIABLES["Target"] = nil
 	VARIABLES["Type"] = nil
@@ -1515,43 +1522,77 @@ local Set = function()
 					task.wait(1)
 					Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
 				end)
-			elseif Args[1] == "god" then
+			elseif Args[1]:lower() == "god" then
 				if CONNECTIONS[7] == nil then
 					GodMode = true
 					task.spawn(function()
 						SendNotify("God Mode","Successfully started god mode.")
-						while GodMode == true and task.wait(0.0025) do
-							for _,v in pairs(workspace.Plates:GetChildren()) do
-								if v.Owner.Value ~= Player then
-									for _,Active in pairs(v.ActiveParts:GetChildren()) do
-										if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
-											for _,Spikes in pairs(Active:GetChildren()) do
-												if Spikes.Name == "Spikes_Simple" then
-													for _,gh in pairs(Spikes:GetChildren()) do
-														if gh.Name == "Spikes" then
-															gh:Destroy()
+						if CONNECTIONS.godmodconnection == nil then
+							GodMode = true
+							task.spawn(function()
+								CONNECTIONS.godmodconnection = 	game:GetService("RunService").Heartbeat:Connect(function(dt)
+									if (tick() >= nextStep) and FarmKills == true then
+										iter = iter+1
+										nextStep = start + (iter * interval)
+
+										for _,v in pairs(workspace.Plates:GetChildren()) do
+											if v.Owner.Value ~= Player then
+												for _,Active in pairs(v.ActiveParts:GetChildren()) do
+													if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
+														for _,Spikes in pairs(Active:GetChildren()) do
+															if Spikes.Name == "Spikes_Simple" then
+																for _,gh in pairs(Spikes:GetChildren()) do
+																	if gh.Name == "Spikes" then
+																		gh:Destroy()
+																	end
+																end
+															elseif Spikes.Name == "Spike_Retracting" then
+																for _,gh in pairs(Spikes:GetChildren()) do
+																	if gh.Name == "Spikes" then
+																		gh:Destroy()
+																	end
+																end	
+															elseif string.find(Spikes.Name:lower(),"friend") then
+																for _,gh in pairs(Spikes:GetChildren()) do
+																	if string.find(gh.Name:lower(),"laser") then
+																		gh:Destroy()
+																	end
+																end	
+															end	
 														end
 													end
-												elseif Spikes.Name == "Spike_Retracting" then
-													for _,gh in pairs(Spikes:GetChildren()) do
-														if gh.Name == "Spikes" then
-															gh:Destroy()
-														end
-													end	
-												elseif string.find(Spikes.Name:lower(),"friend") then
-													for _,gh in pairs(Spikes:GetChildren()) do
-														if string.find(gh.Name:lower(),"laser") then
-															gh:Destroy()
-														end
-													end	
-												end	
+												end
 											end
 										end
 									end
-								end
-							end
+								end)
+							end)
+							CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+								pcall(function()
+									VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+
+								end)
+							end)
+							CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
+								CONNECTIONS[8]:Disconnect()
+								pcall(function()
+									if VARIABLES["Pos"] ~= nil then
+										task.wait(1)						
+										char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
+									end
+								end)
+								task.wait(0.5)
+								CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
+									pcall(function()
+										VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
+										CONNECTIONS[8]:Disconnect()
+									end)
+								end)
+							end)
+
 						end
 					end)
+
 					CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
 						pcall(function()
 							VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
@@ -1562,7 +1603,7 @@ local Set = function()
 						CONNECTIONS[8]:Disconnect()
 						pcall(function()
 							if VARIABLES["Pos"] ~= nil then
-								task.wait(1)						
+								task.wait(1)					
 								char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
 							end
 						end)
@@ -1576,12 +1617,15 @@ local Set = function()
 					end)
 
 				end
-			elseif Args[1] == "ungod" then
+			elseif Args[1]:lower() == "ungod" then
 				SendNotify("God Mode","Successfully stopped god mode.")
-				GodMode = false
 				pcall(function()
 					CONNECTIONS[8]:Disconnect()
 					CONNECTIONS[8] = nil
+				end)
+				pcall(function()
+					CONNECTIONS.godmodconnection:Disconnect()
+					CONNECTIONS.godmodconnection = nil
 				end)
 				pcall(function()
 					CONNECTIONS[7]:Disconnect()
@@ -2101,40 +2145,45 @@ local Set = function()
 				GodMode = true
 				task.spawn(function()
 					SendNotify("God Mode","Successfully started god mode.")
-					if CONNECTIONS[7] == nil then
+					if CONNECTIONS.godmodconnection == nil then
 						GodMode = true
 						task.spawn(function()
-							while GodMode == true and task.wait(0.0025) do
-								for _,v in pairs(workspace.Plates:GetChildren()) do
-									if v.Owner.Value ~= Player then
-										for _,Active in pairs(v.ActiveParts:GetChildren()) do
-											if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
-												for _,Spikes in pairs(Active:GetChildren()) do
-													if Spikes.Name == "Spikes_Simple" then
-														for _,gh in pairs(Spikes:GetChildren()) do
-															if gh.Name == "Spikes" then
-																gh:Destroy()
+							CONNECTIONS.godmodconnection = 	game:GetService("RunService").Heartbeat:Connect(function(dt)
+								if (tick() >= nextStep) and FarmKills == true then
+									iter = iter+1
+									nextStep = start + (iter * interval)
+
+									for _,v in pairs(workspace.Plates:GetChildren()) do
+										if v.Owner.Value ~= Player then
+											for _,Active in pairs(v.ActiveParts:GetChildren()) do
+												if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
+													for _,Spikes in pairs(Active:GetChildren()) do
+														if Spikes.Name == "Spikes_Simple" then
+															for _,gh in pairs(Spikes:GetChildren()) do
+																if gh.Name == "Spikes" then
+																	gh:Destroy()
+																end
 															end
-														end
-													elseif Spikes.Name == "Spike_Retracting" then
-														for _,gh in pairs(Spikes:GetChildren()) do
-															if gh.Name == "Spikes" then
-																gh:Destroy()
-															end
+														elseif Spikes.Name == "Spike_Retracting" then
+															for _,gh in pairs(Spikes:GetChildren()) do
+																if gh.Name == "Spikes" then
+																	gh:Destroy()
+																end
+															end	
+														elseif string.find(Spikes.Name:lower(),"friend") then
+															for _,gh in pairs(Spikes:GetChildren()) do
+																if string.find(gh.Name:lower(),"laser") then
+																	gh:Destroy()
+																end
+															end	
 														end	
-													elseif string.find(Spikes.Name:lower(),"friend") then
-														for _,gh in pairs(Spikes:GetChildren()) do
-															if string.find(gh.Name:lower(),"laser") then
-																gh:Destroy()
-															end
-														end	
-													end	
+													end
 												end
 											end
 										end
 									end
 								end
-							end
+							end)
 						end)
 						CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
 							pcall(function()
@@ -2187,15 +2236,48 @@ local Set = function()
 
 			end
 		elseif TextBox.Text:lower() == "ungod" then
-			GodMode = false
 			SendNotify("God Mode","Successfully stopped god mode.")
 			pcall(function()
 				CONNECTIONS[8]:Disconnect()
 				CONNECTIONS[8] = nil
 			end)
 			pcall(function()
+				CONNECTIONS.godmodconnection:Disconnect()
+				CONNECTIONS.godmodconnection = nil
+			end)
+			pcall(function()
 				CONNECTIONS[7]:Disconnect()
 				CONNECTIONS[7] = nil
+			end)
+		elseif TextBox.Text:lower() == "antisit" then
+			if antisit == false then
+				SendNotify("Anti-Sit","Succesfully enabled anti-sit!")
+				antisit = true
+				for _,v in pairs(workspace:GetDescendants()) do
+
+					if v:IsA("Seat") then
+						v.Disabled = true
+					end
+				end
+				CONNECTIONS.worskpaceloop = workspace.DescendantAdded:Connect(function(mod)
+					if mod:IsA("Seat") then
+						mod.Disabled = true
+					end
+				end)
+			end
+		
+		elseif TextBox.Text:lower() == "unantisit" then
+			antisit = false
+			for _,v in pairs(workspace:GetDescendants()) do
+
+				if v:IsA("Seat") then
+					v.Disabled = false
+				end
+			end
+			pcall(function()
+				for _,v in pairs(Plates:GetChildren()) do
+					CONNECTIONS.worskpaceloop:Disconnect()
+				end
 			end)
 		end
 		if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
