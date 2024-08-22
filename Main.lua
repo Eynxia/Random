@@ -1016,7 +1016,7 @@ local TakeAction = function(cmdtype,target,distance)
 											repeat
 												task.wait()
 												Sum += 1
-												parts.Spikes.Spikes_Simple.Box.CFrame = v.Character.HumanoidRootPart.CFrame
+												parts.Spikes_Simple.Box.CFrame = v.Character.HumanoidRootPart.CFrame
 												if Sum == 500 then
 													Module.Delete(parts)
 												end
