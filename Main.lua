@@ -315,7 +315,6 @@ coroutine.resume(coroutine.create(function()
 		end)
 		for _,v in pairs(Plates:GetChildren()) do
 			for _,active in pairs(v.ActiveParts:GetDescendants()) do
-				wait()
 				if active:IsA("Seat") then
 					if not table.find(VARIABLES["Seats"],active) then
 						table.insert(VARIABLES["Seats"],active)
@@ -843,7 +842,7 @@ local LoopKill = function(target)
 					Module.Kill(targetPlr.Character.PrimaryPart)
 					CONNECTIONS[target] = targetPlr.CharacterAdded:Connect(function(Char)
 
-						task.wait(0.5)
+						targetPlr.CharacterAppearenceLoaded:Wait()
 
 						Module.Kill(Char.PrimaryPart)
 
