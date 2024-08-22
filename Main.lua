@@ -842,7 +842,7 @@ local LoopKill = function(target)
 					Module.Kill(targetPlr.Character.PrimaryPart)
 					CONNECTIONS[target] = targetPlr.CharacterAdded:Connect(function(Char)
 
-						targetPlr.CharacterAppearenceLoaded:Wait()
+						targetPlr.CharacterAppearanceLoaded:Wait()
 
 						Module.Kill(Char.PrimaryPart)
 
