@@ -303,7 +303,16 @@ for _,v in pairs(Plates:GetChildren()) do
 end
 
 coroutine.resume(coroutine.create(function()
-	while task.wait(2.5) do
+	while task.wait(1) do
+		pcall(function()
+			for _,v in pairs(Players:GetPlayers()) do 
+				if v.Character then 
+					if v.Character:FindFirstChild("Humanoid") then
+						v.Character.Humanoid.DisplayName = v.Name
+					end
+				end
+			end					
+		end)
 		for _,v in pairs(Plates:GetChildren()) do
 			for _,active in pairs(v.ActiveParts:GetDescendants()) do
 				wait()
@@ -316,15 +325,7 @@ coroutine.resume(coroutine.create(function()
 			end
 		end
 
-		pcall(function()
-			for _,v in pairs(Players:GetPlayers()) do 
-				if v.Character then 
-					if v.Character:FindFirstChild("Humanoid") then
-						v.Character.Humanoid.DisplayName = v.Name
-					end
-				end
-			end					
-		end)
+		
 	end
 end))
 
