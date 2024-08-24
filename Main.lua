@@ -1,145 +1,11 @@
---[[
-
-Hello, my name is Eynxia!
-This script's owner is WrdSup1 (aka. Eynx)
-Please, do not try to steal or impersonate this script or else i will take action.
-
---// New Commands
-
--killfarm
--whitelist
--notification
--clickkill
--clikfreeze
-
---]]
-local NotificationFolder = Instance.new("Folder")
-local StartTime = tick()
-
-if _G.AlreadyLoaded then
-	local TweenService = game.TweenService
-	local PATTERN_LINK = "rbxassetid://300134974"
-	local newscreen = Instance.new("ScreenGui")
-	newscreen.Parent = game:GetService("CoreGui")
-	NotificationFolder.Parent = newscreen
-	local TXT1 = Instance.new("TextLabel") --// Topic/Command Name
-	local TXT2 = Instance.new("TextLabel") --// Error/warning
-	local MAINFR = Instance.new("Frame")
-	local EFF = Instance.new("Frame")
-	local PAT = Instance.new("ImageLabel")
-	local GRAD = Instance.new("UIGradient")
-	local GRAD2 = Instance.new("UIGradient")
-	local UICOR = Instance.new("UICorner")
-	local UITEXTSIZE = Instance.new("UITextSizeConstraint")
-
-	UITEXTSIZE.MaxTextSize = 17
-	UITEXTSIZE.MinTextSize = 1
-
-	GRAD.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
-		ColorSequenceKeypoint.new(1, Color3.fromRGB(0,0,0)),
-	})
-	GRAD.Rotation = 90
-
-	GRAD2.Transparency = NumberSequence.new({
-		NumberSequenceKeypoint.new(0, 1, 0),
-		NumberSequenceKeypoint.new(0.501247, 0.2375, 0 ),
-		NumberSequenceKeypoint.new(1,0.9875,0),
-	})
-
-	TXT1.Size = UDim2.new(1, 0,0.293, 0)
-	TXT1.Position = UDim2.new(0, 0,0, 0)
-	TXT1.TextScaled = true
-	TXT1.TextColor3 = Color3.fromRGB(255,255,255)
-	TXT1.TextXAlignment = Enum.TextXAlignment.Left
-	TXT1.TextYAlignment = Enum.TextYAlignment.Top
-	TXT1.ZIndex = 2
-	TXT1.Text = "Already Loaded"
-	TXT1.BackgroundTransparency = 1
-	TXT1.TextXAlignment = Enum.TextXAlignment.Center
-	TXT1.Font = Enum.Font.Montserrat
-	TXT1.TextTransparency = 1
-
-	TXT2.Size = UDim2.new(0.957, 0,0.568, 0)
-	TXT2.Position = UDim2.new(0.021, 0,0.346, 0)
-	TXT2.TextScaled = true
-	TXT2.TextColor3 = Color3.fromRGB(255,255,255)
-	TXT2.TextXAlignment = Enum.TextXAlignment.Left
-	TXT2.TextYAlignment = Enum.TextYAlignment.Top
-	TXT2.ZIndex = 2
-	TXT2.Text = "The gui has already been loaded by the player."
-	TXT2.BackgroundTransparency = 1
-	TXT2.Font = Enum.Font.Montserrat
-	TXT2.TextTransparency = 1
-
-
-	UICOR.CornerRadius = UDim.new(0.1, 0)
-
-	PAT.Image = PATTERN_LINK
-	PAT.Size = UDim2.new(1,0,1,0)
-	PAT.Position = UDim2.new(0,0,0,0)
-	PAT.ScaleType = Enum.ScaleType.Tile
-	PAT.TileSize = UDim2.new(0, 90,0, 90)
-	PAT.ImageTransparency = 0.8
-	PAT.ImageColor3 = Color3.fromRGB(0,0,0)
-	PAT.ZIndex = 1
-	PAT.BackgroundTransparency = 1
-
-	MAINFR.Size = UDim2.new(0.18, 0,0.106, 0)
-	MAINFR.Position = UDim2.new(1.25, 0,0.886, 0)
-	MAINFR.BackgroundColor3 = Color3.fromRGB(48,48,48)
-
-	EFF.Size = UDim2.new(0,0,0,0)
-	EFF.Position = UDim2.new(0.5, 0,0.303, 0)
-	EFF.BackgroundColor3 = Color3.fromRGB(255,255,255)
-	EFF.AnchorPoint = Vector2.new(0.5,0.5)
-	EFF.ZIndex = 2
-
-	MAINFR.Parent = NotificationFolder
-	UICOR.Parent = MAINFR
-	GRAD.Parent = MAINFR
-	EFF.Parent = MAINFR
-	TXT1.Parent = MAINFR
-	TXT2.Parent = MAINFR
-	PAT.Parent = MAINFR
-	GRAD2.Parent = EFF
-	UITEXTSIZE.Parent = TXT2
-
-	coroutine.wrap(function()
-		MAINFR:TweenPosition(UDim2.new(0.813, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
-		task.wait(0.25)
-		TweenService:Create(TXT1,TweenInfo.new(1),{TextTransparency = 0}):Play()
-		task.wait(0.25)
-		TweenService:Create(EFF,TweenInfo.new(1),{Size = UDim2.new(1, 0,0.02, 0)}):Play()
-		task.wait(0.25)
-		TweenService:Create(TXT2,TweenInfo.new(1),{TextTransparency = 0}):Play()
-		task.wait(2)
-		MAINFR:TweenPosition(UDim2.new(1.25, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
-		task.wait(1)
-		MAINFR:Destroy()
-	end)()
-	task.wait(5)
-	newscreen:Destroy()
-	error("Already loaded GUI")
-end
-
-_G.AlreadyLoaded = true
-
---// Services
-
-local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-
---// Other
-local CONNECTIONS = {}
-CONNECTIONS["PlayerHasSeated"] = {}
---//Services\\--
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local UserInputService = game:GetService("UserInputService");
 local Workspace = game:GetService("Workspace");
 local Players = game:GetService("Players");
 local LPlayer = Players.LocalPlayer;
 local Mouse = LPlayer:GetMouse();
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 
 --//Variables\\--
 local Remotes: Folder = ReplicatedStorage.Remotes;
@@ -150,11 +16,13 @@ local KillMode = false
 local FreezeMode = false
 local NotificationFolder = Instance.new("Folder")
 
+local Connections = {}
 local VARIABLES = {}
 local WhitelistedPlayers = {}
 VARIABLES["IsPlayerSitting"] = {}
 VARIABLES["Players"] = {}
 
+local CurrentPlayer = nil
 local On = false
 local On2 = false
 local GodMode = false
@@ -269,17 +137,20 @@ local SendNotify = function(topic,text)
 	UITEXTSIZE.Parent = TXT2
 
 	coroutine.wrap(function()
-		MAINFR:TweenPosition(UDim2.new(0.813, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
-		task.wait(0.25)
-		TweenService:Create(TXT1,TweenInfo.new(1),{TextTransparency = 0}):Play()
-		task.wait(0.25)
-		TweenService:Create(EFF,TweenInfo.new(1),{Size = UDim2.new(1, 0,0.02, 0)}):Play()
-		task.wait(0.25)
-		TweenService:Create(TXT2,TweenInfo.new(1),{TextTransparency = 0}):Play()
-		task.wait(2)
-		MAINFR:TweenPosition(UDim2.new(1.25, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
-		task.wait(1)
-		MAINFR:Destroy()
+		pcall(function()
+			MAINFR:TweenPosition(UDim2.new(0.813, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
+			task.wait(0.25)
+			TweenService:Create(TXT1,TweenInfo.new(1),{TextTransparency = 0}):Play()
+			task.wait(0.25)
+			TweenService:Create(EFF,TweenInfo.new(1),{Size = UDim2.new(1, 0,0.02, 0)}):Play()
+			task.wait(0.25)
+			TweenService:Create(TXT2,TweenInfo.new(1),{TextTransparency = 0}):Play()
+			task.wait(2)
+			MAINFR:TweenPosition(UDim2.new(1.25, 0,0.886, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad,1,true)
+			task.wait(1)
+			MAINFR:Destroy()
+		end)
+
 	end)()
 
 end
@@ -303,13 +174,13 @@ coroutine.resume(coroutine.create(function()
 				end
 			end					
 		end)
-		
+
 
 
 	end
 end))
 
-CONNECTIONS[9] = ActiveParts.ChildAdded:Connect(function(Block)
+ActiveParts.ChildAdded:Connect(function(Block)
 	if (Block.Name == "Spikes - Moving") then
 		local MSpike = Block:WaitForChild("Spike_Retracting"):WaitForChild("Spikes");
 		MSpikes[#MSpikes+1] = MSpike;
@@ -318,17 +189,21 @@ CONNECTIONS[9] = ActiveParts.ChildAdded:Connect(function(Block)
 			table.remove(MSpikes, table.find(MSpikes, MSpike));	
 		end;
 
-	elseif (Block.Name == "Weathervane") then
-		if On == true then
-			On = false
-			Block:AddTag(VARIABLES["Target"])
-		end
-	elseif (Block.Name == "Spikes") then
+
+	end;
+	if Block.Name ==  "Spikes" then
 		if On2 == true then
 			On2 = false
-			Block:AddTag(VARIABLES["Target"])
+			Block:AddTag("Solo")
 		end
-	end;
+	end	
+	if Block.Name ==  "Weathervane" then
+		if On == true then
+			print("stop freezing people lil bro")
+			On = false
+			Block:AddTag(CurrentPlayer)
+		end
+	end
 end);
 
 local Module = {};
@@ -760,1620 +635,7 @@ for _,v in pairs(LOADEDANIMS) do
 	v:Play()
 end
 
---// This function finds the closest Player.Name from a string
-local FindClosestName = function(name,blacklistedname,cmdtype)
-	local MatchingNames = {}
-	local PlayersInGame = #Players:GetPlayers()
-	local Looped = 0
-	for _,v in pairs(Players:GetPlayers()) do
-		Looped += 1
-		local Name = v.Name:lower()
 
-
-		if string.sub(Name, 1, #name) == name then
-			table.insert(MatchingNames,v.Name)	
-		end
-		if Looped == PlayersInGame then
-			if table.find(MatchingNames,blacklistedname) then table.remove(MatchingNames,table.find(MatchingNames,blacklistedname)) end
-			if #MatchingNames == 1 then
-				if VARIABLES["Type"] == "Kill" then
-					UI_ELEMENTS["UI_19"].Text = "kill "..MatchingNames[1]
-					VARIABLES["Target"] = MatchingNames[1]
-				end
-				if VARIABLES["Type"] == "freeze" then
-
-					UI_ELEMENTS["UI_19"].Text = "freeze "..MatchingNames[1]
-					VARIABLES["Target"] = MatchingNames[1]
-
-				end
-				if VARIABLES["Type"] == "unfreeze" then
-					UI_ELEMENTS["UI_19"].Text = "unfreeze "..MatchingNames[1]
-					VARIABLES["Target"] = MatchingNames[1]
-				end
-				if VARIABLES["Type"] == "loopkill" then
-					UI_ELEMENTS["UI_19"].Text = "loopkill "..MatchingNames[1]
-					VARIABLES["Target"] = MatchingNames[1]
-				end
-				if VARIABLES["Type"] == "unloopkill" then
-					UI_ELEMENTS["UI_19"].Text = "unloopkill "..MatchingNames[1]
-					VARIABLES["Target"] = MatchingNames[1]
-				end
-				if VARIABLES["Type"] == "whitelist" then
-					UI_ELEMENTS["UI_19"].Text = "whitelist "..MatchingNames[1]
-					VARIABLES["Target"] = MatchingNames[1]
-				end
-				if VARIABLES["Type"] == "unwhitelist" then
-					UI_ELEMENTS["UI_19"].Text = "unwhitelist "..MatchingNames[1]
-					VARIABLES["Target"] = MatchingNames[1]
-				end
-				if VARIABLES["Type"] == "spike" then
-					UI_ELEMENTS["UI_19"].Text = "spike "..MatchingNames[1]
-					VARIABLES["Target"] = MatchingNames[1]
-				end
-			end
-		end	
-
-
-
-	end
-end
-
-
-
-
---// This is pretty straight forward, this function loopkills a player
-local LoopKill = function(target)
-	if target then
-		if Players:FindFirstChild(target) then
-			if CONNECTIONS[target] == nil then
-				local targetPlr = Players:FindFirstChild(target)
-				if targetPlr:IsA("Player") then
-					SendNotify("loopkill","Successfully turned on loopkill for: "..target..".")
-					Module.Kill(targetPlr.Character.PrimaryPart)
-					CONNECTIONS[target] = targetPlr.CharacterAdded:Connect(function(Char)
-
-						targetPlr.CharacterAppearanceLoaded:Wait()
-
-						Module.Kill(Char.PrimaryPart)
-
-
-					end)
-				end
-			end
-		end
-	end
-end
-
-
---// This is pretty straight forward, this function removes loopkill from a player
-local UnLoopKill = function(target)
-	if target then
-		if Players:FindFirstChild(target) then
-			if CONNECTIONS[target] ~= nil then
-				pcall(function()
-					CONNECTIONS[target]:Disconnect()
-					CONNECTIONS[target] = nil
-					SendNotify("unloopkill","Successfully turned off loopkill for: "..target..".")
-				end)
-
-			end
-		end
-	end
-end
-
-
-
-Players.PlayerRemoving:Connect(function(target)
-	pcall(function()
-		if CONNECTIONS[target] ~= nil then
-			CONNECTIONS[target]:Disconnect()
-			CONNECTIONS[target] = nil
-		end
-	end)
-end)
-
-
-local AllPlayers = {}
-
-for _,v in pairs(Players:GetPlayers()) do
-	if v.Name ~= Player.Name then
-		if not table.find(AllPlayers,v) then
-			table.insert(AllPlayers,v)
-		end
-	end
-	coroutine.wrap(function()
-		
-		if not v.Character:FindFirstChild("Humanoid") then
-			v.CharacterAppearanceLoaded:Wait()		
-		end
-		
-		CONNECTIONS["PlayerHasSeated"][v.Name] = {}
-		VARIABLES["IsPlayerSitting"][v.Name] = {}
-		CONNECTIONS["PlayerHasSeated"][v.Name][2] = v.Character.Humanoid.Seated:Connect(function(seated)
-			if seated == true then
-				VARIABLES["IsPlayerSitting"][v.Name][1] = true
-			else
-				VARIABLES["IsPlayerSitting"][v.Name][1] = false
-			end
-		end)
-		CONNECTIONS["PlayerHasSeated"][v.Name][1] = v.CharacterAdded:Connect(function(char)
-			v.CharacterAppearanceLoaded:Wait()
-			CONNECTIONS["PlayerHasSeated"][v.Name][2]:Disconnect()
-			CONNECTIONS["PlayerHasSeated"][v.Name][2] = v.Character.Humanoid.Seated:Connect(function(seated)
-				if seated == true then
-					VARIABLES["IsPlayerSitting"][v.Name][1] = true
-				else
-					VARIABLES["IsPlayerSitting"][v.Name][1] = false
-				end
-			end)
-		end)
-
-	end)()
-
-end
-
-Players.PlayerAdded:Connect(function(plr)
-	if not table.find(AllPlayers,plr) then
-		table.insert(AllPlayers,plr)
-	end
-	coroutine.wrap(function()
-		plr.CharacterAppearanceLoaded:Wait()
-		if CONNECTIONS["PlayerHasSeated"][plr.Name] == nil then			
-			CONNECTIONS["PlayerHasSeated"][plr.Name] = {}
-			VARIABLES["IsPlayerSitting"][plr.Name] = {}
-			CONNECTIONS["PlayerHasSeated"][plr.Name][2] = plr.Character.Humanoid.Seated:Connect(function(seated)
-				if seated == true then
-					VARIABLES["IsPlayerSitting"][plr.Name][1] = true
-				else
-					VARIABLES["IsPlayerSitting"][plr.Name][1] = false
-				end
-			end)
-			CONNECTIONS["PlayerHasSeated"][plr.Name][1] = plr.CharacterAdded:Connect(function(char)
-				plr.CharacterAppearanceLoaded:Wait()
-				CONNECTIONS["PlayerHasSeated"][plr.Name][2]:Disconnect()
-				CONNECTIONS["PlayerHasSeated"][plr.Name][2] = plr.Character.Humanoid.Seated:Connect(function(seated)
-					if seated == true then
-						VARIABLES["IsPlayerSitting"][plr.Name][1] = true
-					else
-						VARIABLES["IsPlayerSitting"][plr.Name][1] = false
-					end
-				end)
-			end)
-		end
-	end)()
-	
-end)
-
-Players.PlayerRemoving:Connect(function(plr)
-	if table.find(AllPlayers,plr) then
-		table.remove(AllPlayers,table.find(AllPlayers,plr))
-	end
-	pcall(function()
-		CONNECTIONS["PlayerHasSeated"][plr.Name][1]:Disconnect()
-		CONNECTIONS["PlayerHasSeated"][plr.Name][2]:Disconnect()
-		CONNECTIONS["PlayerHasSeated"][plr.Name] = nil
-	end)
-	pcall(function()
-		VARIABLES["IsPlayerSitting"][plr.Name] = nil
-	end)
-end)
-
---// This function fires a function from a given string, {cmdtype}.
-local TakeAction = function(cmdtype,target,distance)
-	if target and cmdtype then
-
-		for _,v in pairs(Players:GetPlayers()) do
-			if v.Name == target then
-				if cmdtype == "Kill" then
-					if VARIABLES["IsPlayerSitting"][v.Name][1] == true then
-						SendNotify("Kill","Failed to execute kill, the player is currently sitting!")
-						return
-					end
-					if not table.find(WhitelistedPlayers,v) then
-						local s,e = pcall(function()
-							Module.Kill(v.Character.PrimaryPart)
-							SendNotify("kill","Successfully killed: "..v.Name)
-						end)
-						if s then
-
-						else
-							SendNotify("kill","Failed to kill: "..v.Name..", player's PrimaryPart is missing.")
-						end
-					else
-						SendNotify("kill","Failed to kill: "..v.Name..", player is whitelisted.")
-					end
-				elseif cmdtype == "freeze" then
-					if not table.find(WhitelistedPlayers,v) then
-						local s,e = pcall(function()
-
-
-							Module.Freeze(v.Character.PrimaryPart)
-						end)
-
-						if s then
-							SendNotify("freeze","Successfully froze: "..v.Name)
-						else
-							SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
-						end
-					else
-						SendNotify("freeze","Failed to froze: "..v.Name..", player is whitelisted.")
-					end
-				elseif cmdtype == "spike" then
-					if not table.find(WhitelistedPlayers,v) then
-						local s,e = pcall(function()
-							VARIABLES["Target"] = v.Name
-							On2 = true
-							Module.CreateSpike(LPlate.CFrame)
-							
-							for _,parts in pairs(ActiveParts:GetChildren()) do
-								
-								if parts.Name == "Spikes" then
-								
-									for _,tag in pairs(parts:GetTags()) do
-										if tag == v.Name then
-											
-											local Sum = 0
-											repeat
-												task.wait()
-												Sum += 1
-												parts.Spikes_Simple.Box.CFrame = v.Character.HumanoidRootPart.CFrame
-												if Sum == 5000 then
-													Module.Delete(parts)
-												end
-											until Sum == 5000
-										end
-									end
-								end
-							end
-						end)
-
-						if s then
-							SendNotify("spike","Successfully spiked: "..v.Name)
-						else
-							SendNotify("spike","Failed to spiked: "..", player's PrimaryPart is missing.")
-						end
-					else
-						SendNotify("spike","Failed to spike: "..v.Name..", player is whitelisted.")
-					end
-				elseif cmdtype == "fling" then
-
-					Module.Fling(v.Character.PrimaryPart)
-
-
-				elseif cmdtype == "unfreeze" then
-					SendNotify("unfreeze","Unfreezing: "..v.Name..".")
-					for _,v in pairs(ActiveParts:GetChildren()) do
-						if v.Name == "Weathervane" then
-
-							for _,hai in pairs(v:GetTags()) do
-
-								if hai == target then
-									local Sum = 0
-									repeat
-										Sum += 1
-										task.wait()
-										Module.Delete(v)
-									until Sum > 200
-
-								end
-							end
-						end
-					end
-				elseif cmdtype == "loopkill" then
-					if not table.find(WhitelistedPlayers,v) then
-						LoopKill(target)
-					else
-						SendNotify("loopkill","Failed to kill: "..", player is whitelisted.")
-					end
-
-
-				elseif cmdtype == "unloopkill" then
-
-					UnLoopKill(target)
-				elseif cmdtype == "whitelist" then
-
-					if not table.find(WhitelistedPlayers,v) then
-						SendNotify("Whitelist","Successfully whitelisted: "..v.Name)
-						table.insert(WhitelistedPlayers,v)
-					else
-						SendNotify("whitelist","Failed to whitelist: "..", player is already whitelisted.")
-					end
-					for _,v in pairs(WhitelistedPlayers) do
-						print(v)
-					end
-				elseif cmdtype == "unwhitelist" then
-
-					SendNotify("UnWhitelist","Successfully unwhitelisted: "..v.Name)
-					table.remove(WhitelistedPlayers,table.find(WhitelistedPlayers,v))
-
-
-				end
-
-			end
-		end
-	end
-end
-
---// This is pretty straight forward, this function sets up all the important functions.
-local Set = function()
-	local interval = 0.0025
-	local Secondinterval = 1.25
-	local start = tick()
-	local nextStep = start+interval
-	local iter = 1
-	
-	local Prefix = ":"
-	VARIABLES["Target"] = nil
-	VARIABLES["Type"] = nil
-	VARIABLES["Distance"] = nil
-	VARIABLES["Pos"] = nil
-	local TextBox = UI_ELEMENTS["UI_19"]
-
-	CONNECTIONS[6] = Player.Chatted:Connect(function(msg)
-		VARIABLES["Target"] = nil
-		VARIABLES["Type"] = nil
-		VARIABLES["Distance"] = nil
-		local FirstCharacter = string.sub(msg:lower(),1,1)
-		if FirstCharacter == Prefix then
-			local PrefixRemoved = string.gsub(msg:lower(),Prefix,"")
-			local Args = string.split(PrefixRemoved:lower()," ")
-			if Args[1] == "kill" then
-				local Target = Args[2]
-				VARIABLES["Type"] = "Kill"
-				VARIABLES["Target"] = Target
-			elseif Args[1] == "loopkill" then
-				local Target = Args[2]
-				VARIABLES["Type"] = "loopkill"
-				VARIABLES["Target"] = Target
-			elseif Args[1] == "unloopkill" then
-				local Target = Args[2]
-				VARIABLES["Type"] = "unloopkill"
-				VARIABLES["Target"] = Target
-			elseif Args[1] == "freeze" then
-				local Target = Args[2]
-				VARIABLES["Type"] = "freeze"
-				VARIABLES["Target"] = Target
-			elseif Args[1] == "whitelist" then
-				local Target = Args[2]
-				VARIABLES["Type"] = "whitelist"
-				VARIABLES["Target"] = Target
-			elseif Args[1] == "unwhitelist" then
-				local Target = Args[2]
-				VARIABLES["Type"] = "unwhitelist"
-				VARIABLES["Target"] = Target
-			elseif Args[1] == "killall" then
-				SendNotify("killall","Attempting to kill all players.")
-				for _,v in pairs(Players:GetPlayers()) do
-					local BasePart = v.Character.PrimaryPart
-					if BasePart then
-						if v.Name ~= Player.Name and not table.find(WhitelistedPlayers,v) then
-							Module.Kill(BasePart)
-						end
-					end
-				end
-			elseif Args[1] == "freezeall" then
-				SendNotify("freezeall","Froze all players.")
-				for _,v in pairs(Players:GetPlayers()) do
-
-					local BasePart = v.Character.PrimaryPart
-					if BasePart then
-						if v.Name ~= Player.Name and not table.find(WhitelistedPlayers,v) then
-							VARIABLES["Target"] = v.Name
-
-							task.wait(0.05)
-							Module.Freeze(BasePart)
-						end
-					end
-				end
-			elseif Args[1] == "unfreeze"  or Args[1] == "thaw"  then
-				local Target = Args[2]
-				VARIABLES["Target"] = Target
-				VARIABLES["Type"] = "unfreeze"
-			elseif Args[1] == "spike"  then
-				local Target = Args[2]
-				VARIABLES["Target"] = Target
-				VARIABLES["Type"] = "spike"
-			elseif Args[1] == "prefix" then
-				local Target = Args[2]
-
-				if #Target == 1 then
-					Prefix = Target
-					SendNotify("Prefix","Successfully changed prefix to: "..Target)
-				else
-					SendNotify("Prefix","Failed to change prefix to: "..Target..", character length too long.")
-				end
-
-			elseif Args[1] == "ubervip" then
-				if Player.Character then
-					if Player.Character:FindFirstChild("Humanoid") then
-						if Player.Character.Humanoid.Health > 1 then
-							local s,e = pcall(function()
-								local HRP = Player.Character.HumanoidRootPart
-								HRP.CFrame = UberVipCFrame
-							end)
-							if s then
-								SendNotify("Teleport","Successfully teleported to ubervip.")
-							else
-								SendNotify("Teleport","Failed to teleport to ubervip, could not find HumanoidRootPart or Character.")
-							end
-						else
-							SendNotify("Teleport","Failed to teleport to ubervip, Player's character is in a dead state.")			
-						end
-
-
-
-					end
-				else
-					SendNotify("Teleport","Failed to teleport to ubervip, could not find Character.")
-				end
-
-
-
-			elseif Args[1] == "vip" then
-				if Player.Character then
-					if Player.Character:FindFirstChild("Humanoid") then
-						if Player.Character.Humanoid.Health > 1 then
-							local s,e = pcall(function()
-								local HRP = Player.Character.HumanoidRootPart
-								HRP.CFrame = VipCFrame
-							end)
-							if s then
-								SendNotify("Teleport","Successfully teleported to vip.")
-							else
-								SendNotify("Teleport","Failed to teleport to vip, could not find HumanoidRootPart or Character.")
-							end
-						else
-							SendNotify("Teleport","Failed to teleport to vip, Player's character is in a dead state.")			
-						end
-
-
-
-					end
-				else
-					SendNotify("Teleport","Failed to teleport to ubervip, could not find Character.")
-				end
-
-			elseif Args[1] == "freezeaura" then
-				if tonumber(Args[2]) then
-					local Target = Args[2]
-
-					Module.FreezeAura(Target)
-				else
-					SendNotify("freezeaura","Failed to execute freezeaura, Argument 2 needs to be a number!")
-				end
-			elseif Args[1] == "killaura" then
-				if tonumber(Args[2]) then
-					local Target = Args[2]
-
-					Module.KillAura(Target)
-				else
-					SendNotify("killaura","Failed to execute killaura, Argument 2 needs to be a number!")
-				end
-			elseif Args[1] == "unkillaura" then
-				KillAura:Destroy()
-			elseif Args[1] == "unfreezeaura" then
-				FreezeAura:Destroy()
-			elseif Args[1] == "megavip" then
-				if Player.Character then
-					if Player.Character:FindFirstChild("Humanoid") then
-						if Player.Character.Humanoid.Health > 1 then
-							local s,e = pcall(function()
-								local HRP = Player.Character.HumanoidRootPart
-								HRP.CFrame = MegaVipCFrame
-							end)
-							if s then
-								SendNotify("Teleport","Successfully teleported to MegaVip.")
-							else
-								SendNotify("Teleport","Failed to teleport to MegaVip, could not find HumanoidRootPart or Character.")
-							end
-						else
-							SendNotify("Teleport","Failed to teleport to MegaVip, Player's character is in a dead state.")			
-						end
-
-
-
-					end
-				else
-					SendNotify("Teleport","Failed to teleport to MegaVip, could not find Character.")
-				end
-			elseif Args[1] == "thumbnail" then
-				if Player.Character then
-					if Player.Character:FindFirstChild("Humanoid") then
-						if Player.Character.Humanoid.Health > 1 then
-							local s,e = pcall(function()
-								local HRP = Player.Character.HumanoidRootPart
-								HRP.CFrame = ThumbnailCFrame
-							end)
-							if s then
-								SendNotify("Teleport","Successfully teleported to Thumbnail.")
-							else
-								SendNotify("Teleport","Failed to teleport to Thumbnail, could not find HumanoidRootPart or Character.")
-							end
-						else
-							SendNotify("Teleport","Failed to teleport to Thumbnail, Player's character is in a dead state.")			
-						end
-
-
-
-					end
-				else
-					SendNotify("Teleport","Failed to teleport to Thumbnail, could not find Character.")
-				end
-			elseif Args[1] == "killfarm" then
-				if TempPart == nil then
-					TempPart = Instance.new("Part")
-					TempPart.Size = Vector3.new(100,0.1,100)
-					TempPart.CFrame = CFrame.new(71, -101, -61)
-					TempPart.Parent = workspace
-					TempPart.Anchored = true
-					TempPart.Transparency = 0.5
-					TempPart.Color = Color3.fromRGB(0,0,0)
-					TempPart.CanCollide = true
-					TempPart.Name = "Safe"
-					if Player.Character then
-						if Player.Character:FindFirstChild("HumanoidRootPart") then
-							SendNotify("killfarm","Successfully started killfarm.")
-							PositionBeforeUsingFarmKills = Player.Character.HumanoidRootPart.CFrame
-							wait(0.05)
-							Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -101, -61)
-							FarmKills = true
-						else
-							SendNotify("killfarm","Failed to start killfarm, could not find HumanoidRootPart.")
-						end
-					else
-						SendNotify("killfarm","Failed to start killfarm, could not find character.")
-					end
-
-				end
-
-			elseif Args[1] == "unkillfarm" then
-				TempPart:Destroy()
-				TempPart = nil
-				FarmKills = false
-				if Player.Character then
-					if Player.Character:FindFirstChild("HumanoidRootPart") then
-						Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
-						SendNotify("killfarm","Successfully stopped killfarm.")
-					else
-						SendNotify("unkillfarm","Could not find player's HumanoidRootPart.")
-					end
-				else
-					SendNotify("unkillfarm","Could not find player's character.")
-				end
-			elseif Args[1] == "clickkill" then
-				SendNotify("Click Kill","Enabled click kill, click on any player to kill.")
-				KillMode = true
-				FreezeMode = false
-			elseif Args[1] == "clickfreeze" then
-				SendNotify("Click Freeze","Enabled click freeze, click on any player to freeze.")
-				FreezeMode = true
-				KillMode = false			
-			elseif Args[1] == "unclickkill" then
-				SendNotify("Click Kill","Disabled click kill.")
-				KillMode = false
-			elseif Args[1] == "unclickfreeze" then
-				SendNotify("Click Freeze","Disabled click freeze.")
-				FreezeMode = false
-			elseif Args[1] == "unfreezeall" then
-				pcall(function()
-					SendNotify("unfreezeall","unfreezing all players.")
-					repeat
-						task.wait()
-						for _,v in pairs(ActiveParts:GetChildren()) do
-							if v.Name == "Weathervane" then
-								Module.Delete(v)		
-							end				
-						end
-					until not ActiveParts:FindFirstChild("Weathervane")
-
-
-				end)
-			elseif Args[1] == "dunparts" then
-
-				pcall(function()
-					for _,v in pairs(workspace.Plates:GetChildren()) do
-
-						for _,Active in pairs(v.ActiveParts:GetChildren()) do
-							wait(0.01)
-							if Active.Name == "Block - Brick" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Brick2
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-
-							end
-							if string.find(Active.Name,"Block") and not string.find(Active.Name,"Corner") then
-								for _,wow in pairs(Active:GetChildren()) do
-									if wow:IsA("BasePart") then
-										local fling = Instance.new("BodyAngularVelocity")
-										fling.Name = "f"
-										fling.Parent = wow
-										fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-										fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-										fling.P = math.huge
-										game:GetService("Debris"):AddItem(fling,5)
-									end
-								end
-							end
-							if Active.Name == "Window - Tall Corner" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.houseWindowDiagonal.castleDiagWindowTop
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if string.find(Active.Name,"Wedge") and not string.find(Active.Name,"Long Wedge") then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.GrassWedge.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if string.find(Active.Name,"Corner")  then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.GrassWedge.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if string.find(Active.Name,"Long Wedge") then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.GrassLongWedge.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Spikes" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Spikes_Simple.Box
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Spikes - Moving" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Spike_Retracting.Box
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Friend Only Door - Hostile" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.FriendOnlyDoorHostile.Head
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Chair - Tall" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceChairLrg.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Captain's Chair" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceChairCaptain.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Chair - Short" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceChairSmall.Wedge
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Space Wall" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceWall
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Space Wall" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceWall
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Space Wall - Corner" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceWallCorner
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Control Panel - Wall" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.spaceControlPanelWall.Part
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Window - Small" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Model.Window
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Window - Tall" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Model.Window
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Chimney" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.Model.Brick2
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-							if Active.Name == "Drawbridge" then
-								local fling = Instance.new("BodyAngularVelocity")
-								fling.Name = "f"
-								fling.Parent = Active.CastleDrawBridge.CastleDbridgeArchLeft2
-								fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-								fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-								fling.P = math.huge
-								game:GetService("Debris"):AddItem(fling,5)
-							end
-						end
-
-					end
-				end)
-			elseif Args[1] == "uufreeze" then
-				pcall(function()
-					local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
-					Player.Character.Humanoid.Health = 0
-					Player.CharacterAdded:Wait()
-					task.wait(1)
-					Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
-				end)
-			elseif Args[1] == "god" then
-				if CONNECTIONS[7] == nil then
-					GodMode = true
-					task.spawn(function()
-						SendNotify("God Mode","Successfully started god mode.")
-						if CONNECTIONS[7] == nil then
-							GodMode = true
-							task.spawn(function()
-								while GodMode == true and task.wait(0.0025) do
-									for _,v in pairs(workspace.Plates:GetChildren()) do
-										if v.Owner.Value ~= Player then
-											for _,Active in pairs(v.ActiveParts:GetChildren()) do
-												if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
-													for _,Spikes in pairs(Active:GetChildren()) do
-														if Spikes.Name == "Spikes_Simple" then
-															for _,gh in pairs(Spikes:GetChildren()) do
-																if gh.Name == "Spikes" then
-																	gh:Destroy()
-																end
-															end
-														elseif Spikes.Name == "Spike_Retracting" then
-															for _,gh in pairs(Spikes:GetChildren()) do
-																if gh.Name == "Spikes" then
-																	gh:Destroy()
-																end
-															end	
-														elseif string.find(Spikes.Name:lower(),"friend") then
-															for _,gh in pairs(Spikes:GetChildren()) do
-																if string.find(gh.Name:lower(),"laser") then
-																	gh:Destroy()
-																end
-															end	
-														end	
-													end
-												end
-											end
-										end
-									end
-								end
-							end)
-							CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-								pcall(function()
-									VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-
-								end)
-							end)
-							CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
-								Player.CharacterAppearanceLoaded:Wait()
-								CONNECTIONS[8]:Disconnect()
-								pcall(function()
-									if VARIABLES["Pos"] ~= nil then
-										task.wait(1)						
-										char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
-									end
-								end)
-								
-								CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-									pcall(function()
-										VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-										CONNECTIONS[8]:Disconnect()
-									end)
-								end)
-							end)
-
-						end
-					end)
-
-					CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-						pcall(function()
-							VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-
-						end)
-					end)
-					CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
-						CONNECTIONS[8]:Disconnect()
-						pcall(function()
-							if VARIABLES["Pos"] ~= nil then
-								task.wait(1)					
-								char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
-							end
-						end)
-						task.wait(0.5)
-						CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-							pcall(function()
-								VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-								CONNECTIONS[8]:Disconnect()
-							end)
-						end)
-					end)
-
-				end
-				elseif Args[1]  == "ungod" then
-				SendNotify("God Mode","Successfully stopped god mode.")
-				pcall(function()
-					CONNECTIONS[8]:Disconnect()
-					CONNECTIONS[8] = nil
-				end)
-				pcall(function()
-					CONNECTIONS.godmodconnection:Disconnect()
-					CONNECTIONS.godmodconnection = nil
-				end)
-				pcall(function()
-					CONNECTIONS[7]:Disconnect()
-					CONNECTIONS[7] = nil
-				end)
-			end
-			--// This i don't even know what to call determines what command that is going to be executed. VARIABLES["Type"]
-			if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
-				FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
-				if 	VARIABLES["Type"] == "Kill" then
-					TakeAction("Kill",VARIABLES["Target"])
-					TextBox.Text = ""
-				elseif VARIABLES["Type"] == "freeze" then
-					TakeAction("freeze",VARIABLES["Target"])
-					TextBox.Text = ""
-				elseif VARIABLES["Type"] == "unfreeze" then
-					TakeAction("unfreeze",VARIABLES["Target"])
-					TextBox.Text = ""
-				elseif VARIABLES["Type"] == "loopkill" then
-					TakeAction("loopkill",VARIABLES["Target"])
-					TextBox.Text = ""
-				elseif VARIABLES["Type"] == "unloopkill" then
-					TakeAction("unloopkill",VARIABLES["Target"])
-					TextBox.Text = ""
-				elseif VARIABLES["Type"] == "whitelist" then
-					TakeAction("whitelist",VARIABLES["Target"])
-					TextBox.Text = ""
-				elseif VARIABLES["Type"] == "unwhitelist" then
-					TakeAction("unwhitelist",VARIABLES["Target"])
-					TextBox.Text = ""
-				elseif VARIABLES["Type"] == "spike" then
-					TakeAction("spike",VARIABLES["Target"])
-					TextBox.Text = ""
-				end
-			end
-		end
-	end) 
-
-	CONNECTIONS[1] = UI_ELEMENTS["UI_19"].FocusLost:Connect(function()
-		VARIABLES["Target"] = nil
-		VARIABLES["Type"] = nil
-		VARIABLES["Distance"] = nil
-		local Args = string.split(TextBox.Text:lower()," ")
-		if #TextBox.Text > 2 and Args[1] == "kill" then
-			local Target = Args[2]
-			VARIABLES["Target"] = Target
-			VARIABLES["Type"] = "Kill"
-
-		elseif #TextBox.Text > 2 and Args[1] == "freeze" then
-			local Target = Args[2]
-			VARIABLES["Target"] = Target
-			VARIABLES["Type"] = "freeze"
-		elseif #TextBox.Text > 2 and Args[1] == "unfreeze"  or Args[1] == "thaw"  then
-			local Target = Args[2]
-			VARIABLES["Target"] = Target
-			VARIABLES["Type"] = "unfreeze"
-		elseif #TextBox.Text > 2 and Args[1] == "fling" then
-			local Target = Args[2]
-			VARIABLES["Target"] = Target
-			VARIABLES["Type"] = "fling"
-		elseif #TextBox.Text > 2 and Args[1] == "whitelist" then
-			local Target = Args[2]
-			VARIABLES["Target"] = Target
-			VARIABLES["Type"] = "whitelist"
-		elseif #TextBox.Text > 2 and Args[1] == "unwhitelist" then
-			local Target = Args[2]
-			VARIABLES["Target"] = Target
-			VARIABLES["Type"] = "unwhitelist"
-		elseif #TextBox.Text > 2 and Args[1] == "spike" then
-			local Target = Args[2]
-			VARIABLES["Target"] = Target
-			VARIABLES["Type"] = "spike"
-		elseif #TextBox.Text > 2 and Args[1] == "circle" then
-			if tonumber(Args[2]) then
-				local Target = Args[2]
-
-				Module.DestroyAura(Target)
-			else
-				SendNotify("circle","Failed to execute circle, Argument 2 needs to be a number!")
-			end
-		elseif #TextBox.Text > 2 and Args[1] == "freezeaura" then
-			if tonumber(Args[2]) then
-				local Target = Args[2]
-
-				Module.FreezeAura(Target)
-			else
-				SendNotify("freezeaura","Failed to execute freezeaura, Argument 2 needs to be a number!")
-			end
-		elseif #TextBox.Text > 2 and Args[1] == "killaura" then
-			if tonumber(Args[2]) then
-				local Target = Args[2]
-
-				Module.KillAura(Target)
-			else
-				SendNotify("killaura","Failed to execute killaura, Argument 2 needs to be a number!")
-			end
-		elseif #TextBox.Text > 2 and Args[1] == "prefix" then
-			local Target = Args[2]
-
-			if #Target == 1 then
-				Prefix = Target
-				SendNotify("Prefix","Successfully changed prefix to: "..Target)
-			else
-				SendNotify("Prefix","Failed to change prefix to: "..Target..", character length too long.")
-			end
-
-
-		elseif TextBox.Text:lower() == "uncircle" then
-			pcall(function()
-				Aura:Destroy()
-				SendNotify("uncircle","Removed circle from character.")
-			end)
-		elseif TextBox.Text:lower() == "unfreezeaura" then
-			pcall(function()
-				Aura:Destroy()
-				SendNotify("unfreezeaura","Removed freezeaura from character.")
-			end)
-		elseif TextBox.Text:lower() == "unkillaura" then
-			pcall(function()
-				KillAura:Destroy()
-				SendNotify("unkillaura","Removed killaura from character.")
-			end)
-		elseif TextBox.Text:lower() == "killfarm" then
-
-			if TempPart == nil then
-				TempPart = Instance.new("Part")
-				TempPart.Size = Vector3.new(100,0.1,100)
-				TempPart.CFrame = CFrame.new(71, -101, -61)
-				TempPart.Parent = workspace
-				TempPart.Anchored = true
-				TempPart.Transparency = 0.5
-				TempPart.Color = Color3.fromRGB(0,0,0)
-				TempPart.CanCollide = true
-				TempPart.Name = "Safe"
-				if Player.Character then
-					if Player.Character:FindFirstChild("HumanoidRootPart") then
-						SendNotify("killfarm","Successfully started killfarm.")
-						PositionBeforeUsingFarmKills = Player.Character.HumanoidRootPart.CFrame
-						wait(0.05)
-						Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -101, -61)
-						FarmKills = true
-					else
-						SendNotify("killfarm","Failed to start killfarm, could not find HumanoidRootPart.")
-					end
-				else
-					SendNotify("killfarm","Failed to start killfarm, could not find character.")
-				end
-
-			end
-		elseif TextBox.Text:lower() == "unkillfarm" then
-			TempPart:Destroy()
-			TempPart = nil
-			FarmKills = false
-			if Player.Character then
-				if Player.Character:FindFirstChild("HumanoidRootPart") then
-					Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
-					SendNotify("killfarm","Successfully stopped killfarm.")
-				else
-					SendNotify("unkillfarm","Could not find player's HumanoidRootPart.")
-				end
-			else
-				SendNotify("unkillfarm","Could not find player's character.")
-			end
-		elseif TextBox.Text:lower() == "killall" then
-			SendNotify("killall","Attempting to kill all players.")
-			for _,v in pairs(Players:GetPlayers()) do
-				local BasePart = v.Character.PrimaryPart
-				if BasePart then
-					if v.Name ~= Player.Name  and not table.find(WhitelistedPlayers,v) then
-						Module.Kill(BasePart)
-					end
-				end
-			end
-
-		elseif TextBox.Text:lower() == "freezeall" then
-			for _,v in pairs(Players:GetPlayers()) do
-				SendNotify("freezeall","Froze all players.")
-				local BasePart = v.Character.PrimaryPart
-				if BasePart then
-					if v.Name ~= Player.Name  and not table.find(WhitelistedPlayers,v) then
-						VARIABLES["Target"] = v.Name
-
-						task.wait(0.05)
-						Module.Freeze(BasePart)
-					end
-				end
-			end
-		elseif TextBox.Text:lower() == "ubervip" then
-			if Player.Character then
-				if Player.Character:FindFirstChild("Humanoid") then
-					if Player.Character.Humanoid.Health > 1 then
-						local s,e = pcall(function()
-							local HRP = Player.Character.HumanoidRootPart
-							HRP.CFrame = UberVipCFrame
-						end)
-						if s then
-							SendNotify("Teleport","Successfully teleported to UberVip.")
-						else
-							SendNotify("Teleport","Failed to teleport to UberVip, could not find HumanoidRootPart or Character.")
-						end
-					else
-						SendNotify("Teleport","Failed to teleport to UberVip, Player's character is in a dead state.")			
-					end
-
-
-
-				end
-			else
-				SendNotify("Teleport","Failed to teleport to UberVip, could not find Character.")
-			end
-		elseif TextBox.Text:lower() == "vip" then
-			if Player.Character then
-				if Player.Character:FindFirstChild("Humanoid") then
-					if Player.Character.Humanoid.Health > 1 then
-						local s,e = pcall(function()
-							local HRP = Player.Character.HumanoidRootPart
-							HRP.CFrame = VipCFrame
-						end)
-						if s then
-							SendNotify("Teleport","Successfully teleported to Vip.")
-						else
-							SendNotify("Teleport","Failed to teleport to Vip, could not find HumanoidRootPart or Character.")
-						end
-					else
-						SendNotify("Teleport","Failed to teleport to Vip, Player's character is in a dead state.")			
-					end
-
-
-
-				end
-			else
-				SendNotify("Teleport","Failed to teleport to Vip, could not find Character.")
-			end
-		elseif TextBox.Text:lower() == "megavip" then
-			if Player.Character then
-				if Player.Character:FindFirstChild("Humanoid") then
-					if Player.Character.Humanoid.Health > 1 then
-						local s,e = pcall(function()
-							local HRP = Player.Character.HumanoidRootPart
-							HRP.CFrame = MegaVipCFrame
-						end)
-						if s then
-							SendNotify("Teleport","Successfully teleported to MegaVip.")
-						else
-							SendNotify("Teleport","Failed to teleport to MegaVip, could not find HumanoidRootPart or Character.")
-						end
-					else
-						SendNotify("Teleport","Failed to teleport to MegaVip, Player's character is in a dead state.")			
-					end
-
-
-
-				end
-			else
-				SendNotify("Teleport","Failed to teleport to MegaVip, could not find Character.")
-			end
-		elseif TextBox.Text:lower() == "thumbnail" then
-			if Player.Character then
-				if Player.Character:FindFirstChild("Humanoid") then
-					if Player.Character.Humanoid.Health > 1 then
-						local s,e = pcall(function()
-							local HRP = Player.Character.HumanoidRootPart
-							HRP.CFrame = ThumbnailCFrame
-						end)
-						if s then
-							SendNotify("Teleport","Successfully teleported to Thumbnail.")
-						else
-							SendNotify("Teleport","Failed to teleport to Thumbnail, could not find HumanoidRootPart or Character.")
-						end
-					else
-						SendNotify("Teleport","Failed to teleport to Thumbnail, Player's character is in a dead state.")			
-					end
-
-
-
-				end
-			else
-				SendNotify("Teleport","Failed to teleport to Thumbnail, could not find Character.")
-			end
-		elseif TextBox.Text:lower() == "clickkill" then
-			SendNotify("Click Kill","Enabled click kill, click on any player to kill.")
-			KillMode = true
-			FreezeMode = false
-		elseif TextBox.Text:lower() == "clickfreeze" then
-			SendNotify("Click Freeze","Enabled click freeze, click on any player to freeze.")
-			FreezeMode = true
-			KillMode = false			
-		elseif TextBox.Text:lower() == "unclickkill" then
-			SendNotify("Click Kill","Disabled click kill.")
-			KillMode = false
-		elseif TextBox.Text:lower() == "unclickfreeze" then
-			SendNotify("Click Freeze","Disabled click freeze.")
-			FreezeMode = false
-		elseif TextBox.Text:lower() == "unfreezeall" then
-			pcall(function()
-				SendNotify("unfreezeall","unfreezing all players.")
-				repeat
-					task.wait()
-					for _,v in pairs(ActiveParts:GetChildren()) do
-						if v.Name == "Weathervane" then
-							Module.Delete(v)		
-						end				
-					end
-				until not ActiveParts:FindFirstChild("Weathervane")
-			end)
-		elseif #TextBox.Text > 2 and Args[1] == "loopkill" then
-			local Target = Args[2]
-			VARIABLES["Type"] = "loopkill"
-			VARIABLES["Target"] = Target
-		elseif #TextBox.Text > 2 and Args[1] == "unloopkill" then
-			local Target = Args[2]
-			VARIABLES["Type"] = "unloopkill"
-			VARIABLES["Target"] = Target
-		elseif TextBox.Text:lower() == "uufreeze" then
-			pcall(function()
-				local PositionBeforeDeath = Player.Character.HumanoidRootPart.CFrame	
-				Player.Character.Humanoid.Health = 0
-				Player.CharacterAdded:Wait()
-				task.wait(1)
-				Player.Character.HumanoidRootPart.CFrame = PositionBeforeDeath
-			end)
-		elseif TextBox.Text:lower() == "dunparts" then
-			pcall(function()
-				for _,v in pairs(workspace.Plates:GetChildren()) do
-
-					for _,Active in pairs(v.ActiveParts:GetChildren()) do
-						if Active.Name == "Block - Brick" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.Brick2
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-
-						end
-						if string.find(Active.Name,"Block") and not string.find(Active.Name,"Corner") then
-							for _,wow in pairs(Active:GetChildren()) do
-								if wow:IsA("BasePart") then
-									local fling = Instance.new("BodyAngularVelocity")
-									fling.Name = "f"
-									fling.Parent = wow
-									fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-									fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-									fling.P = math.huge
-									game:GetService("Debris"):AddItem(fling,5)
-								end
-							end
-						end
-						if Active.Name == "Window - Tall Corner" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.houseWindowDiagonal.castleDiagWindowTop
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if string.find(Active.Name,"Wedge") and not string.find(Active.Name,"Long Wedge") then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.GrassWedge.Wedge
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if string.find(Active.Name,"Corner")  then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.GrassWedge.Wedge
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if string.find(Active.Name,"Long Wedge") then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.GrassLongWedge.Wedge
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Spikes" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.Spikes_Simple.Box
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Spikes - Moving" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.Spike_Retracting.Box
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Friend Only Door - Hostile" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.FriendOnlyDoorHostile.Head
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Chair - Tall" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.spaceChairLrg.Wedge
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Captain's Chair" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.spaceChairCaptain.Wedge
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Chair - Short" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.spaceChairSmall.Wedge
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Space Wall" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.spaceWall
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Space Wall" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.spaceWall
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Space Wall - Corner" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.spaceWallCorner
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Control Panel - Wall" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.spaceControlPanelWall.Part
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Window - Small" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.Model.Window
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Window - Tall" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.Model.Window
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Chimney" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.Model.Brick2
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-						if Active.Name == "Drawbridge" then
-							local fling = Instance.new("BodyAngularVelocity")
-							fling.Name = "f"
-							fling.Parent = Active.CastleDrawBridge.CastleDbridgeArchLeft2
-							fling.AngularVelocity = Vector3.new(9^9,9^9,9^9)
-							fling.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
-							fling.P = math.huge
-							game:GetService("Debris"):AddItem(fling,5)
-						end
-					end
-
-				end
-			end)
-
-
-
-
-		elseif TextBox.Text:lower() == "god" then
-			if CONNECTIONS[7] == nil then
-				GodMode = true
-				task.spawn(function()
-					SendNotify("God Mode","Successfully started god mode.")
-					if CONNECTIONS[7] == nil then
-						GodMode = true
-						task.spawn(function()
-							while GodMode == true and task.wait(0.0025) do
-								for _,v in pairs(workspace.Plates:GetChildren()) do
-									if v.Owner.Value ~= Player then
-										for _,Active in pairs(v.ActiveParts:GetChildren()) do
-											if string.find(Active.Name:lower(),"spikes") or string.find(Active.Name:lower(),"hostile") then
-												for _,Spikes in pairs(Active:GetChildren()) do
-													if Spikes.Name == "Spikes_Simple" then
-														for _,gh in pairs(Spikes:GetChildren()) do
-															if gh.Name == "Spikes" then
-																gh:Destroy()
-															end
-														end
-													elseif Spikes.Name == "Spike_Retracting" then
-														for _,gh in pairs(Spikes:GetChildren()) do
-															if gh.Name == "Spikes" then
-																gh:Destroy()
-															end
-														end	
-													elseif string.find(Spikes.Name:lower(),"friend") then
-														for _,gh in pairs(Spikes:GetChildren()) do
-															if string.find(gh.Name:lower(),"laser") then
-																gh:Destroy()
-															end
-														end	
-													end	
-												end
-											end
-										end
-									end
-								end
-							end
-						end)
-						CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-							pcall(function()
-								VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-
-							end)
-						end)
-						CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
-							Player.CharacterAppearanceLoaded:Wait()
-							CONNECTIONS[8]:Disconnect()
-							pcall(function()
-								if VARIABLES["Pos"] ~= nil then
-									task.wait(1)						
-									char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
-								end
-							end)
-
-							CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-								pcall(function()
-									VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-									CONNECTIONS[8]:Disconnect()
-								end)
-							end)
-						end)
-
-					end
-				end)
-
-				CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-					pcall(function()
-						VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-
-					end)
-				end)
-				CONNECTIONS[7] = Player.CharacterAdded:Connect(function(char)
-					CONNECTIONS[8]:Disconnect()
-					pcall(function()
-						if VARIABLES["Pos"] ~= nil then
-							task.wait(1)					
-							char.HumanoidRootPart.CFrame = VARIABLES["Pos"]						
-						end
-					end)
-					task.wait(0.5)
-					CONNECTIONS[8] = Player.Character.Humanoid.Died:Connect(function()
-						pcall(function()
-							VARIABLES["Pos"] = Player.Character.HumanoidRootPart.CFrame
-							CONNECTIONS[8]:Disconnect()
-						end)
-					end)
-				end)
-
-			end
-		elseif TextBox.Text:lower()  == "ungod" then
-			SendNotify("God Mode","Successfully stopped god mode.")
-			pcall(function()
-				CONNECTIONS[8]:Disconnect()
-				CONNECTIONS[8] = nil
-			end)
-			pcall(function()
-				CONNECTIONS.godmodconnection:Disconnect()
-				CONNECTIONS.godmodconnection = nil
-			end)
-			pcall(function()
-				CONNECTIONS[7]:Disconnect()
-				CONNECTIONS[7] = nil
-			end)
-			SendNotify("God Mode","Successfully stopped god mode.")
-			pcall(function()
-				CONNECTIONS[8]:Disconnect()
-				CONNECTIONS[8] = nil
-			end)
-			pcall(function()
-				CONNECTIONS.godmodconnection:Disconnect()
-				CONNECTIONS.godmodconnection = nil
-			end)
-			pcall(function()
-				CONNECTIONS[7]:Disconnect()
-				CONNECTIONS[7] = nil
-			end)
-		elseif TextBox.Text:lower() == "antisit" then
-			if antisit == false then
-				SendNotify("Anti-Sit","Succesfully enabled anti-sit!")
-				antisit = true
-				for _,v in pairs(workspace:GetDescendants()) do
-
-					if v:IsA("Seat") then
-						v.Disabled = true
-					end
-				end
-				CONNECTIONS.worskpaceloop = workspace.DescendantAdded:Connect(function(mod)
-					if mod:IsA("Seat") then
-						mod.Disabled = true
-					end
-				end)
-			end
-	
-		elseif TextBox.Text:lower() == "unantisit" then
-			antisit = false
-			for _,v in pairs(workspace:GetDescendants()) do
-
-				if v:IsA("Seat") then
-					v.Disabled = false
-				end
-			end
-			pcall(function()
-				for _,v in pairs(Plates:GetChildren()) do
-					CONNECTIONS.worskpaceloop:Disconnect()
-				end
-			end)
-		end
-		if VARIABLES["Target"] ~= nil and VARIABLES["Type"] ~= nil then
-			FindClosestName(VARIABLES["Target"],"noonenoneaıfzxj",VARIABLES["Type"])
-			if 	VARIABLES["Type"] == "Kill" then
-				TakeAction("Kill",VARIABLES["Target"])
-				TextBox.Text = ""
-			elseif VARIABLES["Type"] == "freeze" then
-				TakeAction("freeze",VARIABLES["Target"])
-				TextBox.Text = ""
-			elseif VARIABLES["Type"] == "unfreeze" then
-				TakeAction("unfreeze",VARIABLES["Target"])
-				TextBox.Text = ""
-			elseif VARIABLES["Type"] == "loopkill" then
-				TakeAction("loopkill",VARIABLES["Target"])
-				TextBox.Text = ""
-			elseif VARIABLES["Type"] == "unloopkill" then
-				TakeAction("unloopkill",VARIABLES["Target"])
-				TextBox.Text = ""
-			elseif VARIABLES["Type"] == "whitelist" then
-				TakeAction("whitelist",VARIABLES["Target"])
-				TextBox.Text = ""
-			elseif VARIABLES["Type"] == "unwhitelist" then
-				TakeAction("unwhitelist",VARIABLES["Target"])
-				TextBox.Text = ""
-			elseif VARIABLES["Type"] == "spike" then
-				TakeAction("spike",VARIABLES["Target"])
-				TextBox.Text = ""
-			end
-		end
-
-	end)
-
-end
-
-Set()
 Animations()
 
 task.wait(2.5)
@@ -2386,7 +648,890 @@ end
 TweenService:Create(UI_ELEMENTS["UI_16"],TweenInfo.new(1.5),{Position = UI_16NormalPos}):Play()
 TweenService:Create(UI_ELEMENTS["UI_18"],TweenInfo.new(1.5),{Position = UI_18NormalPos}):Play()
 
---// This chunk of code makes the gui draggable.
+local FindClosestName = function(name,blacklistedname,cmdtype)
+	local MatchingNames = {}
+	local PlayersInGame = #Players:GetPlayers()
+	local Looped = 0
+	for _,v in pairs(Players:GetPlayers()) do
+		Looped += 1
+		local Name = v.Name:lower()
+
+
+		if string.sub(Name, 1, #name) == name then
+			table.insert(MatchingNames,v)	
+		end
+		if Looped == PlayersInGame then
+			if table.find(MatchingNames,blacklistedname) then table.remove(MatchingNames,table.find(MatchingNames,blacklistedname)) end
+			if #MatchingNames == 1 then
+				return MatchingNames[1]
+			else
+				SendNotify("Error","There are "..#MatchingNames.." players that it's name start with: "..name.."!")
+			end
+		end	
+
+
+
+	end
+end
+
+local FindTaggedBlock = function(Tag_To_Find)
+	for _,v in pairs(Plates:GetChildren()) do
+		for _,Block in pairs(v.ActiveParts:GetChildren()) do
+			if Block:HasTag(Tag_To_Find) then
+				return Block
+			end
+
+		end
+
+	end
+end
+
+local ReturnPrimaryPart = function(plr)
+	if plr then
+		if plr.Character then
+			if plr.Character:FindFirstChild("HumanoidRootPart") then
+				local PrimaryPart = plr.Character:FindFirstChild("HumanoidRootPart")
+				if PrimaryPart then
+					return PrimaryPart
+				else
+					SendNotify("Error","Could not find "..plr.Name.."' character's PrimartPart.")
+				end
+
+			else
+				SendNotify("Error","Could not find "..plr.Name.."' character's PrimartPart.")
+			end
+		else
+			SendNotify("Error","Could not find "..plr.Name.."' character.")
+		end
+	end
+
+end
+
+local interval = 0.025
+local start = tick()
+local nextStep = start+interval
+local iter = 1
+local Prefix = ":"
+local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,String)
+	pcall(function()
+		if not Connections[plr.Name] then
+			Connections[plr.Name] = {}
+		end
+	end)
+	if ignoreprimarypartcheck ~= true then
+		local PrimaryPart = ReturnPrimaryPart(plr)
+		if PrimaryPart ~= nil then
+			if Command_Type == "kill" then
+				xpcall(function()
+					if not table.find(WhitelistedPlayers,plr) then
+						Module.Kill(PrimaryPart)
+						SendNotify("Success","Successfully killed "..plr.Name.."!")
+					else
+						SendNotify("Error",plr.Name.." Is whitelisted.")
+					end
+
+				end, function ()
+					SendNotify("Error","Failed to kill "..plr.Name.."!")
+				end)
+			elseif Command_Type == "freeze" then
+				xpcall(function()
+					if not table.find(WhitelistedPlayers,plr) then
+						On = true
+						CurrentPlayer = plr.Name
+						wait(0.025)
+						Module.Freeze(PrimaryPart)
+						SendNotify("Success","Successfully froze "..plr.Name.."!")
+					else
+						SendNotify("Error",plr.Name.." Is whitelisted.")
+					end
+
+				end, function ()
+					SendNotify("Error","Failed to freeze "..plr.Name.."!")
+				end)
+			elseif Command_Type == "unfreeze" then
+				pcall(function()
+					coroutine.wrap(function()
+						for i = 1,200 do
+							task.wait()
+							local Block = FindTaggedBlock(plr.Name)
+							if Block then
+								Module.Delete(Block)
+								SendNotify("Success","Successfully unfroze "..plr.Name.."!")
+							
+							else
+								SendNotify("Error","Failed to unfroze "..plr.Name.."!")
+								break
+							end
+						end
+
+					end)()
+
+				end)
+			elseif Command_Type == "fling" then
+				workspace.FallenPartsDestroyHeight = math.huge-math.huge
+				for _,v in pairs(Player.Character:GetChildren()) do
+					if v:IsA("BasePart") then
+						v.CustomPhysicalProperties = PhysicalProperties.new(math.huge, 0.3, 0.5)
+					end
+				end
+
+				local FlingMogus = Instance.new("BodyAngularVelocity")
+				FlingMogus.Name = "idk amogus"
+				FlingMogus.Parent = Player.Character.HumanoidRootPart
+				FlingMogus.AngularVelocity = Vector3.new(0,99999999999,0)
+				FlingMogus.MaxTorque = Vector3.new(0,math.huge,0)
+				FlingMogus.P = math.huge
+				
+				Connections.flingconnection = RunService.RenderStepped:Connect(function()
+					for _,v in pairs(Player.Character:GetChildren()) do
+						if v:IsA("BasePart") then
+							v.CanCollide = false
+						v.Velocity = Vector3.new(99999999999999,99999999999999,99999999999999)
+						end
+					end
+				end)
+				
+				local Sum = 0
+				local OldPosition = Player.Character.HumanoidRootPart.CFrame
+				
+				repeat
+					Sum += 1
+					task.wait()
+					if plr.Character then
+						if plr.Character:FindFirstChild("HumanoidRootPart") then
+							Player.Character.HumanoidRootPart.CFrame = PrimaryPart.CFrame
+						else
+							SendNotify("Error","Couldn't fling player, HumanoidRootpart is missing.")
+							Connections.flingconnection:Disconnect()
+							FlingMogus:Destroy()
+							for i = 1,70 do
+								task.wait(0.025)
+								Player.Character.HumanoidRootPart.CFrame = OldPosition
+								for _,v in pairs(Player.Character:GetChildren()) do
+									if v:IsA("BasePart") then
+										v.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+										v.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+										v.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
+									end
+								end
+							end
+							wait(0.025)
+							for _,v in pairs(Player.Character:GetChildren()) do
+								if v:IsA("BasePart") then
+									if not v.Name:lower():find("arm") and not  v.Name:lower():find("leg") then
+										v.CanCollide = true
+									end
+									v.CustomPhysicalProperties = nil
+								end
+							end
+							Player.Character.HumanoidRootPart.CFrame = OldPosition + Vector3.new(0,5,0)
+							break
+						end
+					end
+					if Sum > 197 then
+						Player.Character.HumanoidRootPart.CFrame = OldPosition
+						Connections.flingconnection:Disconnect()
+						FlingMogus:Destroy()
+						for _,v in pairs(Player.Character:GetChildren()) do
+							if v:IsA("BasePart") then
+								v.CustomPhysicalProperties = nil
+								v.Massless = false
+								v.Velocity = Vector3.new(0,0,0)
+							end
+						end
+						for i = 1,150 do
+							task.wait(0.025)
+							Player.Character.HumanoidRootPart.CFrame = OldPosition
+							for _,v in pairs(Player.Character:GetChildren()) do
+								if v:IsA("BasePart") then
+                                v.Velocity = Vector3.new(0,0,0)
+
+									v.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+									v.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+									v.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
+								end
+							end
+						end
+						for _,v in pairs(Player.Character:GetChildren()) do
+							if v:IsA("BasePart") then
+								if not v.Name:lower():find("arm") and not  v.Name:lower():find("leg") then
+									v.CanCollide = true
+								end
+								v.CustomPhysicalProperties = nil
+							end
+						end
+						Player.Character.HumanoidRootPart.CFrame = OldPosition + Vector3.new(0,5,0)
+						break
+						
+					end
+				until Sum == 200
+			
+			elseif Command_Type == "spike" then
+				SendNotify("Success","Adding a spike on the player.")
+				coroutine.wrap(function()
+					if not table.find(WhitelistedPlayers,plr) then
+						On2 = true
+						task.wait(0.025)
+						Module.CreateSpike(LPlate.CFrame + Vector3.new(0,10,0)) 
+						local Spike = FindTaggedBlock("Solo")
+						if Spike ~= nil then
+							xpcall(function()
+								local Box = Spike.Spikes_Simple.Box
+								local Completed = false
+								repeat
+									task.wait()
+									if PrimaryPart then
+										Box.CFrame = PrimaryPart.CFrame
+										if plr.Character.Humanoid.Health < 1 then
+											Module.Delete(Spike)
+											SendNotify("Success","Successfully executed spike on player.")
+											break
+										end
+									else
+										Module.Delete(Spike)
+									end
+								until Completed == true
+							end, function()
+
+							end)
+
+						end
+					else
+						SendNotify("Error",plr.Name.." Is whitelisted.")
+					end
+
+				end)()
+			elseif Command_Type == "uber" then
+				SendNotify("Success","Successfully teleported to Uber Vip.")
+				PrimaryPart.CFrame = UberVipCFrame
+			elseif Command_Type == "mega" then
+				SendNotify("Success","Successfully teleported to Mega Vip.")
+				PrimaryPart.CFrame = MegaVipCFrame
+
+			elseif Command_Type == "vip" then
+				SendNotify("Success","Successfully teleported to Vip.")
+				PrimaryPart.CFrame = VipCFrame
+			elseif Command_Type == "thumbnail" then
+				SendNotify("Success","Successfully teleported to thumbnail.")
+				PrimaryPart.CFrame = ThumbnailCFrame
+			elseif Command_Type == "spikeall" then
+				SendNotify("Success","Adding a spike on all players.")
+				coroutine.wrap(function()
+					On2 = true
+					task.wait(0.025)
+					Module.CreateSpike(LPlate.CFrame + Vector3.new(0,10,0)) 
+					local Spike = FindTaggedBlock("Solo")
+					if Spike ~= nil then
+						xpcall(function()
+
+							local Looped = 0
+							local Sum =0
+							local CurrentPlayers = #Players:GetPlayers()
+							local Box = Spike.Spikes_Simple.Box
+
+							for i = 1,5  do
+								Looped += 1
+
+								for _,v in pairs(Players:GetPlayers()) do
+									task.wait(0.025)
+									Sum += 1
+									if v.Character:FindFirstChild("HumanoidRootPart") then
+										if v.Name ~= Player.Name then
+											if not table.find(WhitelistedPlayers,v) then
+												Module.Freeze(v.Character.HumanoidRootPart)
+												task.wait(0.025)
+												if v.Character.Humanoid.Health > 1 then
+													Box.CFrame = v.Character.HumanoidRootPart.CFrame
+												end
+											end
+
+										end
+
+									end
+									if Sum >= CurrentPlayers then
+
+										SendNotify("Success","Completed spikeall. (this message will repeat 5 times!)")
+										for _,v in pairs(ActiveParts:GetChildren()) do
+											if v.Name == "Weathervane" then
+												Module.Delete(v)
+											end
+										end
+										Sum = 0
+									end
+								end
+								if Looped == 5 then
+									Module.Delete(Spike)
+									SendNotify("Success","Successfully ended the spikeall loop.")
+									break
+								end
+								task.wait(0.75)
+							end
+
+
+
+
+
+						end, function()
+
+						end)
+
+					end
+				end)()
+			elseif Command_Type == "loopkill" then
+				if not table.find(WhitelistedPlayers,plr) then
+					if not Connections[plr.Name][1] then
+						pcall(function()
+							Module.Kill(PrimaryPart)
+							SendNotify("Success","Successfully enabled loopkill on "..plr.Name..".")
+						end)
+						Connections[plr.Name][1] = plr.CharacterAdded:Connect(function(char)
+							pcall(function()
+								plr.CharacterAppearanceLoaded:Wait()
+								Module.Kill(char.HumanoidRootPart)
+							end)
+
+
+						end)
+					end
+
+				else
+					SendNotify("Error",plr.Name.." Is whitelisted.")
+				end
+
+
+			elseif Command_Type == "unloopkill" then
+				if Connections[plr.Name][1] then
+					pcall(function()
+						Connections[plr.Name][1]:Disconnect()
+						Connections[plr.Name][1] = nil
+						SendNotify("Success","Successfully disabled loopkill on "..plr.Name..".")
+					end)
+				else
+					SendNotify("Error","Player is not getting loopkilled.")
+				end
+			elseif Command_Type == "loopfreeze" then
+				if not table.find(WhitelistedPlayers,plr) then
+					if not Connections[plr.Name][2] then
+						pcall(function()
+							Module.Freeze(PrimaryPart)
+							SendNotify("Success","Successfully enabled loopfreeze on "..plr.Name..".")
+						end)
+						Connections[plr.Name][2]  = plr.CharacterAdded:Connect(function(char)
+							pcall(function()
+								plr.CharacterAppearanceLoaded:Wait()
+								Module.Freeze(char.HumanoidRootPart)
+							end)
+
+
+						end)
+					end
+
+				else
+					SendNotify("Error",plr.Name.." Is whitelisted.")
+				end
+
+
+			elseif Command_Type == "unloopfreeze" then
+				if Connections[plr.Name][2]  then
+					pcall(function()
+						Connections[plr.Name][2]:Disconnect()
+						Connections[plr.Name][2] = nil
+						SendNotify("Success","Successfully disabled loopfreeze on "..plr.Name..".")
+					end)
+				else
+					SendNotify("Error","Player is not getting loopfreezed.")
+				end
+
+			end
+	
+
+
+
+		end
+	end
+
+	if ignoreprimarypartcheck == true then
+		if Command_Type == "killfarm" then
+			if TempPart == nil then
+				TempPart = Instance.new("Part")
+				TempPart.Size = Vector3.new(100,0.1,100)
+				TempPart.CFrame = CFrame.new(71, -101, -61)
+				TempPart.Parent = workspace
+				TempPart.Anchored = true
+				TempPart.Transparency = 0.5
+				TempPart.Color = Color3.fromRGB(0,0,0)
+				TempPart.CanCollide = true
+				TempPart.Name = "Safe"
+				if Player.Character then
+					if Player.Character:FindFirstChild("HumanoidRootPart") then
+						SendNotify("Success","Successfully started killfarm.")
+						PositionBeforeUsingFarmKills = Player.Character.HumanoidRootPart.CFrame
+						wait(0.05)
+						Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -101, -61)
+					else
+						SendNotify("Error","Failed to start killfarm, could not find HumanoidRootPart.")
+					end
+				else
+					SendNotify("Error","Failed to start killfarm, could not find character.")
+				end
+
+			end
+			if not Connections.Kill_Farm then
+				SendNotify("Success","Enabling killfarm.")
+
+				Connections.Kill_Farm = RunService.Heartbeat:Connect(function(dt)
+
+					if (tick() >= nextStep) then
+						iter = iter+1
+						nextStep = start + (iter * interval)
+
+						if Player.Character then
+							if not Player.Character:FindFirstChild("3 Sword") then
+								if Player.Character:FindFirstChild("Humanoid") then
+									if Player.Backpack:FindFirstChild("3 Sword") then
+										Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack["3 Sword"])
+									end
+
+								end
+							else
+								pcall(function()
+									Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -99, -61)
+									local Tool = Player.Character:FindFirstChild("3 Sword")
+									local Handle = Tool.Handle
+									Handle.Massless = true
+									for _,v in pairs(Players:GetPlayers()) do
+										if v.Character and not table.find(WhitelistedPlayers,v) and  v ~= Player then
+											if v.Character:FindFirstChild("Humanoid") then
+												wait(0.00125)
+												Handle.Position = v.Character.PrimaryPart.Position
+											end
+										end
+									end
+								end)
+							end
+
+
+						end
+					end
+
+				end)
+			else
+
+				SendNotify("Error","Kill farm is already running!")
+			end
+		end
+		if Command_Type == "freezeall" then
+			SendNotify("Loop","Looping through all players.")
+			for _,v in pairs(Players:GetPlayers()) do
+				wait(0.01)
+				pcall(function()
+					if not table.find(WhitelistedPlayers,v) and v ~= Player then
+						On = true
+						CurrentPlayer = v.Name
+						wait(0.025)
+						Module.Freeze(v.Character.HumanoidRootPart)
+					end
+				
+				end)
+			end
+		end
+		if Command_Type == "killall" then
+			SendNotify("Loop","Looping through all players.")
+			for _,v in pairs(Players:GetPlayers()) do
+				wait(0.05)
+				if not table.find(WhitelistedPlayers,v) and v ~= Player then
+					pcall(function()
+						Module.Kill(v.Character.HumanoidRootPart)
+					end)
+				end
+			end
+		end
+		if Command_Type == "unfreezeall" then
+			SendNotify("Loop","Looping through all blocks.")
+			for _,v in pairs(ActiveParts:GetChildren()) do
+				if v.Name == "Weathervane" then
+					Module.Delete(v)
+				end
+			end
+		end
+		if Command_Type == "unkillfarm" then
+			SendNotify("Success","Disabling killfarm.")
+			pcall(function()
+
+				Connections.Kill_Farm:Disconnect()
+				Connections.Kill_Farm = nil
+				TempPart:Destroy()
+				Player.Character.HumanoidRootPart.CFrame = PositionBeforeUsingFarmKills
+			end)
+		end
+		if Command_Type == "clickkill" then
+			SendNotify("Success","Successfully activated Click Kill.")
+			FreezeMode = false
+			KillMode = true
+		end
+
+		if Command_Type == "clickfreeze" then
+			SendNotify("Success","Successfully activated Click Freeze.")
+			KillMode = false
+			FreezeMode = true
+		end
+		if Command_Type == "unclickkill" then
+			SendNotify("Success","Successfully deactivated Click Kill.")
+			KillMode = false
+		end
+		if Command_Type == "unclickfreeze" then
+			SendNotify("Success","Successfully deactivated Click Freeze.")
+			FreezeMode = false
+		end
+		if Command_Type == "circle" then
+			if tonumber(number) then
+				if tonumber(number) > 70 then
+					SendNotify("Error","Could not execute circle, argument 2 can't be bigger than 70! (DO NOT BYPASS THIS, YOU WILL CRASH YOUR GAME IF YOU DO)")
+				else
+					SendNotify("Success","Successfully enabled Destroy Aura.")
+					Module.DestroyAura(number)
+				end
+
+			else
+				SendNotify("Error","Could not execute circle, argument 2 needs to be a number!")
+			end
+		end	
+		if Command_Type == "uncircle" then
+			xpcall(function()
+
+				Aura:Destroy()
+				Aura = nil
+				SendNotify("Success","Successfully disabled Destroy Aura.")
+			end, function ()
+				SendNotify("Error","Player doesn't have an Destroy Aura attached to it.")
+			end)
+		end
+		if Command_Type == "unkillaura" then
+			xpcall(function()
+
+				KillAura:Destroy()
+				KillAura = nil
+				SendNotify("Success","Successfully disabled Kill Aura.")
+			end, function ()
+				SendNotify("Error","Player doesn't have an Kill Aura attached to it.")
+			end)
+		end
+		if Command_Type == "killaura" then
+			if tonumber(number) then
+				if tonumber(number) > 70 then
+					SendNotify("Error","Could not execute Kill Aura, argument 2 can't be bigger than 70! (idk really just don't do it bigger than 70.)")
+				else
+					SendNotify("Success","Successfully enabled Kill Aura.")
+					Module.KillAura(number)
+				end
+
+			else
+				SendNotify("Error","Could not execute Kill Aura, argument 2 needs to be a number!")
+			end
+		end
+		if Command_Type == "unfreezeaura" then
+			xpcall(function()
+
+				FreezeAura:Destroy()
+				FreezeAura = nil
+				SendNotify("Success","Successfully disabled Freeze Aura.")
+			end, function ()
+				SendNotify("Error","Player doesn't have an Freeze Aura attached to it.")
+			end)
+		end
+		if Command_Type == "freezeaura" then
+			if tonumber(number) then
+				if tonumber(number) > 70 then
+					SendNotify("Error","Could not execute Freeze Aura, argument 2 can't be bigger than 70! (idk really just don't do it bigger than 70.)")
+				else
+					SendNotify("Success","Successfully enabled Freeze Aura.")
+					Module.FreezeAura(number)
+				end
+
+			else
+				SendNotify("Error","Could not execute Freeze Aura, argument 2 needs to be a number!")
+			end
+		end
+		if Command_Type == "antisit" then
+			if not Connections.antisitconnection then
+				SendNotify("Success","Successfully enabled anti-sit!")
+				for _,v in pairs(workspace:GetDescendants()) do
+					if v:IsA("Seat") then
+						v.Disabled = true
+					end
+				end
+				Connections.antisitconnection = workspace.DescendantAdded:Connect(function(desc)
+					if desc:IsA("Seat") then
+						desc.Disabled = true
+
+					end
+				end)
+			end
+
+		end
+		if Command_Type == "unantisit" then
+
+			if Connections.antisitconnection then
+				for _,v in pairs(workspace:GetDescendants()) do
+					if v:IsA("Seat") then
+						v.Disabled = false
+					end
+				end
+				xpcall(function()
+					Connections.antisitconnection:Disconnect()
+					Connections.antisitconnection = nil
+				end , function ()
+					SendNotify("Error","Could not disconnect Anti-Sit Connection properly.")
+				end)
+				SendNotify("Success","Successfully disabled anti-sit")
+			else
+				SendNotify("Error","Failed to disabled unantisit, antisit is not enabled!")
+			end
+
+		end
+
+		if Command_Type == "prefix" then
+			if typeof(String) == "string" then
+				if #String > 1 then
+					SendNotify("Error","Prefix's length can only be 1.")
+				else
+					SendNotify("Success","Successfully changed prefix to: "..String)
+					Prefix = String
+				end
+			else
+				SendNotify("Error","Prefix needs to be a string.")
+			end
+		end
+		if Command_Type == "whitelist" then
+			if not table.find(WhitelistedPlayers,plr) then
+				table.insert(WhitelistedPlayers,plr)
+				SendNotify("Success","Successfully whitelisted "..plr.Name..".")
+			end
+		end
+		if Command_Type == "unwhitelist" then
+			if table.find(WhitelistedPlayers,plr) then
+				local Value = table.find(WhitelistedPlayers,plr)
+				table.remove(WhitelistedPlayers,Value)
+				SendNotify("Success","Successfully removed "..plr.Name.." from whitelist.")
+			else
+				SendNotify("Error",plr.Name.." is not whitelisted yet.")
+			end
+		end
+		if Command_Type == "god" then
+			if not Connections.godmodeconnection then
+				SendNotify("Success","Enabled God Mode (don't mistake this as invincibility, god mode deletes spikes,lasers etc.)")
+				for _,v in pairs(workspace:GetDescendants()) do
+					if v:IsA("BasePart") then
+						if v.Parent.Name == "Spikes_Simple" then
+							if v.Name == "Spikes" then
+								v:Destroy()
+							end
+						end
+						if v.Name:lower() == "laser1" or v.Name:lower() =="laser2" or v.Name:lower() == "laser" or v.Name:lower() =="laser4" or v.Name:lower() =="laser5" then
+							v:Destroy()
+						end 
+					end
+
+				end
+				Connections.godmodeconnection = workspace.DescendantAdded:Connect(function(desc)
+                
+					if desc.Parent.Name == "Spikes_Simple" then
+						if desc.Name == "Spikes" then
+							desc:Destroy()
+						end
+					end
+					if desc.Name:lower() == "laser1" or desc.Name:lower() =="laser2" or desc.Name:lower() == "laser" or desc.Name:lower() =="laser4" or desc.Name:lower() =="laser5" then
+                        desc:Destroy()
+					end
+				end)
+			else
+				SendNotify("Error","God Mode is already enabled.")
+			end
+		
+		end
+		if Command_Type == "ungod" then
+			if Connections.godmodeconnection then
+				pcall(function()
+					Connections.godmodeconnection:Disconnect()
+					Connections.godmodeconnection = nil
+				end)
+			else
+				SendNotify("Error","God Mode is already disabled.")
+			end
+		end
+	end
+
+end
+
+Players.PlayerRemoving:Connect(function(plr)
+	if Connections[plr.Name] then
+		pcall(function()
+			Connections[plr.Name][2]:Disconnect()
+			Connections[plr.Name][2] = nil
+		end)
+	end
+	if Connections[plr.Name][1] then
+		pcall(function()
+			Connections[plr.Name][1]:Disconnect()
+			Connections[plr.Name][1] = nil
+		end)
+	end
+end)
+
+local Textbox = UI_ELEMENTS["UI_19"]
+
+local Execute = function(text)
+	local SeperatedText = string.split(text," ")
+	local Arg2 = SeperatedText[2]
+	if SeperatedText[1] == "kill" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute kill, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"kill")
+	elseif SeperatedText[1] == "freeze" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute freeze, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"freeze")
+	elseif SeperatedText[1] == "spike"then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute spike, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"spike")
+	elseif SeperatedText[1] == "unfreeze" or SeperatedText[1] == "thaw" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute unfreeze, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"unfreeze")
+	elseif SeperatedText[1] == "whitelist" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute Whitelist, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"whitelist",true)
+	elseif SeperatedText[1] == "unwhitelist" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute UnWhitelist, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"unwhitelist",true)
+	elseif SeperatedText[1] == "fling" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute fling, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"fling",false)
+	elseif SeperatedText[1] == "loopkill" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute loopkill, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"loopkill",false)
+	elseif SeperatedText[1] == "unloopkill" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute unloopkill, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"unloopkill",false)
+	elseif SeperatedText[1] == "spikeall" then
+		ExecuteFunction(FindClosestName(Player.Name,"sugumaballs"),"spikeall")
+	elseif SeperatedText[1] == "killfarm" then
+		ExecuteFunction("no more primary part checks lil lua code","killfarm",true)
+	elseif SeperatedText[1] == "unkillfarm" then
+		ExecuteFunction("no more primary part checks lil lua code","unkillfarm",true)
+	elseif SeperatedText[1] == "circle" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute circle, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction("no more primary part checks lil lua code","circle",true,Arg2)
+	elseif SeperatedText[1] == "killaura" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute killaura, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction("no more primary part checks lil lua code","killaura",true,Arg2)
+	elseif SeperatedText[1] == "loopfreeze" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute freezeaura, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"loopfreeze",false)
+	elseif SeperatedText[1] == "unloopfreeze" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute freezeaura, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"unloopfreeze",false)
+	elseif SeperatedText[1] == "prefix" then
+		if Arg2 == nil then
+			SendNotify("Error","Could not execute prefix, argument 2 can't be empty.")
+			return
+		end
+		ExecuteFunction("no more primary part checks lil lua code","prefix",true,nil,Arg2)
+	elseif SeperatedText[1] == "uncircle" then
+		ExecuteFunction("no more primary part checks lil lua code","uncircle",true)
+	elseif SeperatedText[1] == "unkillaura" then
+		ExecuteFunction("no more primary part checks lil lua code","unkillaura",true)
+	elseif SeperatedText[1] == "antisit" then
+		ExecuteFunction("no more primary part checks lil lua code","antisit",true)
+	elseif SeperatedText[1] == "unantisit" then
+		ExecuteFunction("no more primary part checks lil lua code","unantisit",true)
+	elseif SeperatedText[1] == "clickkill" then
+		ExecuteFunction("no more primary part checks lil lua code","clickkill",true)
+	elseif SeperatedText[1] == "clickfreeze" then
+		ExecuteFunction("no more primary part checks lil lua code","clickfreeze",true)
+	elseif SeperatedText[1] == "unclickkill" then
+		ExecuteFunction("no more primary part checks lil lua code","unclickkill",true)
+	elseif SeperatedText[1] == "unclickfreeze" then
+		ExecuteFunction("no more primary part checks lil lua code","unclickfreeze",true)
+	elseif SeperatedText[1] == "killall" then
+		ExecuteFunction("no more primary part checks lil lua code","killall",true)
+	elseif SeperatedText[1] == "unfreezeall" then
+		ExecuteFunction("no more primary part checks lil lua code","unfreezeall",true)
+	elseif SeperatedText[1] == "freezeall" then
+		ExecuteFunction("no more primary part checks lil lua code","freezeall",true)
+	elseif SeperatedText[1] == "god" then
+		ExecuteFunction("no more primary part checks lil lua code","god",true)
+	elseif SeperatedText[1] == "ungod" then
+		ExecuteFunction("no more primary part checks lil lua code","ungod",true)
+		
+	elseif SeperatedText[1] == "ubervip" then
+		ExecuteFunction(Player,"uber",false)	
+	elseif SeperatedText[1] == "megavip" then
+		ExecuteFunction(Player,"mega",false)
+	elseif SeperatedText[1] == "thumbnail" then
+		ExecuteFunction(Player,"thumbnail",false)	
+	elseif SeperatedText[1] == "vip" then
+		ExecuteFunction(Player,"vip",false)	
+
+	end
+end
+
+Textbox.FocusLost:Connect(function()
+	local Text = Textbox.Text:lower()
+	if #Text > 2 then
+		Execute(Text)
+	end
+
+end)
+
+
+
+Player.Chatted:Connect(function(msg)
+	if string.sub(msg,1,1) == Prefix then
+		local RealMessage = string.sub(msg,2)
+		if #msg > 2 then
+			Execute(RealMessage:lower())
+		end
+	end
+
+end)
+
 local UserInputService = game:GetService("UserInputService")
 
 local gui = UI_ELEMENTS["UI_9"]
@@ -2400,13 +1545,13 @@ local function update(input)
 	local delta = input.Position - dragStart
 	TweenService:Create(UI_ELEMENTS["UI_9"],TweenInfo.new(0.25),{Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)}):Play()
 end
-CONNECTIONS[2] = gui.InputBegan:Connect(function(input)
+gui.InputBegan:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 		dragging = true
 		dragStart = input.Position
 		startPos = gui.Position
 
-		CONNECTIONS[3] = input.Changed:Connect(function()
+		input.Changed:Connect(function()
 			if input.UserInputState == Enum.UserInputState.End then
 				dragging = false
 			end
@@ -2414,134 +1559,70 @@ CONNECTIONS[2] = gui.InputBegan:Connect(function(input)
 	end
 end)
 
-CONNECTIONS[4] = gui.InputChanged:Connect(function(input)
+gui.InputChanged:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 		dragInput = input
 	end
 end)
 
-CONNECTIONS[5] = UserInputService.InputChanged:Connect(function(input)
+UserInputService.InputChanged:Connect(function(input)
 	if input == dragInput and dragging then
 		update(input)
 	end
 end)
 
---// FarmKills Loop
+local players = game:GetService("Players")
+local player = players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local mouse = player:GetMouse()
 
-local interval = 0.0025
-local Secondinterval = 1.25
-local start = tick()
-local nextStep = start+interval
-local nextStep2 = start+Secondinterval
-local iter = 1
-local iter2 = 1
+local raycastParams = RaycastParams.new()
+raycastParams.FilterDescendantsInstances = {character}
+raycastParams.FilterType = Enum.RaycastFilterType.Exclude
 
-game:GetService("RunService").Heartbeat:Connect(function(dt)
-	if (tick() >= nextStep) and FarmKills == true then
-		iter = iter+1
-		nextStep = start + (iter * interval)
-
-		if Player.Character then
-			if not Player.Character:FindFirstChild("3 Sword") then
-				if Player.Character:FindFirstChild("Humanoid") then
-					if Player.Backpack:FindFirstChild("3 Sword") then
-						Player.Character:FindFirstChild("Humanoid"):EquipTool(Player.Backpack["3 Sword"])
-					end
-
-				end
-			else
-				pcall(function()
-					Player.Character.HumanoidRootPart.CFrame = CFrame.new(71, -99, -61)
-					local Tool = Player.Character:FindFirstChild("3 Sword")
-					local Handle = Tool.Handle
-					Handle.Massless = true
-					for _,v in pairs(AllPlayers) do
-						if v.Character and not table.find(WhitelistedPlayers,v) then
-							if v.Character:FindFirstChild("Humanoid") then
-								wait(0.00125)
-								Handle.Position = v.Character.PrimaryPart.Position
-							end
-						end
-					end
-				end)
-			end
-
-
-		end
-	end
-end)
-
-function FormatStringToHourMinuteSecond(seconds)
-	return string.format("%02i:%02i:%02i", seconds/60^2, seconds/60%60, seconds%60)
-end
-
-
-
-
-
-
---// uhh, click kill, click freeze thingy!!!!!!!!! (mobile)
-local mouse = Player:GetMouse()
-
-game:GetService("UserInputService").TouchTap:Connect(function()
-	local Char = Player.Character or Player.CharacterAdded:Wait()
-
-	local raycastParams = RaycastParams.new()
-	raycastParams.FilterDescendantsInstances = {Char}
-	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
-
-
-	local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
-
-	if raycastResult then
-		local raycastHit = raycastResult.Instance
-		if raycastHit then
-			local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
-			if raycastModel then
-				for _,v in pairs(Players:GetPlayers()) do
-					if raycastModel.Name == v.Name then
-						if KillMode == true then
-							if VARIABLES["IsPlayerSitting"][v.Name][1] == true then
-								SendNotify("Kill","Failed to execute kill, the player is currently sitting")
-								return
-							end
-							local s,e = pcall(function()
-								VARIABLES["Target"] = v.Name
-								TakeAction("Kill",VARIABLES["Target"])
-							end)
-							if s then
-								SendNotify("kill","Successfully killed: "..v.Name)
-							else
-								SendNotify("kill","Failed to kill: "..", player's PrimaryPart is missing.")
-							end
-						elseif FreezeMode == true then
-							local s,e = pcall(function()
-								VARIABLES["Target"] = v.Name
-								TakeAction("freeze",VARIABLES["Target"])
-							end)
-							if s then
-								SendNotify("freeze","Successfully froze: "..v.Name)
-							else
-								SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
-							end
-						end
-					end
-				end
-			end
-		end
-	end
-
-end)
-
---// uhh, click kill, click freeze thingy!!!!!!!!! (PC)
 mouse.Button1Down:Connect(function()
+	local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
 
-	local Char = Player.Character or Player.CharacterAdded:Wait()
+	if raycastResult then
+		local raycastHit = raycastResult.Instance
+		if raycastHit then
+			local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
+			if raycastModel then
+				if Players:FindFirstChild(raycastModel.Name) then
+					local v = Players:GetPlayerFromCharacter(raycastModel)
+					if not table.find(WhitelistedPlayers,v) then
+						if KillMode == true then
+							xpcall(function()
+								Module.Kill(v.Character.HumanoidRootPart)
+								SendNotify("Success","Successfully killed "..v.Name..".")
+							end, function()
+								SendNotify("Error","Could not kill "..v.Name.." Reason is unknown.")
+							end)
+						elseif FreezeMode == true then
+							xpcall(function()
+								On = true
+								CurrentPlayer = v.Name
+								wait(0.025)
 
-	local raycastParams = RaycastParams.new()
-	raycastParams.FilterDescendantsInstances = {Char}
-	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+								Module.Freeze(v.Character.HumanoidRootPart)
+								SendNotify("Success","Successfully froze "..v.Name..".")
+							end, function()
+								SendNotify("Error","Could not kill "..v.Name.." Reason is unknown.")
+							end)
 
+						end
+
+					else
+						SendNotify("Error",v.Name.." is whitelisted.")
+					end
+				end
+
+			end
+		end
+	end
+end)
+
+UserInputService.TouchTap:Connect(function()
 
 	local raycastResult = workspace:Raycast(mouse.UnitRay.Origin, mouse.UnitRay.Direction * 250, raycastParams)
 
@@ -2550,51 +1631,37 @@ mouse.Button1Down:Connect(function()
 		if raycastHit then
 			local raycastModel = raycastHit:FindFirstAncestorOfClass("Model")
 			if raycastModel then
-				for _,v in pairs(Players:GetPlayers()) do
-					if raycastModel.Name == v.Name then
+				if Players:FindFirstChild(raycastModel.Name) then
+					local v = Players:GetPlayerFromCharacter(raycastModel)
+					if not table.find(WhitelistedPlayers,v) then
 						if KillMode == true then
-							if VARIABLES["IsPlayerSitting"][v.Name][1] == true then
-								SendNotify("Kill","Failed to execute kill, the player is currently sitting")
-								return
-							end
-							if not table.find(WhitelistedPlayers,v) then
-								local s,e = pcall(function()
-									Module.Kill(v.Character.PrimaryPart)
-									SendNotify("kill","Successfully killed: "..v.Name)
-								end)
-								if s then
-
-								else
-									SendNotify("kill","Failed to kill: "..v.Name..", player's PrimaryPart is missing.")
-								end
-							else
-								SendNotify("kill","Failed to kill: "..v.Name..", player is whitelisted.")
-							end
+							xpcall(function()
+								Module.Kill(v.Character.HumanoidRootPart)
+								SendNotify("Success","Successfully killed "..v.Name..".")
+							end, function()
+								SendNotify("Error","Could not kill "..v.Name.." Reason is unknown.")
+							end)
 						elseif FreezeMode == true then
-							if not table.find(WhitelistedPlayers,v) then
-								local s,e = pcall(function()
-									VARIABLES["Target"] = v.Name
-									Module.Freeze(v.Character.PrimaryPart)
-								end)
+							xpcall(function()
+								On = true
+								CurrentPlayer = v.Name
+								wait(0.025)
 
-								if s then
-									SendNotify("freeze","Successfully froze: "..v.Name)
-								else
-									SendNotify("freeze","Failed to froze: "..", player's PrimaryPart is missing.")
-								end
-							else
-								SendNotify("freeze","Failed to froze: "..v.Name..", player is whitelisted.")
-							end
+								Module.Freeze(v.Character.HumanoidRootPart)
+								SendNotify("Success","Successfully froze "..v.Name..".")
+							end, function()
+								SendNotify("Error","Could not kill "..v.Name.." Reason is unknown.")
+							end)
 
 						end
+
+					else
+						SendNotify("Error",v.Name.." is whitelisted.")
 					end
 				end
+
 			end
 		end
 	end
 
-
 end)
-local Loaded = StartTime - tick()
-
-SendNotify("Success","Successfully loaded the gui in "..FormatStringToHourMinuteSecond(tostring(Loaded)).."!")
