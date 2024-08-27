@@ -22,6 +22,14 @@ local WhitelistedPlayers = {}
 VARIABLES["IsPlayerSitting"] = {}
 VARIABLES["Players"] = {}
 
+local AGJK_AE11_2233_IIII = Instance.new("Sound")
+AGJK_AE11_2233_IIII.SoundId = "rbxassetid://6201094296"
+AGJK_AE11_2233_IIII.Parent = workspace
+
+local AGJK_AE11_2233_IIII2 = Instance.new("Sound")
+AGJK_AE11_2233_IIII2.SoundId = "rbxassetid://17842776916"
+AGJK_AE11_2233_IIII2.Parent = workspace
+
 local CurrentPlayer = nil
 local On = false
 local On2 = false
@@ -757,7 +765,7 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 							if Block then
 								Module.Delete(Block)
 								SendNotify("Success","Successfully unfroze "..plr.Name.."!")
-							
+
 							else
 								SendNotify("Error","Failed to unfroze "..plr.Name.."!")
 								break
@@ -768,104 +776,117 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 
 				end)
 			elseif Command_Type == "fling" then
+			
 				workspace.FallenPartsDestroyHeight = math.huge-math.huge
-				for _,v in pairs(Player.Character:GetChildren()) do
+				local HRP = Player.Character.HumanoidRootPart
+				
+				for _,v in pairs(Player.Character:GetDescendants()) do
 					if v:IsA("BasePart") then
-						v.CustomPhysicalProperties = PhysicalProperties.new(math.huge, 0.3, 0.5)
+						v.CustomPhysicalProperties = PhysicalProperties.new(math.huge,0.3,0.5)
 					end
 				end
+
 
 				local FlingMogus = Instance.new("BodyAngularVelocity")
 				FlingMogus.Name = "idk amogus"
 				FlingMogus.Parent = Player.Character.HumanoidRootPart
-				FlingMogus.AngularVelocity = Vector3.new(0,99999999999,0)
-				FlingMogus.MaxTorque = Vector3.new(0,math.huge,0)
+				FlingMogus.AngularVelocity = Vector3.new(9e9,9e9,9e9)
+				FlingMogus.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
 				FlingMogus.P = math.huge
-				
-				Connections.flingconnection = RunService.RenderStepped:Connect(function()
-					for _,v in pairs(Player.Character:GetChildren()) do
+
+				local OGPOS = nil
+				OGPOS = HRP.CFrame
+
+				local ResetPlayer = function()
+					FlingMogus:Destroy()
+					if Player.Character then
+						workspace.CurrentCamera.CameraSubject = Player.Character.Humanoid
+						for i = 1,15 do
+							for _,v in pairs(Player.Character:GetChildren()) do
+								if v:IsA("BasePart") then
+									v.Massless = false
+									v.Velocity = Vector3.new(0,0,0)
+									v.AssemblyLinearVelocity = Vector3.new(0,0,0)
+									v.AssemblyAngularVelocity = Vector3.new(0,0,0)
+									if not v.Name:lower():find("leg") or not v.Name:lower():find("arm") then
+										v.CanCollide = true
+									end
+								end
+							end
+							if Player.Character:FindFirstChild("HumanoidRootPart") then
+								Player.Character.HumanoidRootPart.CFrame = OGPOS
+							end
+							task.wait(0.075)
+							print("resetting.")
+						end
+
+					end
+				end
+
+				Connections.fling = RunService.RenderStepped:Connect(function()
+					for _,v in pairs(Player.Character:GetDescendants()) do
 						if v:IsA("BasePart") then
+							v.Massless = true
 							v.CanCollide = false
-						v.Velocity = Vector3.new(99999999999999,99999999999999,99999999999999)
+if v.Name == "HumanoidRootPart" then
+v.Velocity = Vector3.new(50,50,50)
+end
 						end
 					end
 				end)
-				
-				local Sum = 0
-				local OldPosition = Player.Character.HumanoidRootPart.CFrame
-				
+
+
+				local Length = 20
+				workspace.CurrentCamera.CameraSubject = PrimaryPart.Parent.Humanoid
 				repeat
-					Sum += 1
-					task.wait()
-					if plr.Character then
-						if plr.Character:FindFirstChild("HumanoidRootPart") then
-							Player.Character.HumanoidRootPart.CFrame = PrimaryPart.CFrame
-						else
-							SendNotify("Error","Couldn't fling player, HumanoidRootpart is missing.")
-							Connections.flingconnection:Disconnect()
-							FlingMogus:Destroy()
-							for i = 1,70 do
-								task.wait(0.025)
-								Player.Character.HumanoidRootPart.CFrame = OldPosition
-								for _,v in pairs(Player.Character:GetChildren()) do
-									if v:IsA("BasePart") then
-										v.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
-										v.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
-										v.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
-									end
-								end
-							end
-							wait(0.025)
-							for _,v in pairs(Player.Character:GetChildren()) do
-								if v:IsA("BasePart") then
-									if not v.Name:lower():find("arm") and not  v.Name:lower():find("leg") then
-										v.CanCollide = true
-									end
-									v.CustomPhysicalProperties = nil
-								end
-							end
-							Player.Character.HumanoidRootPart.CFrame = OldPosition + Vector3.new(0,5,0)
+					if Player.Character.Humanoid.Health < 1 then
+						Connections.fling:Disconnect()
+						ResetPlayer()
+
+						break
+					end
+					for _,v in pairs(Player.Character:GetChildren()) do
+						if v:IsA("BasePart") then
+							v.Velocity = Vector3.new(0,0,0)
+							v.AssemblyLinearVelocity = Vector3.new(0,0,0)
+							v.AssemblyAngularVelocity = Vector3.new(0,0,0)
+						end
+					end
+					if PrimaryPart then
+						if PrimaryPart.CFrame.Y > 1000 then
+							Connections.fling:Disconnect()
+							ResetPlayer()
+
 							break
 						end
-					end
-					if Sum > 197 then
-						Player.Character.HumanoidRootPart.CFrame = OldPosition
-						Connections.flingconnection:Disconnect()
-						FlingMogus:Destroy()
-						for _,v in pairs(Player.Character:GetChildren()) do
-							if v:IsA("BasePart") then
-								v.CustomPhysicalProperties = nil
-								v.Massless = false
-								v.Velocity = Vector3.new(0,0,0)
-							end
-						end
-						for i = 1,150 do
-							task.wait(0.025)
-							Player.Character.HumanoidRootPart.CFrame = OldPosition
-							for _,v in pairs(Player.Character:GetChildren()) do
-								if v:IsA("BasePart") then
-                                v.Velocity = Vector3.new(0,0,0)
+						if PrimaryPart.Parent then
+							if HRP then
 
-									v.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
-									v.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
-									v.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
-								end
+								TweenService:Create(HRP,TweenInfo.new(0.025),{CFrame = PrimaryPart.CFrame + PrimaryPart.CFrame.LookVector * Length}):Play()
+								task.wait(0.025)
+								TweenService:Create(HRP,TweenInfo.new(0.025),{CFrame = PrimaryPart.CFrame}):Play()
+								task.wait(0.025)
+							else
+								Connections.fling:Disconnect()
+								ResetPlayer()
+
+								break
 							end
+						else
+							Connections.fling:Disconnect()
+							ResetPlayer()
+
+							break
 						end
-						for _,v in pairs(Player.Character:GetChildren()) do
-							if v:IsA("BasePart") then
-								if not v.Name:lower():find("arm") and not  v.Name:lower():find("leg") then
-									v.CanCollide = true
-								end
-								v.CustomPhysicalProperties = nil
-							end
-						end
-						Player.Character.HumanoidRootPart.CFrame = OldPosition + Vector3.new(0,5,0)
+					else
+						Connections.fling:Disconnect()
+						ResetPlayer()
+
 						break
-						
 					end
-				until Sum == 200
-			
+					task.wait()
+				until PrimaryPart == "dummy"
+
 			elseif Command_Type == "spike" then
 				SendNotify("Success","Adding a spike on the player.")
 				coroutine.wrap(function()
@@ -1043,7 +1064,7 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 				end
 
 			end
-	
+
 
 
 
@@ -1131,7 +1152,7 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 						wait(0.025)
 						Module.Freeze(v.Character.HumanoidRootPart)
 					end
-				
+
 				end)
 			end
 		end
@@ -1327,27 +1348,26 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 								v:Destroy()
 							end
 						end
-						if v.Name:lower() == "laser1" or v.Name:lower() =="laser2" or v.Name:lower() == "laser" or v.Name:lower() =="laser4" or v.Name:lower() =="laser5" then
+						if v.Name:lower() == "laser1" or v.Name:lower() =="laser2" or v.Name:lower() == "laser" or v.Name:lower() =="laser4" then
 							v:Destroy()
 						end 
 					end
 
 				end
 				Connections.godmodeconnection = workspace.DescendantAdded:Connect(function(desc)
-                
 					if desc.Parent.Name == "Spikes_Simple" then
 						if desc.Name == "Spikes" then
 							desc:Destroy()
 						end
 					end
-					if desc.Name:lower() == "laser1" or desc.Name:lower() =="laser2" or desc.Name:lower() == "laser" or desc.Name:lower() =="laser4" or desc.Name:lower() =="laser5" then
-                        desc:Destroy()
+					if desc.Name:lower() == "laser1" or desc.Name:lower() =="laser2" or desc.Name:lower() == "laser" or desc.Name:lower() =="laser4" then
+						desc:Destroy()
 					end
 				end)
 			else
 				SendNotify("Error","God Mode is already enabled.")
 			end
-		
+
 		end
 		if Command_Type == "ungod" then
 			if Connections.godmodeconnection then
@@ -1499,7 +1519,7 @@ local Execute = function(text)
 		ExecuteFunction("no more primary part checks lil lua code","god",true)
 	elseif SeperatedText[1] == "ungod" then
 		ExecuteFunction("no more primary part checks lil lua code","ungod",true)
-		
+
 	elseif SeperatedText[1] == "ubervip" then
 		ExecuteFunction(Player,"uber",false)	
 	elseif SeperatedText[1] == "megavip" then
@@ -1665,3 +1685,4 @@ UserInputService.TouchTap:Connect(function()
 	end
 
 end)
+
