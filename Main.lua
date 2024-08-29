@@ -866,6 +866,8 @@ end
 								task.wait(0.025)
 								TweenService:Create(HRP,TweenInfo.new(0.025),{CFrame = PrimaryPart.CFrame}):Play()
 								task.wait(0.025)
+								TweenService:Create(HRP,TweenInfo.new(0.025),{CFrame = PrimaryPart.CFrame + PrimaryPart.CFrame.LookVector * -20}):Play()
+								task.wait(0.025)
 							else
 								Connections.fling:Disconnect()
 								ResetPlayer()
