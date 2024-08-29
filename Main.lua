@@ -828,9 +828,6 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 						if v:IsA("BasePart") then
 							v.Massless = true
 							v.CanCollide = false
-if v.Name == "HumanoidRootPart" then
-v.Velocity = Vector3.new(99,99,99)
-end
 						end
 					end
 				end)
