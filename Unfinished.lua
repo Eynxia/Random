@@ -447,7 +447,8 @@ function Exec(String,Plr,Args)
 				if Hum ~= false then
 					CurrentCamera.CameraSubject = Hum
 					Connections[Plr][2] = Plr.CharacterAdded:Connect(function(char)
-						CurrentCamera = char.Humanoid
+						Plr.CharacterAppearenceLoaded:Wait()
+							CurrentCamera = char.Humanoid
 					end)
 
 				end
@@ -520,6 +521,8 @@ if TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService then
 				Exec("noclip")
 			elseif Args[1] == "clip" then
 				Exec("clip")
+			elseif Args[1] == "wfling" then
+				Exec("wfling")
 			elseif Args[1] == "fb" then
 				Exec("fb")
 			elseif Args[1] == "day" then
