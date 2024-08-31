@@ -447,8 +447,8 @@ function Exec(String,Plr,Args)
 				if Hum ~= false then
 					CurrentCamera.CameraSubject = Hum
 					Connections[Plr][2] = Plr.CharacterAdded:Connect(function(char)
-						Plr.CharacterAppearenceLoaded:Wait()
-							CurrentCamera = char.Humanoid
+						Plr.CharacterAppearanceLoaded:Wait()
+							CurrentCamera.CameraSubject = char.Humanoid
 					end)
 
 				end
