@@ -1057,6 +1057,18 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 				SendNotify("Error","AHeal is already disabled!")
 			end
 		end
+		
+		if Command_Type == "unloopkill" then
+				if Connections[plr.Name][1] then
+					pcall(function()
+						Connections[plr.Name][1]:Disconnect()
+						Connections[plr.Name][1] = nil
+						SendNotify("Success","Successfully disabled loopkill on "..plr.Name..".")
+					end)
+				else
+					SendNotify("Error","Player is not getting loopkilled.")
+		end
+		end
 		if Command_Type == "spikeall" then
 			SendNotify("Success","Adding a spike on all players.")
 			coroutine.wrap(function()
@@ -1500,9 +1512,9 @@ local Execute = function(text)
 			return
 		end
 		ExecuteFunction(FindClosestName(Arg2,Player.Name),"loopkill",false)
-	elseif SeperatedText[1] == "AHeal" then
+	elseif SeperatedText[1] == "aheal" then
 		ExecuteFunction("no more primary part checks lil lua code","AHeal",true)
-	elseif SeperatedText[1] == "UnAHeal" then
+	elseif SeperatedText[1] == "unaheal" then
 		ExecuteFunction("no more primary part checks lil lua code","UnAHeal",true)
 	elseif SeperatedText[1] == "unloopkill" then
 		if Arg2 == nil then
