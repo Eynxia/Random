@@ -1013,8 +1013,9 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 		local interval = 0.05
 		if Command_Type == "AHeal" then
 			if not Connections.HealConnection then
+				SendNotify("Success","Successfully enabled aheal.")
 				local HealPads = workspace:WaitForChild("Interactables"):WaitForChild("HealPads")
-				Connections.Kill_Farm = RunService.RenderStepped:Connect(function(dt)
+				Connections.HealConnection = RunService.RenderStepped:Connect(function(dt)
 
 					if (tick() >= nextStep) then
 						local HRP = ReturnPrimaryPart(Player)
