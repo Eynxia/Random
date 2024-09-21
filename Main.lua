@@ -1014,7 +1014,7 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 		if Command_Type == "AHeal" then
 			if not Connections.HealConnection then
 				local HealPads = workspace:WaitForChild("Interactables"):WaitForChild("HealPads")
-				Connections.Kill_Farm = RunService.Heartbeat:Connect(function(dt)
+				Connections.Kill_Farm = RunService.RenderStepped:Connect(function(dt)
 
 					if (tick() >= nextStep) then
 						local HRP = ReturnPrimaryPart(Player)
@@ -1149,7 +1149,7 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 			if not Connections.Kill_Farm then
 				SendNotify("Success","Enabling killfarm.")
 
-				Connections.Kill_Farm = RunService.Heartbeat:Connect(function(dt)
+				Connections.Kill_Farm = RunService.RenderStepped:Connect(function(dt)
 
 					if (tick() >= nextStep) then
 						iter = iter+1
