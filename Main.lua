@@ -776,10 +776,10 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 
 				end)
 			elseif Command_Type == "fling" then
-			
+
 				workspace.FallenPartsDestroyHeight = math.huge-math.huge
 				local HRP = Player.Character.HumanoidRootPart
-				
+
 				for _,v in pairs(Player.Character:GetDescendants()) do
 					if v:IsA("BasePart") then
 						v.CustomPhysicalProperties = PhysicalProperties.new(math.huge,0.3,0.5)
@@ -934,69 +934,7 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 			elseif Command_Type == "thumbnail" then
 				SendNotify("Success","Successfully teleported to thumbnail.")
 				PrimaryPart.CFrame = ThumbnailCFrame
-			elseif Command_Type == "spikeall" then
-				SendNotify("Success","Adding a spike on all players.")
-				coroutine.wrap(function()
-					On2 = true
-					task.wait(0.025)
-					Module.CreateSpike(LPlate.CFrame + Vector3.new(0,10,0)) 
-					local Spike = FindTaggedBlock("Solo")
-					if Spike ~= nil then
-						xpcall(function()
 
-							local Looped = 0
-							local Sum =0
-							local CurrentPlayers = #Players:GetPlayers()
-							local Box = Spike.Spikes_Simple.Box
-
-							for i = 1,5  do
-								Looped += 1
-
-								for _,v in pairs(Players:GetPlayers()) do
-									task.wait(0.025)
-									Sum += 1
-									if v.Character:FindFirstChild("HumanoidRootPart") then
-										if v.Name ~= Player.Name then
-											if not table.find(WhitelistedPlayers,v) then
-												Module.Freeze(v.Character.HumanoidRootPart)
-												task.wait(0.025)
-												if v.Character.Humanoid.Health > 1 then
-													Box.CFrame = v.Character.HumanoidRootPart.CFrame
-												end
-											end
-
-										end
-
-									end
-									if Sum >= CurrentPlayers then
-
-										SendNotify("Success","Completed spikeall. (this message will repeat 5 times!)")
-										for _,v in pairs(ActiveParts:GetChildren()) do
-											if v.Name == "Weathervane" then
-												Module.Delete(v)
-											end
-										end
-										Sum = 0
-									end
-								end
-								if Looped == 5 then
-									Module.Delete(Spike)
-									SendNotify("Success","Successfully ended the spikeall loop.")
-									break
-								end
-								task.wait(0.75)
-							end
-
-
-
-
-
-						end, function()
-
-						end)
-
-					end
-				end)()
 			elseif Command_Type == "loopkill" then
 				if not table.find(WhitelistedPlayers,plr) then
 					if not Connections[plr.Name][1] then
@@ -1051,17 +989,7 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 				end
 
 
-			elseif Command_Type == "unloopfreeze" then
-				if Connections[plr.Name][2]  then
-					pcall(function()
-						Connections[plr.Name][2]:Disconnect()
-						Connections[plr.Name][2] = nil
-						SendNotify("Success","Successfully disabled loopfreeze on "..plr.Name..".")
-					end)
-				else
-					SendNotify("Error","Player is not getting loopfreezed.")
-				end
-
+		
 			end
 
 
@@ -1071,6 +999,128 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 	end
 
 	if ignoreprimarypartcheck == true then
+		if Command_Type == "unloopfreeze" then
+			if Connections[plr.Name][2]  then
+				pcall(function()
+					Connections[plr.Name][2]:Disconnect()
+					Connections[plr.Name][2] = nil
+					SendNotify("Success","Successfully disabled loopfreeze on "..plr.Name..".")
+				end)
+			else
+				SendNotify("Error","Player is not getting loopfreezed.")
+			end
+		end
+		local interval = 0.05
+		if Command_Type == "AHeal" then
+			if not Connections.HealConnection then
+				local HealPads = workspace:WaitForChild("Interactables"):WaitForChild("HealPads")
+				Connections.Kill_Farm = RunService.Heartbeat:Connect(function(dt)
+
+					if (tick() >= nextStep) then
+						local HRP = ReturnPrimaryPart(Player)
+						iter = iter+1
+						nextStep = start + (iter * interval)
+						pcall(function()
+							for _,v in pairs(HealPads:GetChildren()) do
+								v.CanCollide = false
+								v.Transparency = 1
+								wait(0.05)
+
+								for _,v in pairs(v:GetDescendants()) do
+									if v:IsA("BillboardGui") or v:IsA("Decal") or v:IsA("SurfaceGui") then
+										v:Destroy()
+									end
+								end
+
+								TweenService:Create(v,TweenInfo.new(0.05),{CFrame = HRP.CFrame - Vector3.new(0,5,0)}):Play()
+								wait(0.05)
+								TweenService:Create(v,TweenInfo.new(0.05),{CFrame = HRP.CFrame - Vector3.new(0,-5,0)}):Play()
+								wait(0.05)
+							end
+
+						end)
+						
+
+
+					
+					end
+
+				end)
+			else
+				SendNotify("Error","AHeal is already Enabled!")
+			end
+		end
+		if Command_Type == "UnAHeal" then
+			if Connections.HealConnection then
+				Connections.HealConnection:Disconnect()
+			else
+				SendNotify("Error","AHeal is already disabled!")
+			end
+		end
+		if Command_Type == "spikeall" then
+			SendNotify("Success","Adding a spike on all players.")
+			coroutine.wrap(function()
+				On2 = true
+				task.wait(0.025)
+				Module.CreateSpike(LPlate.CFrame + Vector3.new(0,10,0)) 
+				local Spike = FindTaggedBlock("Solo")
+				if Spike ~= nil then
+					xpcall(function()
+
+						local Looped = 0
+						local Sum =0
+						local CurrentPlayers = #Players:GetPlayers()
+						local Box = Spike.Spikes_Simple.Box
+
+						for i = 1,5  do
+							Looped += 1
+
+							for _,v in pairs(Players:GetPlayers()) do
+								task.wait(0.025)
+								Sum += 1
+								if v.Character:FindFirstChild("HumanoidRootPart") then
+									if v.Name ~= Player.Name then
+										if not table.find(WhitelistedPlayers,v) then
+											Module.Freeze(v.Character.HumanoidRootPart)
+											task.wait(0.025)
+											if v.Character.Humanoid.Health > 1 then
+												Box.CFrame = v.Character.HumanoidRootPart.CFrame
+											end
+										end
+
+									end
+
+								end
+								if Sum >= CurrentPlayers then
+
+									SendNotify("Success","Completed spikeall. (this message will repeat 5 times!)")
+									for _,v in pairs(ActiveParts:GetChildren()) do
+										if v.Name == "Weathervane" then
+											Module.Delete(v)
+										end
+									end
+									Sum = 0
+								end
+							end
+							if Looped == 5 then
+								Module.Delete(Spike)
+								SendNotify("Success","Successfully ended the spikeall loop.")
+								break
+							end
+							task.wait(0.75)
+						end
+
+
+
+
+
+					end, function()
+
+					end)
+
+				end
+			end)()
+		end
 		if Command_Type == "killfarm" then
 			if TempPart == nil then
 				TempPart = Instance.new("Part")
@@ -1450,14 +1500,18 @@ local Execute = function(text)
 			return
 		end
 		ExecuteFunction(FindClosestName(Arg2,Player.Name),"loopkill",false)
+	elseif SeperatedText[1] == "AHeal" then
+		ExecuteFunction("no more primary part checks lil lua code","AHeal",true)
+	elseif SeperatedText[1] == "UnAHeal" then
+		ExecuteFunction("no more primary part checks lil lua code","UnAHeal",true)
 	elseif SeperatedText[1] == "unloopkill" then
 		if Arg2 == nil then
 			SendNotify("Error","Could not execute unloopkill, argument 2 can't be empty.")
 			return
 		end
-		ExecuteFunction(FindClosestName(Arg2,Player.Name),"unloopkill",false)
+		ExecuteFunction(FindClosestName(Arg2,Player.Name),"unloopkill",true)
 	elseif SeperatedText[1] == "spikeall" then
-		ExecuteFunction(FindClosestName(Player.Name,"sugumaballs"),"spikeall")
+		ExecuteFunction("no more primary part checks lil lua code","spikeall",true)
 	elseif SeperatedText[1] == "killfarm" then
 		ExecuteFunction("no more primary part checks lil lua code","killfarm",true)
 	elseif SeperatedText[1] == "unkillfarm" then
@@ -1476,7 +1530,7 @@ local Execute = function(text)
 		ExecuteFunction("no more primary part checks lil lua code","killaura",true,Arg2)
 	elseif SeperatedText[1] == "loopfreeze" then
 		if Arg2 == nil then
-			SendNotify("Error","Could not execute freezeaura, argument 2 can't be empty.")
+			SendNotify("Error","Could not execute loopfreeze, argument 2 can't be empty.")
 			return
 		end
 		ExecuteFunction(FindClosestName(Arg2,Player.Name),"loopfreeze",false)
@@ -1684,4 +1738,3 @@ UserInputService.TouchTap:Connect(function()
 	end
 
 end)
-
