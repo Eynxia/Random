@@ -957,16 +957,7 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 				end
 
 
-			elseif Command_Type == "unloopkill" then
-				if Connections[plr.Name][1] then
-					pcall(function()
-						Connections[plr.Name][1]:Disconnect()
-						Connections[plr.Name][1] = nil
-						SendNotify("Success","Successfully disabled loopkill on "..plr.Name..".")
-					end)
-				else
-					SendNotify("Error","Player is not getting loopkilled.")
-				end
+
 			elseif Command_Type == "loopfreeze" then
 				if not table.find(WhitelistedPlayers,plr) then
 					if not Connections[plr.Name][2] then
@@ -989,7 +980,7 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 				end
 
 
-		
+
 			end
 
 
@@ -999,6 +990,17 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 	end
 
 	if ignoreprimarypartcheck == true then
+		if Command_Type == "unloopkill" then
+			if Connections[plr.Name][1] then
+				pcall(function()
+					Connections[plr.Name][1]:Disconnect()
+					Connections[plr.Name][1] = nil
+					SendNotify("Success","Successfully disabled loopkill on "..plr.Name..".")
+				end)
+			else
+				SendNotify("Error","Player is not getting loopkilled.")
+			end
+		end
 		if Command_Type == "unloopfreeze" then
 			if Connections[plr.Name][2]  then
 				pcall(function()
@@ -1013,9 +1015,34 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 		local interval = 0.05
 		if Command_Type == "AHeal" then
 			if not Connections.HealConnection then
-				SendNotify("Success","Successfully enabled aheal.")
+				SendNotify("Success","AHeal has been enabled.")
+				local Hum = Player.Character.Humanoid
 				local HealPads = workspace:WaitForChild("Interactables"):WaitForChild("HealPads")
-				Connections.HealConnection = RunService.RenderStepped:Connect(function(dt)
+				Connections.OtherHealConnection = Hum.HealthChanged:Connect(function()
+					if Hum.Health < 25 then
+						local HRP = ReturnPrimaryPart(Player)
+						local t = HRP.CFrame
+						HRP.CFrame = UberVipCFrame
+						task.wait(0.5)
+						HRP.CFrame = t
+					end
+				end)
+				
+				Connections.OtherOtherHealConnection = Player.CharacterAdded:Connect(function(char)
+					Connections.OtherHealConnection:Disconnect()
+					Player.CharacterAppearanceLoaded:Wait()
+					local Hum = char.Humanoid
+					Connections.OtherHealConnection = Hum.HealthChanged:Connect(function()
+						if Hum.Health < 25 then
+							local HRP = ReturnPrimaryPart(Player)
+							local t = HRP.CFrame
+							HRP.CFrame = UberVipCFrame
+							task.wait(0.5)
+							HRP.CFrame = t
+						end
+					end)
+				end)
+					Connections.HealConnection = RunService.RenderStepped:Connect(function(dt)
 
 					if (tick() >= nextStep) then
 						local HRP = ReturnPrimaryPart(Player)
@@ -1040,10 +1067,10 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 							end
 
 						end)
-						
 
 
-					
+
+
 					end
 
 				end)
@@ -1054,21 +1081,12 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 		if Command_Type == "UnAHeal" then
 			if Connections.HealConnection then
 				Connections.HealConnection:Disconnect()
+				Connections.OtherHealConnection:Disconnect()
+				Connections.OtherOtherHealConnection:Disconnect()
+				SendNotify("Success","AHeal has been disabled.")
 			else
 				SendNotify("Error","AHeal is already disabled!")
 			end
-		end
-		
-		if Command_Type == "unloopkill" then
-				if Connections[plr.Name][1] then
-					pcall(function()
-						Connections[plr.Name][1]:Disconnect()
-						Connections[plr.Name][1] = nil
-						SendNotify("Success","Successfully disabled loopkill on "..plr.Name..".")
-					end)
-				else
-					SendNotify("Error","Player is not getting loopkilled.")
-		end
 		end
 		if Command_Type == "spikeall" then
 			SendNotify("Success","Adding a spike on all players.")
@@ -1162,7 +1180,7 @@ local ExecuteFunction = function(plr,Command_Type,ignoreprimarypartcheck,number,
 			if not Connections.Kill_Farm then
 				SendNotify("Success","Enabling killfarm.")
 
-				Connections.Kill_Farm = RunService.RenderStepped:Connect(function(dt)
+				Connections.Kill_Farm = RunService.Heartbeat:Connect(function(dt)
 
 					if (tick() >= nextStep) then
 						iter = iter+1
