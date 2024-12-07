@@ -33,9 +33,9 @@ local Source = script:WaitForChild("Source")
 print(Get_Request)
 
 if Source.Value ~= Get_Request then
-    warn("Script might be outdated!")
+	warn("Script might be outdated!")
 else
-    warn("Success!")
+	warn("Success!")
 end
 
 local Client = script:WaitForChild("Client")
