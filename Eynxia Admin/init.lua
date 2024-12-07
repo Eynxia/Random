@@ -26,18 +26,6 @@ local HttpService = game:GetService("HttpService")
 
 --|| Other
 
-local Get_Request = HttpService:GetAsync("https://raw.githubusercontent.com/Eynxia/Random/refs/heads/main/Eynxia%20Admin/init.lua")
-
-local Source = script:WaitForChild("Source")
-
-print(Get_Request)
-
-if Source.Value ~= Get_Request then
-	warn("Script might be outdated!")
-else
-	warn("Success!")
-end
-
 local Client = script:WaitForChild("Client")
 local Client_Server = script:WaitForChild("Client|Server")
 local Fetch = Client_Server:WaitForChild("fetch")
