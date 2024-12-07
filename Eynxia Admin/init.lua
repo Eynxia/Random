@@ -1,3 +1,4 @@
+
 --[[
 
 
@@ -29,8 +30,12 @@ local Get_Request = HttpService:GetAsync("https://raw.githubusercontent.com/Eynx
 
 local Source = script:WaitForChild("Source")
 
+print(Get_Request)
+
 if Source.Value ~= Get_Request then
 	warn("Script might be outdated!")
+else
+	warn("Success!")
 end
 
 local Client = script:WaitForChild("Client")
