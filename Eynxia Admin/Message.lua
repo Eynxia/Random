@@ -1,5 +1,3 @@
-game.Loaded:Wait()
-
 --// Services
 
 local Players = game:GetService("Players")
@@ -25,10 +23,10 @@ local fetch_cmd_ = function(__STRING:string)
 	local target = {}
 	for data,pos in _split do
 		local cmd_found_ = table.find(garbage,pos)
-		
+
 		if cmd_found_ then
 			if not table.find(__cmds,garbage[cmd_found_]) then
-			
+
 				local _plus__one = _split[data+1]
 				local gsub = string.gsub(_plus__one,","," ")
 				local s_split = string.split(gsub," ")
@@ -48,12 +46,12 @@ local fetch_cmd_ = function(__STRING:string)
 							end
 						end
 					end
-					
-					
+
+
 				end
-	
+
 			end
-			
+
 		end
 	end
 	return __cmds
@@ -72,43 +70,19 @@ if _Version == Class_Txt then
 			if sub == __PREFIX then
 				local _gsub = string.gsub(__string_lower,__PREFIX,"")
 				local str__,str = pcall(fetch_cmd_,_gsub)
-				print(str)
+				
 				for Position,Command in garbage do
 					if str[Command] then
 						local cmd_name__ = Command
-						
+
 						Event:FireServer(cmd_name__,str[Command],false)
 					end
 				end
-				
+
 			end
 		end
 	end)
 elseif _Version == Class_Classic then
-	
+
 
 end
-
---|| INIT ||--
-
---|| Services
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
---|| Other
-
-local Main = Instance.new("Folder")
-local Folder = Instance.new("Folder")
-local Event = Instance.new("RemoteEvent")
-local fetch = Instance.new("Folder")
-
-Main.Name = "Main"
-fetch.Name = "return"
-Folder.Name = "Event"
-Event.Name = "Fire"
-
-Main.Parent = ReplicatedStorage
-fetch.Name = Main
-Folder.Parent = Main
-Event.Parent = Folder
-
