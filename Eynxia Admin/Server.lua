@@ -9,7 +9,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Main = ReplicatedStorage:WaitForChild("Main")
 local Event = Main:WaitForChild("Event")
 local Fire = Event:WaitForChild("Fire")
-local ret = ReplicatedStorage:WaitForChild("return"):WaitForChild("fetch")
+local ret = Main:WaitForChild("return"):WaitForChild("fetch")
 local return_ = require(ret)
 
 local Return_Hum = function(Player_Instance:Player)
@@ -73,9 +73,9 @@ Fire.OnServerEvent:Connect(function(Player, Command,Table,Bypass_STRCHECK)
 				else
 					for p,d in Table do
 						local tmp:Player = return_.get(d)
-					
+
 						if tmp then
-							
+
 							local rrr:Humanoid = Return_Hum(tmp)
 							if rrr then
 								local HP = rrr.Health
