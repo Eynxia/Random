@@ -21,11 +21,11 @@ local Server = script:WaitForChild("Server")
 local __HANDLER = Server:WaitForChild("_Handler")
 
 Main.Name = "Main"
-fetch.Name = "return"
+Fetch.Name = "fetch"
 Folder.Name = "Event"
 Event.Name = "Fire"
 __Cmds.Name = "_cmds"
-fetch.Name = "Main"
+fetch.Name = "return"
 
 __Cmds.Parent = ServerScriptService
 __HANDLER.Parent = __Cmds
