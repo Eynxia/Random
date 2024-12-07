@@ -32,8 +32,10 @@ __HANDLER.Parent = __Cmds
 Main.Parent = ReplicatedStorage
 Folder.Parent = Main
 Event.Parent = Folder
+fetch.Parent = Main
 
 Fetch.Parent = fetch
+
 Chat.Parent = ReplicatedFirst
 Chat.Enabled = true
 __HANDLER.Enabled = true
