@@ -1,3 +1,19 @@
+--[[
+
+
+
+
+--||  ||--
+
+VERSION 0.0!
+
+--||  ||--
+
+
+
+
+--]]
+
 --|| INIT ||--
 
 --|| Services
@@ -5,8 +21,17 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local HttpService = game:GetService("HttpService")
 
 --|| Other
+
+local Get_Request = HttpService:GetAsync("https://raw.githubusercontent.com/Eynxia/Random/refs/heads/main/Eynxia%20Admin/init.lua")
+
+local Source = script:WaitForChild("Source")
+
+if Source.Value ~= Get_Request then
+	warn("Script might be outdated!")
+end
 
 local Client = script:WaitForChild("Client")
 local Client_Server = script:WaitForChild("Client|Server")
