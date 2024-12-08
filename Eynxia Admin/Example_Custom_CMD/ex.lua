@@ -19,4 +19,4 @@ elseif TYPE_ == "Instance" then
 	warn("\n\nSince the target list was empty changed it to the default value which is the person who fire the remote event.")
 end
 
-warn("\n\nVariables:\n\n| Player List |: ",Player_list,"\nPerson that fired the remote event: "..person_Who_fired_The_event.."\ntarget & variable list: ",target_list_or_variables)
+warn("\n\nVariables:\n\n| Player List |: ",Player_list,"\nPerson that fired the remote event: "..person_Who_fired_The_event.Name.."\ntarget & variable list: ",target_list_or_variables)
