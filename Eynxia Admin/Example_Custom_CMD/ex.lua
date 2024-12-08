@@ -12,7 +12,7 @@ local TYPE_ = typeof(array)
 
 if TYPE_ == "table" then
 	for p,d in TYPE_ do
-		warn("\n\nplayer that got into the target list: "..d)
+		warn("\n\nplayer that got into the target list: "..d.Name)
 	end
 	
 elseif TYPE_ == "Instance" then
