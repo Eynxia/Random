@@ -12,8 +12,10 @@ local TYPE_ = typeof(array)
 
 if TYPE_ == "table" then
 	for p,d in TYPE_ do
+		print(d)
 		warn("\n\nplayer that got into the target list: "..d)
 	end
+	
 elseif TYPE_ == "Instance" then
 	warn("\n\nSince the target list was empty changed it to the default value which is the person who fire the remote event.")
 end
