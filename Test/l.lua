@@ -1,11 +1,3 @@
---[=[
- d888b  db    db d888888b      .d888b.      db      db    db  .d8b.  
-88' Y8b 88    88   `88'        VP  `8D      88      88    88 d8' `8b 
-88      88    88    88            odD'      88      88    88 88ooo88 
-88  ooo 88    88    88          .88'        88      88    88 88~~~88 
-88. ~8~ 88b  d88   .88.        j88.         88booo. 88b  d88 88   88    @uniquadev
- Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
-]=]
 
 -- Instances: 82 | Scripts: 1 | Modules: 0 | Tags: 3
 local CollectionService = game:GetService("CollectionService");
@@ -715,91 +707,91 @@ G2L["52"]["Name"] = [[Side]];
 
 -- StarterGui.UI.Main.Handle
 local function C_4c()
-local script = G2L["4c"];
+	local script = G2L["4c"];
 	--|| Services ||--
-	
+
 	local TweenService = game:GetService("TweenService")
 	local CollectionService = game:GetService("CollectionService")
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
-	
+
 	--|| Other ||--
-	
+
 	local Client = Players.LocalPlayer
-	
+
 	local _main = script.Parent
-	
+
 	local Possible_Buttons = _main:WaitForChild("Possible Buttons")
 	local Possible_Sections = _main:WaitForChild("Possible Sections")
-	
+
 	local Section_1:CanvasGroup = Possible_Sections:WaitForChild("Sect_1")
 	local Section_2:CanvasGroup = Possible_Sections:WaitForChild("Sect_2")
 	local Section_3:CanvasGroup = Possible_Sections:WaitForChild("Sect_3")
-	
+
 	local Section_1Size = Section_1.Size
 	local Section_2Size = Section_2.Size
 	local Section_3Size = Section_3.Size
-	
+
 	local BasicButtonType = Possible_Buttons:WaitForChild("Basic Button")
 	local Textbox = Possible_Buttons:WaitForChild("Textbox")
-	
+
 	Section_1.Size = UDim2.new(0,0,Section_1Size.Y.Scale,0)
 	Section_2.Size = UDim2.new(0,0,Section_2Size.Y.Scale,0)
 	Section_3.Size = UDim2.new(0,0,Section_3Size.Y.Scale,0)
-	
+
 	Section_1.GroupTransparency = 1
 	Section_2.GroupTransparency = 1
 	Section_3.GroupTransparency = 1
-	
+
 	local ButtonTypes = {
 		["Basic"] = BasicButtonType;
 		["Textbox"] = Textbox;
 	};
-	
+
 	local SectorTypes = {
 		["Sect1"] = Section_1;
 		["Sect2"] = Section_2;
 		["Sect3"] = Section_3;
 	};
-	
+
 	local Tags = {
-	
+
 	};
-	
+
 	local TweenInfos = {
 		["Button Tweening"] = TweenInfo.new(0.5,Enum.EasingStyle.Quint,Enum.EasingDirection.InOut);
 		["Sector Tweening"] = TweenInfo.new(1,Enum.EasingStyle.Quint,Enum.EasingDirection.InOut);
 		["Transparency"] = TweenInfo.new(0.76,Enum.EasingStyle.Quint,Enum.EasingDirection.InOut);
 	};
-	
+
 	local Debs = {
-	
+
 	};
-	
+
 	local Funcs = {
-	
+
 	};
-	
+
 	local On = Color3.fromRGB(80, 49, 255)
 	local Off = Color3.fromRGB(30,30,30)
-	
+
 	local Play = script:WaitForChild("Sound")
-	
+
 	local M1 = function(Button:TextButton)
 		Play:Play()
 		if not Button then return end
 		local Deb = Debs[Button]
 		if Deb == nil then return end
-	
+
 		local F1 = Funcs[Button]["Run"]
 		local F2 = Funcs[Button]["Stop"]
-		
+
 		local Parent = Button.Parent
 		local Found = Parent:FindFirstChild("TextBox")
-		
+
 		if Found then
 			local Char = Client.Character
-			
+
 			local Fenv = getfenv()
 			Fenv["__Text"] = Found.Text or "Instance not found"
 			Fenv["__Client"] = Client or "Instance not found"
@@ -808,75 +800,75 @@ local script = G2L["4c"];
 			Fenv["__Root"] = Char:FindFirstChild("HumanoidRootPart") or "Instance not found"
 			Fenv["__Humanoid"] = Char:FindFirstChildOfClass("Humanoid") or "Instance not found"
 		end
-	
+
 		if not Deb then
 			if F1 then
 				F1()
 			end
-	
+
 			TweenService:Create(Button,TweenInfos["Button Tweening"],{BackgroundColor3 = On}):Play()
 			Debs[Button] = true
 		else
 			if F2 then
 				F2()
 			end
-	
+
 			TweenService:Create(Button,TweenInfos["Button Tweening"],{BackgroundColor3 = Off}):Play()
 			Debs[Button] = false
 		end
 	end
-	
-	
-	
+
+
+
 	local Inner = _main:WaitForChild("Inner")
 	local Topbar = Inner:WaitForChild("Topbar")
 	local Placeholder = Topbar:WaitForChild("Scroller"):WaitForChild("Sections"):WaitForChild("Placeholder")
 	local Sectors = _main:WaitForChild("Sectors")
-	
+
 	local FindSection = function(String:string)
 		if not String then return end
-	
+
 		local AllSectors = Sectors:GetChildren()
 		String = String:lower()
-	
+
 		for Index,Value in AllSectors do
-	
+
 			local Name = Value["Name"]:lower()
-	
+
 			if Name == String then
 				return Value
 			end
 		end
-	
+
 	end
-	
+
 	local Current_Sector = _main:WaitForChild("Current Sector")
-	
+
 	local Open = Color3.fromRGB(255,255,255)
 	local Closed = Color3.fromRGB(155,155,155)
-	
+
 	local Debounce = false
-	
+
 	Placeholder["TextButton"]["MouseButton1Click"]:Connect(function()
 		Play:Play()
 		if Debounce then return end
 		Debounce = true
-	
-	
+
+
 		Current_Sector.Value = "Menu"
-	
+
 		for Index,Value in Placeholder["Parent"]:GetChildren() do
 			if Value["Name"] == "Menu" then continue end
 			if Value["Name"]:find("UI") then continue end
-	
+
 			TweenService:Create(Value["UIStroke"],TweenInfos["Button Tweening"],{Color = Closed}):Play()
 		end
-	
+
 		TweenService:Create(Placeholder["UIStroke"],TweenInfos["Button Tweening"],{Color = Open}):Play()
-	
+
 		local Sectors = Sectors:GetChildren()
-	
-	
+
+
 		for Index,Value in Sectors do
 			if Value["Name"] == "Menu" then continue end
 			for Index,Value in Value:GetChildren() do
@@ -885,9 +877,9 @@ local script = G2L["4c"];
 				TweenService:Create(Value,TweenInfos["Transparency"],{GroupTransparency = 1}):Play()
 			end
 		end
-	
+
 		task.wait(0.3)
-	
+
 		for Index,Value in FindSection("Menu"):GetChildren() do
 			local S = Value:GetAttribute("Size")
 			if Value.Size ~= S then
@@ -899,190 +891,190 @@ local script = G2L["4c"];
 		end
 		Debounce = false
 	end)
-	
-	
+
+
 	local Scrollers = {}
-	
+
 	RunService["RenderStepped"]:Connect(function()
 		for Index,Scroller:ScrollingFrame in Scrollers do
 			local List:UIListLayout = Scroller:FindFirstChildOfClass("UIListLayout")
-			
+
 			if List then
 				Scroller.CanvasSize = UDim2.new(0, 0, 0, Scroller.UIListLayout.AbsoluteContentSize.Y)
 			end
 		end
 	end)
-	
+
 	local Functions = {
 		["Create Button"] = function(Array)
 			if not Array then return end
 			if typeof(Array) ~= "table" then return end
-	
+
 			local SectorName = Array["Sector"]
 			local SectionName = Array["Section"]
 			local Title = Array["Title"]
 			local Type = Array["Type"]
-	
+
 			local Sector = CollectionService:GetTagged(SectorName:lower().."&"..SectionName:lower())[1]
 			local Button = ButtonTypes[Type]
 			local ButtonExists = CollectionService:GetTagged(SectorName:lower().."&"..SectionName:lower().."&"..Title:lower())[1]
-	
+
 			if ButtonExists then return end
-	
+
 			if not Sector then return end
 			if not Button then return end
-	
+
 			local Clone:Frame = Button:Clone()
 			Clone:AddTag(SectorName:lower().."&"..SectionName:lower().."&"..Title:lower())
 			Clone.Visible = true
-	
+
 			local Title2:TextLabel = Clone:WaitForChild("Title")
 			Title2.Text = Title
-	
+
 			local CloneSize = Clone.Size
 			Clone.Size = UDim2.new(0,0,0,0)
-	
+
 			Clone:AddTag(Title)
-	
+
 			Clone.Parent = Sector:WaitForChild("Sect"):WaitForChild("Scroller"):WaitForChild("ScrollingFrame")
-	
+
 			local Button_ = Clone:WaitForChild("Button")
-	
+
 			Debs[Button_] = false
 			Funcs[Button_] = {}
-	
+
 			Button_.MouseButton1Click:Connect(function()
 				M1(Button_)
 			end)
-	
+
 			TweenService:Create(Clone,TweenInfos["Button Tweening"],{Size = CloneSize}):Play()
 		end;
-	
+
 		["Set Button Function"] = function(Array)
 			if not Array then return end
 			if typeof(Array) ~= "table" then return end
-	
+
 			local ButtonName = Array["Name"]
 			local Start = Array["Run"]
 			local End = Array["Stop"]
-	
+
 			local Button = CollectionService:GetTagged(ButtonName)[1]
 			if not Button then return end
 			if not Start or not End then return end
-	
+
 			local Function = loadstring(Start)
 			local Function2 = loadstring(End)
-	
+			print(Funcs[Button])
 			Funcs[Button]["Run"] = Function
 			Funcs[Button]["Stop"] = Function2
 		end;
-	
+
 		["Create Sector"] = function(Array)
 			if not Array then return end
 			if typeof(Array) ~= "table" then return end
-	
+
 			local SectorType = Array["Type"]
 			local Title = Array["Title"]
 			local Section = Array["Section"]
-	
+
 			local Sector:CanvasGroup = SectorTypes[SectorType]
-	
+
 			local Found = CollectionService:GetTagged(Title:lower().."&"..Section:lower())[1]
-	
+
 			if Found then warn("Section already exists") return end
 			if not Sector then return end
-	
+
 			local Section = FindSection(Section)
-	
+
 			if not Section then return end
-	
+
 			local Clone = Sector:Clone()
-	
+
 			local Size = Clone:GetAttribute("Size")
-	
+
 			Clone.Name = Title
 			Clone.Visible = true
-	
+
 			local Holder = Clone:WaitForChild("Sect")
 			local __Title = Holder:WaitForChild("Folder"):WaitForChild("TextLabel")
 			local Scroller = Holder:WaitForChild("Scroller"):WaitForChild("ScrollingFrame")
-			
+
 			table.insert(Scrollers,Scroller)
-	
+
 			__Title.Text = Title
-	
+
 			Clone.Parent = Section
-	
+
 			Clone:AddTag(Title:lower().."&"..Section.Name:lower())
 			if Current_Sector.Value == Section.Name then
 				TweenService:Create(Clone,TweenInfos["Sector Tweening"],{GroupTransparency = 0}):Play()
 				TweenService:Create(Clone,TweenInfos["Sector Tweening"],{Size = Size}):Play()
 			end
 		end;
-	
+
 		["Create Section"] = function(Array)
 			if not Array then return end
 			if typeof(Array) ~= "table" then return end
-	
+
 			local Name = Array["Name"]
-	
+
 			if not Name then return end
-	
+
 			local Clone = Placeholder:Clone()
 			Clone["TextLabel"]["Text"] = Name
 			Clone.Name = Name
-	
+
 			local NewFolder = Instance.new("Folder")
 			NewFolder.Name = Name
 			NewFolder.Parent = Sectors
-	
+
 			Clone["TextButton"]["MouseButton1Click"]:Connect(function()
 				Play:Play()
 				if Debounce then return end
 				Debounce = true
 				Current_Sector.Value = Name
-	
+
 				for Index,Value in Placeholder["Parent"]:GetChildren() do
 					if Value["Name"] == Name then continue end
 					if Value["Name"]:find("UI") then continue end
 					TweenService:Create(Value["UIStroke"],TweenInfos["Button Tweening"],{Color = Closed}):Play()
 				end
-	
+
 				TweenService:Create(Clone["UIStroke"],TweenInfos["Button Tweening"],{Color = Open}):Play()
-	
+
 				local Sectors = Sectors:GetChildren()
-	
-	
+
+
 				for Index,Value in Sectors do
 					if Value["Name"] == Name then continue end
-	
+
 					for Index,Value in Value:GetChildren() do
 						task.wait(0.15)
 						TweenService:Create(Value,TweenInfos["Button Tweening"],{Size = UDim2.new(Value.Size.X.Scale,0,0,0)}):Play()
 						TweenService:Create(Value,TweenInfos["Transparency"],{GroupTransparency = 1}):Play()
 					end
 				end
-	
+
 				task.wait(0.3)
-	
+
 				for Index,Value in FindSection(Name):GetChildren() do
 					local S = Value:GetAttribute("Size")
 					if Value.Size ~= S then
 						Value.Size = UDim2.new(0,0,S.X.Scale,0)
 					end
-	
-	
+
+
 					task.wait(0.15)
 					TweenService:Create(Value,TweenInfos["Sector Tweening"],{Size = S}):Play()
 					TweenService:Create(Value,TweenInfos["Transparency"],{GroupTransparency = 0}):Play()
 				end
 				Debounce = false
 			end)
-	
+
 			Clone["Parent"] = Topbar:WaitForChild("Scroller"):WaitForChild("Sections")
 		end,
 	};
-	
+
 	return Functions
 end;
 
