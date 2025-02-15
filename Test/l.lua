@@ -968,11 +968,14 @@ local function C_4c()
 
 			local Button = CollectionService:GetTagged(ButtonName)[1]
 			print(Button == nil,Button)
+			print(Start == End)
 			if not Button then return end
 			if not Start or not End then return end
-
+print("pass")
 			local Function = loadstring(Start)
 			local Function2 = loadstring(End)
+			
+			print(Function,Function2)
 
 			Funcs[Button]["On"] = Function
 			Funcs[Button]["Off"] = Function2
