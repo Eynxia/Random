@@ -791,8 +791,8 @@ local script = G2L["4c"];
 		local Deb = Debs[Button]
 		if Deb == nil then return end
 	
-		local F1 = Funcs[Button]["On"]
-		local F2 = Funcs[Button]["Off"]
+		local F1 = Funcs[Button]["Run"]
+		local F2 = Funcs[Button]["Stop"]
 		
 		local Parent = Button.Parent
 		local Found = Parent:FindFirstChild("TextBox")
