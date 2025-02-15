@@ -1,17 +1,10 @@
 local Variables = shared["Variables"]
-local IsOn = Variables["ForceUpgrade"]
+local IsOn = Debounce
 
 local Mouse:Mouse = game.Players.LocalPlayer:GetMouse()
-print("fired")
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ForceUpgrade = ReplicatedStorage:WaitForChild("ForceCombine")
-
-if not IsOn then
-	Variables["ForceUpgrade"] = true
-else
-	Variables["ForceUpgrade"] = false
-end
 
 if Variables["MouseConnection"] then return end
 
