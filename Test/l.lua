@@ -793,7 +793,7 @@ local function C_4c()
 
 		local F1 = Funcs[Button]["On"]
 		local F2 = Funcs[Button]["Off"]
-
+	
 		local Parent = Button.Parent
 		local Found = Parent:FindFirstChild("TextBox")
 
@@ -807,11 +807,21 @@ local function C_4c()
 			Fenv["__BodyParts"] = Char:GetDescendants() or "Instance not found"
 			Fenv["__Root"] = Char:FindFirstChild("HumanoidRootPart") or "Instance not found"
 			Fenv["__Humanoid"] = Char:FindFirstChildOfClass("Humanoid") or "Instance not found"
+		else
+			local Char = Client.Character
+
+			local Fenv = getfenv()
+			Fenv["__Client"] = Client or "Instance not found"
+			Fenv["__Character"] = Char or "Instance not found"
+			Fenv["__BodyParts"] = Char:GetDescendants() or "Instance not found"
+			Fenv["__Root"] = Char:FindFirstChild("HumanoidRootPart") or "Instance not found"
+			Fenv["__Humanoid"] = Char:FindFirstChildOfClass("Humanoid") or "Instance not found"
 		end
 
 		if not Deb then
 			if F1 then
 				F1()
+			
 			end
 
 			TweenService:Create(Button,TweenInfos["Button Tweening"],{BackgroundColor3 = On}):Play()
@@ -942,12 +952,12 @@ local function C_4c()
 			local CloneSize = Clone.Size
 			Clone.Size = UDim2.new(0,0,0,0)
 
-		
+			Clone:AddTag(Title)
 
 			Clone.Parent = Sector:WaitForChild("Sect"):WaitForChild("Scroller"):WaitForChild("ScrollingFrame")
 
 			local Button_ = Clone:WaitForChild("Button")
-	Button_:AddTag(Title)
+			Button_:AddTag(Title)
 			Debs[Button_] = false
 			Funcs[Button_] = {}
 
@@ -967,11 +977,13 @@ local function C_4c()
 			local End = Array["Stop"]
 
 			local Button = CollectionService:GetTagged(ButtonName)[1]
+
 			if not Button then return end
 			if not Start or not End then return end
 
 			local Function = loadstring(Start)
 			local Function2 = loadstring(End)
+
 
 			Funcs[Button]["On"] = Function
 			Funcs[Button]["Off"] = Function2
