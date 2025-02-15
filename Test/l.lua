@@ -795,15 +795,12 @@ local function C_4c()
 		if not Button then return end
 		local Deb = Debs[Button]
 		if Deb == nil then return end
-		if z[Button] ~= false then return end
-		z[Button] = true
 
 		local F1 = Funcs[Button]["On"]
 		local F2 = Funcs[Button]["Off"]
 
 		local Parent = Button.Parent
 		local Found = Parent:FindFirstChild("TextBox")
-		local a = false
 
 		if Found then
 			local Char = Client.Character
@@ -827,8 +824,6 @@ local function C_4c()
 		end
 
 		if not Deb then
-			if a then return end
-			a = true
 			print("fired")
 			if F1 then
 				F1()
@@ -837,8 +832,6 @@ local function C_4c()
 			TweenService:Create(Button,TweenInfos["Button Tweening"],{BackgroundColor3 = On}):Play()
 			Debs[Button] = true
 		else
-			if a then return end
-			a = true
 			if F2 then
 				F2()
 			end
@@ -846,8 +839,6 @@ local function C_4c()
 			TweenService:Create(Button,TweenInfos["Button Tweening"],{BackgroundColor3 = Off}):Play()
 			Debs[Button] = false
 		end
-		task.wait(0.1)
-		z[Button] = false
 	end
 
 
@@ -976,6 +967,7 @@ local function C_4c()
 			z[Button_] = false
 
 			Button_.MouseButton1Click:Connect(function()
+				print("fired: "..Title)
 				M1(Button_)
 			end)
 
