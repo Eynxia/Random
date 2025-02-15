@@ -1,7 +1,8 @@
 local Variables = shared["Variables"]
 local IsOn = Variables["ForceUpgrade"]
 
-local Mouse:Mouse = __Client:GetMouse()
+local Mouse:Mouse = game.Players.LocalPlayer:GetMouse()
+print("fired")
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ForceUpgrade = ReplicatedStorage:WaitForChild("ForceCombine")
