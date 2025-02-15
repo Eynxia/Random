@@ -791,8 +791,8 @@ local function C_4c()
 		local Deb = Debs[Button]
 		if Deb == nil then return end
 
-		local F1 = Funcs[Button]["Run"]
-		local F2 = Funcs[Button]["Stop"]
+		local F1 = Funcs[Button.Name]["Run"]
+		local F2 = Funcs[Button.Name]["Stop"]
 
 		local Parent = Button.Parent
 		local Found = Parent:FindFirstChild("TextBox")
@@ -947,6 +947,7 @@ local function C_4c()
 			Clone.Parent = Sector:WaitForChild("Sect"):WaitForChild("Scroller"):WaitForChild("ScrollingFrame")
 
 			local Button_ = Clone:WaitForChild("Button")
+			Button_.Name = Title
 
 			Debs[Button_] = false
 			Funcs[Title] = {}
