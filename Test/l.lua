@@ -30,6 +30,7 @@ G2L["2"]["Position"] = UDim2.new(0.5, 0, 0.50622, 0);
 G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["2"]["Name"] = [[Main]];
 
+Instance.new("UIDragDetector").Parent = G2L["2"]
 
 -- StarterGui.UI.Main.UIGradient
 G2L["3"] = Instance.new("UIGradient", G2L["2"]);
