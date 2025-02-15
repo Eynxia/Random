@@ -5,7 +5,7 @@ if not IsOn then
 	Variables["Strong"] = true
 	for Index,Value in __BodyParts do
 		if Value:IsA("BasePart") then
-			Value.CustomPhysicalProperties = PhysicalProperties.new(100,100,100)
+			Value.CustomPhysicalProperties = PhysicalProperties.new(100,1,1)
 		end
 	end
 else
