@@ -30,9 +30,6 @@ G2L["2"]["Position"] = UDim2.new(0.5, 0, 0.50622, 0);
 G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["2"]["Name"] = [[Main]];
 
-local n = Instance.new("UIDragDetector")
-n.Parent = G2L["2"]
-
 
 -- StarterGui.UI.Main.UIGradient
 G2L["3"] = Instance.new("UIGradient", G2L["2"]);
@@ -955,8 +952,6 @@ local function C_4c()
 			local CloneSize = Clone.Size
 			Clone.Size = UDim2.new(0,0,0,0)
 
-			Clone:AddTag(Title)
-
 			Clone.Parent = Sector:WaitForChild("Sect"):WaitForChild("Scroller"):WaitForChild("ScrollingFrame")
 
 			local Button_ = Clone:WaitForChild("Button")
@@ -986,7 +981,6 @@ local function C_4c()
 
 			local Function = loadstring(Start)
 			local Function2 = loadstring(End)
-
 
 			Funcs[Button]["On"] = Function
 			Funcs[Button]["Off"] = Function2
