@@ -827,7 +827,7 @@ local function C_4c()
 
 		if not Deb then
 			Debs[Button] = true
-			getfenv()["Debounce"] = Debs[Button]
+			getfenv()["Debounce"] = true
 			if F1 then
 				F1()
 			end
@@ -836,7 +836,7 @@ local function C_4c()
 
 		else
 			Debs[Button] = false
-			getfenv()["Debounce"] = Debs[Button]
+			getfenv()["Debounce"] = false
 			if F2 then
 				F2()
 			end
@@ -957,7 +957,7 @@ local function C_4c()
 			Clone.Visible = true
 
 			local Title2:TextLabel = Clone:WaitForChild("Title")
-
+Title2.Text = Title
 			local CloneSize = Clone.Size
 			Clone.Size = UDim2.new(0,0,0,0)
 
@@ -966,6 +966,7 @@ local function C_4c()
 			local Button_ = Clone:WaitForChild("Button")
 			Button_:AddTag(Title)
 			Button_.Name = Title
+			
 
 			Debs[Button_] = false
 			Funcs[Button_] = {}
