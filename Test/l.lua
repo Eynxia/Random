@@ -812,6 +812,7 @@ local function C_4c()
 			Fenv["__BodyParts"] = Char:GetDescendants() or "Instance not found"
 			Fenv["__Root"] = Char:FindFirstChild("HumanoidRootPart") or "Instance not found"
 			Fenv["__Humanoid"] = Char:FindFirstChildOfClass("Humanoid") or "Instance not found"
+			Fenv["Debounce"] = Debs[Button]
 		else
 			local Char = Client.Character
 
@@ -821,24 +822,27 @@ local function C_4c()
 			Fenv["__BodyParts"] = Char:GetDescendants() or "Instance not found"
 			Fenv["__Root"] = Char:FindFirstChild("HumanoidRootPart") or "Instance not found"
 			Fenv["__Humanoid"] = Char:FindFirstChildOfClass("Humanoid") or "Instance not found"
+			Fenv["Debounce"] = Debs[Button]
 		end
 
 		if not Deb then
-			print("fired")
-			print(Button.Name)
+			Debs[Button] = true
+			getfenv()["Debounce"] = Debs[Button]
 			if F1 then
 				F1()
 			end
 
 			TweenService:Create(Button,TweenInfos["Button Tweening"],{BackgroundColor3 = On}):Play()
-			Debs[Button] = true
+
 		else
+			Debs[Button] = false
+			getfenv()["Debounce"] = Debs[Button]
 			if F2 then
 				F2()
 			end
 
 			TweenService:Create(Button,TweenInfos["Button Tweening"],{BackgroundColor3 = Off}):Play()
-			Debs[Button] = false
+
 		end
 	end
 
@@ -953,7 +957,6 @@ local function C_4c()
 			Clone.Visible = true
 
 			local Title2:TextLabel = Clone:WaitForChild("Title")
-			Title2.Text = Title
 
 			local CloneSize = Clone.Size
 			Clone.Size = UDim2.new(0,0,0,0)
@@ -969,7 +972,6 @@ local function C_4c()
 			z[Button_] = false
 
 			Button_.MouseButton1Click:Connect(function()
-				print("fired: "..Title)
 				M1(Button_)
 			end)
 
