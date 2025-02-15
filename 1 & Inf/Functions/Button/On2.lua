@@ -4,7 +4,7 @@ local IsOn = Variables["ForceUpgrade"]
 local Mouse:Mouse = __Client:GetMouse()
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ForceUpgrade = ReplicatedStorage:WaitForChild("ForceUpgrade")
+local ForceUpgrade = ReplicatedStorage:WaitForChild("ForceCombine")
 
 if not IsOn then
 	Variables["ForceUpgrade"] = true
