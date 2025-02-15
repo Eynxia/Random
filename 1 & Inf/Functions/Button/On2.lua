@@ -20,9 +20,11 @@ shared["Variables"]["MouseConnection"] = Mouse.Button1Down:Connect(function()
 	local Target = Mouse.Target
 	if not Target then return end
 
-	local Name = Target["Name"]
+		local part = Target:FindFirstAncestorOfClass("Part")
+		if not part then return end
+	local Name = part["Name"]
 
 	if tonumber(Name) then
-		ForceUpgrade:FireServer(Target)
+		ForceUpgrade:FireServer(part)
 	end
 end)
