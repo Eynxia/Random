@@ -825,6 +825,7 @@ local function C_4c()
 
 		if not Deb then
 			print("fired")
+			print(Button.Name)
 			if F1 then
 				F1()
 			end
@@ -961,6 +962,7 @@ local function C_4c()
 
 			local Button_ = Clone:WaitForChild("Button")
 			Button_:AddTag(Title)
+			Button_.Name = Title
 
 			Debs[Button_] = false
 			Funcs[Button_] = {}
