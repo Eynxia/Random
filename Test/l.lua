@@ -12,7 +12,7 @@ local CollectionService = game:GetService("CollectionService");
 local G2L = {};
 
 -- StarterGui.UI
-G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
+G2L["1"] = Instance.new("ScreenGui", game.CoreGui);
 G2L["1"]["IgnoreGuiInset"] = true;
 G2L["1"]["ScreenInsets"] = Enum.ScreenInsets.DeviceSafeInsets;
 G2L["1"]["Name"] = [[UI]];
@@ -966,15 +966,15 @@ local script = G2L["4c"];
 			local Start = Array["Run"]
 			local End = Array["Stop"]
 	
-			local Button = CollectionService:GetTagged(ButtonName)
+			local Button = CollectionService:GetTagged(ButtonName)[1]
 			if not Button then return end
 			if not Start or not End then return end
 	
 			local Function = loadstring(Start)
 			local Function2 = loadstring(End)
 	
-			Funcs[Button]["On"] = Function
-			Funcs[Button]["Off"] = Function2
+			Funcs[Button]["Run"] = Function
+			Funcs[Button]["Stop"] = Function2
 		end;
 	
 		["Create Sector"] = function(Array)
