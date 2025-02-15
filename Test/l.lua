@@ -957,6 +957,7 @@ local function C_4c()
 
 			local Button_ = Clone:WaitForChild("Button")
 			Button_:AddTag(Title)
+			
 			Debs[Button_] = false
 			Funcs[Button_] = {}
 
