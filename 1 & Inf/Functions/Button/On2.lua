@@ -20,7 +20,9 @@ shared["Variables"]["MouseConnection"] = Mouse.Button1Down:Connect(function()
 	local Target = Mouse.Target
 	if not Target then return end
 
+local Name = Target["Name"]
+		
 	if tonumber(Name) then
-		ForceUpgrade:FireServer(part)
+		ForceUpgrade:FireServer(Target)
 	end
 end)
