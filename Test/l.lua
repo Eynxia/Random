@@ -821,6 +821,7 @@ local function C_4c()
 
 		if not Deb then
 			if F1 then
+				print("fired")
 				F1()
 			
 			end
