@@ -967,7 +967,7 @@ local function C_4c()
 			local End = Array["Stop"]
 
 			local Button = CollectionService:GetTagged(ButtonName)[1]
-			print(Button,Start,End,ButtonName)
+			print(Button == nil,Button)
 			if not Button then return end
 			if not Start or not End then return end
 
