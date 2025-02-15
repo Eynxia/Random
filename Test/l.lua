@@ -791,8 +791,8 @@ local function C_4c()
 		local Deb = Debs[Button]
 		if Deb == nil then return end
 
-		local F1 = Funcs[Button.Name]["Run"]
-		local F2 = Funcs[Button.Name]["Stop"]
+		local F1 = Funcs[Button]["On"]
+		local F2 = Funcs[Button]["Off"]
 
 		local Parent = Button.Parent
 		local Found = Parent:FindFirstChild("TextBox")
@@ -947,10 +947,9 @@ local function C_4c()
 			Clone.Parent = Sector:WaitForChild("Sect"):WaitForChild("Scroller"):WaitForChild("ScrollingFrame")
 
 			local Button_ = Clone:WaitForChild("Button")
-			Button_.Name = Title
 
 			Debs[Button_] = false
-			Funcs[Title] = {}
+			Funcs[Button_] = {}
 
 			Button_.MouseButton1Click:Connect(function()
 				M1(Button_)
@@ -968,14 +967,15 @@ local function C_4c()
 			local End = Array["Stop"]
 
 			local Button = CollectionService:GetTagged(ButtonName)[1]
+			print(Button,Start,End,ButtonName)
 			if not Button then return end
 			if not Start or not End then return end
 
 			local Function = loadstring(Start)
 			local Function2 = loadstring(End)
-			print(Funcs[Button])
-			Funcs[ButtonName]["Run"] = Function
-			Funcs[ButtonName]["Stop"] = Function2
+
+			Funcs[Button]["On"] = Function
+			Funcs[Button]["Off"] = Function2
 		end;
 
 		["Create Sector"] = function(Array)
