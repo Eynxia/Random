@@ -962,7 +962,7 @@ local function C_4c()
 			local Button_ = Clone:WaitForChild("Button")
 			Button_:AddTag(Title)
 			Debs[Button_] = false
-			Funcs[Button_] = {}
+			Funcs[Title] = {}
 
 			Button_.MouseButton1Click:Connect(function()
 				M1(Button_)
@@ -988,8 +988,8 @@ local function C_4c()
 			local Function2 = loadstring(End)
 
 
-			Funcs[Button]["On"] = Function
-			Funcs[Button]["Off"] = Function2
+			Funcs[Title]["On"] = Function
+			Funcs[Title]["Off"] = Function2
 		end;
 
 		["Create Sector"] = function(Array)
