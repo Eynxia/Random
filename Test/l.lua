@@ -1085,4 +1085,5 @@ local script = G2L["4c"];
 	
 	return Functions
 end;
-return script
+
+return C_4c()
