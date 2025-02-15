@@ -1,3 +1,11 @@
+--[=[
+ d888b  db    db d888888b      .d888b.      db      db    db  .d8b.  
+88' Y8b 88    88   `88'        VP  `8D      88      88    88 d8' `8b 
+88      88    88    88            odD'      88      88    88 88ooo88 
+88  ooo 88    88    88          .88'        88      88    88 88~~~88 
+88. ~8~ 88b  d88   .88.        j88.         88booo. 88b  d88 88   88    @uniquadev
+ Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
+]=]
 
 -- Instances: 82 | Scripts: 1 | Modules: 0 | Tags: 3
 local CollectionService = game:GetService("CollectionService");
@@ -941,7 +949,7 @@ local function C_4c()
 			local Button_ = Clone:WaitForChild("Button")
 
 			Debs[Button_] = false
-			Funcs[Button_] = {}
+			Funcs[Title] = {}
 
 			Button_.MouseButton1Click:Connect(function()
 				M1(Button_)
@@ -965,8 +973,8 @@ local function C_4c()
 			local Function = loadstring(Start)
 			local Function2 = loadstring(End)
 			print(Funcs[Button])
-			Funcs[Button]["Run"] = Function
-			Funcs[Button]["Stop"] = Function2
+			Funcs[ButtonName]["Run"] = Function
+			Funcs[ButtonName]["Stop"] = Function2
 		end;
 
 		["Create Sector"] = function(Array)
