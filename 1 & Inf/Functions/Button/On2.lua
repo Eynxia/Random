@@ -15,6 +15,7 @@ end
 if Variables["MouseConnection"] then return end
 
 shared["Variables"]["MouseConnection"] = Mouse.Button1Down:Connect(function()
+		print("click clicky")
 	if not IsOn then return end
 
 	local Target = Mouse.Target
